@@ -1,0 +1,2215 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="taupe">
+<head>
+  <!-- © 2026 YUCCHI. 無断複製・再配布禁止 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light only">
+  <meta name="theme-color" content="#F7F4EC">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <title>くらしのタイマー｜Daily Life Timer｜ワンタップでセット、くらしの時間をやさしく記録 ✿ YUCCHI ✿</title>
+  <meta name="description" content="3分・5分・10分・15分・30分・1時間をワンタップでセットして、くらしの時間をやさしく記録できる無料タイマー。履歴つきで、時間の自由設定・○分おきのくり返し・勉強→運動のようなインターバル・ラップが残せるストップウォッチにも対応。画面を切り替えても時間がずれにくい、大人かわいいタイマーです。登録・課金なし。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://webkorisu.github.io/daily-life-timer/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://webkorisu.github.io/daily-life-timer/">
+  <meta property="og:site_name" content="✿ YUCCHI ✿">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:image" content="https://webkorisu.github.io/daily-life-timer/timer-ogp.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:title" content="くらしのタイマー｜Daily Life Timer ✿ YUCCHI ✿">
+  <meta property="og:description" content="ワンタップでセットして、くらしの時間をやさしく記録。くり返し・インターバル・ストップウォッチ（ラップ）にも対応した、大人かわいいタイマーです。">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="くらしのタイマー｜Daily Life Timer ✿ YUCCHI ✿">
+  <meta name="twitter:description" content="ワンタップでセットして、くらしの時間をやさしく記録。くり返し・インターバル・ストップウォッチ（ラップ）にも対応した、大人かわいいタイマーです。">
+  <meta name="twitter:image" content="https://webkorisu.github.io/daily-life-timer/timer-ogp.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== カラー：12 Maison Blanche（アクセント）＋ うすいクリームの背景 ===== */
+    /* アクセント＝ブラウン（既定：トープ）。<html data-theme="…"> で切りかえ：taupe／mocha／milktea／caramel／cinnamon／cocoa／rose */
+    :root {
+      color-scheme: light only;
+      --bg: #F7F4EC;            /* 背景：うすいクリームベージュ */
+      --surface: #FFFFFF;       /* カード */
+      --secondary: #D4E2E2;     /* ミント（最速のしるし） */
+      --mist: #F6F2EC;
+      --text: #5B4D45;
+      --text-sub: #75665D;
+      --border: #DDD5CB;
+      --line: #D3C8BC;          /* 点線 */
+      --line-soft: #E6DED4;     /* 履歴・ラップの区切りの点線 */
+      --track: #EEE8DF;         /* リングの土台 */
+      --switch-off: #DDD5CB;
+      --logo: #925E68;          /* ✿ YUCCHI ✿ だけの色（ダスティローズ。テーマとは別に固定） */
+      --primary: #7C6C62; --accent: #BAAC9F; --primary-soft: #E7DFD8; --blush: #F1ECE7; --brand: #726259;
+      --primary-hover: #706158; --blush-hover: #E7E0DA;
+      --radius: 24px;
+      --radius-sm: 14px;
+    }
+    :root[data-theme="milktea"] {
+      --primary: #8A6A55; --accent: #C9AE98; --primary-soft: #EBDFD2; --blush: #F4ECE3; --brand: #82634F;
+      --primary-hover: #7C5F4C; --blush-hover: #ECE1D6;
+    }
+    :root[data-theme="caramel"] {
+      --primary: #946739; --accent: #D2A978; --primary-soft: #F1E0C6; --blush: #F8EDDC; --brand: #8A5C30;
+      --primary-hover: #855D33; --blush-hover: #F1E1CA;
+    }
+    :root[data-theme="cinnamon"] {
+      --primary: #93604A; --accent: #CD9C86; --primary-soft: #F0D9CD; --blush: #F7EAE2; --brand: #8A5640;
+      --primary-hover: #845643; --blush-hover: #EFDCD1;
+    }
+    :root[data-theme="cocoa"] {
+      --primary: #6F5648; --accent: #B59C8C; --primary-soft: #E7DBD1; --blush: #F2ECE6; --brand: #67503F;
+      --primary-hover: #644D41; --blush-hover: #E7DED6;
+    }
+    :root[data-theme="mocha"] {
+      --primary: #7C6C62; --accent: #BAAC9F; --primary-soft: #E7DFD8; --blush: #F1ECE7; --brand: #726259;
+      --primary-hover: #706158; --blush-hover: #E7E0DA;
+    }
+    :root[data-theme="rose"] {      /* 前のローズ（12 Maison Blanche）。文字や線は、あたたかい色のまま */
+      --primary: #8B6575; --accent: #C9A0AF; --primary-soft: #E8D4DC; --blush: #F2E6E6; --brand: #85596B;
+      --primary-hover: #7C5868; --blush-hover: #EEDFDF;
+    }
+    @media (prefers-color-scheme: dark) {
+      html { background: var(--bg) !important; }
+      body { background-color: var(--bg) !important; color: var(--text) !important; }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+      padding-bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+    }
+    button, input { font-family: inherit; color: inherit; }
+    button { touch-action: manipulation; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ===== ヘッダー ===== */
+    header { text-align: center; padding: 18px 20px 12px; }
+    @media (min-width: 680px) { header { padding: 36px 20px 12px; } }
+    header h1 {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: clamp(17px, 4vw, 22px);
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: .10em;
+      line-height: 1.4;
+      margin-bottom: 5px;
+    }
+    header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 5vw, 36px);
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: .14em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    header .title-ja-sub {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: .06em;
+      opacity: 0.65;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    header .title-ja-sub::before,
+    header .title-ja-sub::after {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.45;
+      flex-shrink: 0;
+    }
+    @media (max-width: 340px) {
+      header .title-ja-sub { font-size: 13px; letter-spacing: .02em; gap: 8px; }
+      header .title-ja-sub::before, header .title-ja-sub::after { width: 16px; }
+    }
+    header .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--logo);
+      padding-top: 0;
+      display: inline-block;
+      line-height: 1.4;
+      text-decoration: none;
+      transition: opacity .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    header .brand .brand-deco { font-size: .75em; display: inline-block; vertical-align: .05em; }
+    @media (hover: hover) { header .brand:hover { opacity: .65; } }
+    header .data-hint {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-size: 10px;
+      color: var(--text-sub);
+      opacity: 0.85;
+      letter-spacing: .04em;
+      margin-top: 10px;
+      line-height: 1.7;
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    /* ===== レイアウト ===== */
+    .wrap {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card { background: var(--surface); border-radius: var(--radius); padding: 20px 20px 18px; }
+    .card .presets + .sec-div { margin-top: 20px; }
+    .timer-card { position: relative; padding: 20px 20px 24px; }
+
+    /* ===== ダイヤル ===== */
+    .dial { position: relative; width: min(240px, 68vw); aspect-ratio: 1; margin: 0 auto; }
+    @media (max-height: 700px) { .dial { width: min(208px, 58vw); } }
+    .dial svg { width: 100%; height: 100%; display: block; overflow: visible; }
+    .ring-track { fill: none; stroke: var(--track); stroke-width: 5; }
+    .ring-prog { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+    .ring-head { fill: #fff; stroke: var(--accent); stroke-width: 2.5; }
+    .dial-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px;
+    }
+    .time {
+      font-family: 'Zen Maru Gothic', sans-serif;
+      font-weight: 500;
+      font-size: clamp(32px, 10vw, 44px);
+      line-height: 1;
+      color: var(--text);
+      white-space: nowrap;
+      font-variant-numeric: lining-nums;
+    }
+    .time .dg { display: inline-block; width: .58em; text-align: center; }
+    .time .dot { display: inline-block; width: .3em; text-align: center; }
+    .time .dg.cs { font-size: .6em; }
+    .time .colon { display: inline-block; width: .3em; text-align: center; position: relative; top: -.05em; }
+    .dial-sub { font-size: 13px; color: var(--text-sub); letter-spacing: .06em; line-height: 1.5; min-height: 22px; text-align: center; padding: 0 14px; white-space: pre-line; }
+
+    /* スタートした瞬間の、ふわっと広がる波紋 */
+    .ripple { position: absolute; inset: 5.5%; border-radius: 50%; border: 2px solid var(--accent); opacity: 0; pointer-events: none; }
+    .ripple.r2 { border: 7px solid var(--primary-soft); }
+    .dial.fx .ripple { animation: ripple 1.3s cubic-bezier(.2, .6, .3, 1) both; }
+    .dial.fx .ripple.r2 { animation-delay: .14s; }
+    @keyframes ripple {
+      0%   { transform: scale(.97); opacity: 0; }
+      18%  { opacity: .75; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { .ripple { display: none; } }
+
+    .dial-name {
+      width: 70%; max-width: 150px; height: 26px; padding: 0 2px 2px; text-align: center;
+      font-size: 14px; font-weight: 500; letter-spacing: .04em; color: var(--text);
+      background: transparent; border: 0; border-bottom: 2px dotted var(--line); border-radius: 0; outline: none;
+      transition: border-color .2s;
+    }
+    .dial-name::placeholder { color: var(--text-sub); opacity: .6; }
+    .dial-name:focus { border-bottom-color: var(--accent); }
+    .dial-name[hidden] { display: none; }
+    @media (max-width: 360px) { .dial-name { font-size: 13px; } }
+
+    .dial[data-state="done"] .time { color: var(--primary); }
+    .dial[data-state="done"] .ring-prog { animation: pulse 1.6s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+    @media (prefers-reduced-motion: reduce) {
+      .dial[data-state="done"] .ring-prog { animation: none; }
+      * { transition-duration: .01ms !important; }
+    }
+
+    /* ===== ボタン ===== */
+    .controls { display: flex; gap: 12px; margin-top: 16px; }
+    .btn {
+      flex: 1;
+      min-height: 52px;
+      border-radius: 999px;
+      border: 1.5px solid transparent;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 13px 20px 15px;
+      cursor: pointer;
+      transition: transform .15s, background .2s, opacity .2s;
+    }
+    .btn { white-space: nowrap; }
+    @media (max-width: 360px) {
+      .btn { padding-left: 10px; padding-right: 10px; letter-spacing: .04em; font-size: 15px; }
+      .dial-sub { font-size: 12px; letter-spacing: .02em; padding: 0 8px; }
+    }
+    .btn:active:not(:disabled) { transform: scale(.97); }
+    .btn:disabled { opacity: .45; cursor: default; }
+    .btn-main { flex: 1.5; background: var(--primary); color: #fff; }
+    .btn-sub { background: var(--surface); border-color: var(--border); color: var(--text-sub); }
+    @media (hover: hover) {
+      .btn-main:hover:not(:disabled) { background: var(--primary-hover); }
+      .btn-sub:hover:not(:disabled) { background: var(--mist); }
+    }
+    .msg { position: absolute; left: 0; right: 0; bottom: 6px; height: 16px; line-height: 16px; text-align: center; font-size: 12px; color: var(--text-sub); letter-spacing: .04em; opacity: 0; transition: opacity .25s; }
+    .msg.show { opacity: 1; }
+
+    /* ===== セクション見出し ===== */
+    .sec-div { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
+    .sec-div span { font-size: 12px; font-weight: 700; color: var(--text-sub); white-space: nowrap; letter-spacing: .10em; }
+    .sec-div::before, .sec-div::after { content: ''; flex: 1; height: 0; border-top: 2px dotted var(--line); }   /* 点線 */
+
+    /* ===== タブ ===== */
+    .top-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; align-self: center; max-width: 100%; background: var(--surface); border-radius: 999px; padding: 3px; }   /* 2つとも同じ幅（長いほうにそろう） */
+    .top-tab {
+      min-height: 40px; border: 0; border-radius: 999px; background: transparent; white-space: nowrap;
+      color: var(--text-sub); font-size: 13px; font-weight: 700; letter-spacing: .08em;
+      padding: 9px 16px 11px; cursor: pointer; transition: background .2s, color .2s, opacity .2s;
+    }
+    .top-tab[aria-selected="true"] { background: var(--primary); color: #fff; }
+    @media (max-width: 360px) { .top-tab { font-size: 12px; letter-spacing: .04em; padding-left: 10px; padding-right: 10px; } }
+    .top-tab:disabled { opacity: .45; cursor: default; }
+    .top-tab[aria-selected="true"]:disabled { opacity: 1; }
+    @media (hover: hover) { .top-tab[aria-selected="false"]:hover:not(:disabled) { background: var(--mist); } }
+    .tabs { display: flex; gap: 4px; background: var(--mist); border-radius: 999px; padding: 4px; margin: 0 0 16px; }
+    .tabs[hidden] { display: none; }
+    .tab {
+      flex: 1; min-height: 40px; border: 0; border-radius: 999px; background: transparent;
+      color: var(--text-sub); font-size: 13px; font-weight: 700; letter-spacing: .06em;
+      padding: 9px 4px 11px; cursor: pointer; transition: background .2s, color .2s, opacity .2s;
+    }
+    .tab[aria-selected="true"] { background: var(--primary-soft); color: var(--text); }
+    .tab:disabled { opacity: .45; cursor: default; }
+    .tab[aria-selected="true"]:disabled { opacity: 1; }
+
+    /* ===== インターバル ===== */
+    .tpl { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 10px; }
+    .tpl-item { position: relative; min-width: 0; }
+    .tpl-btn {
+      width: 100%; min-height: 44px; border-radius: 14px; border: 1.5px solid transparent;
+      background: var(--blush); color: var(--text); font-size: 12px; font-weight: 700; letter-spacing: .04em;
+      padding: 10px 10px 12px; cursor: pointer; transition: transform .15s, background .2s, opacity .2s;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .tpl-btn:active:not(:disabled) { transform: scale(.97); }
+    .tpl-btn:disabled { opacity: .45; cursor: default; }
+    @media (hover: hover) { .tpl-btn:hover:not(:disabled) { background: var(--blush-hover); } }
+    .tpl.editing .tpl-btn { padding-right: 34px; }
+    .tpl-del { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); width: 32px; height: 32px; border: 0; background: none; cursor: pointer; display: none; align-items: center; justify-content: center; }
+    .tpl.editing .tpl-del { display: flex; }
+    .tpl-del span { width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 1.5px solid var(--border); color: var(--text-sub); font-size: 13px; line-height: 1; display: flex; align-items: center; justify-content: center; padding-bottom: 2px; }
+    .tpl-del:disabled { opacity: .35; cursor: default; }
+    .tpl-empty { grid-column: 1 / -1; font-size: 12px; line-height: 1.8; color: var(--text-sub); text-align: center; padding: 4px 0; }
+    .tpl-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 0 14px; }
+    .tpl-hint { flex: 1; min-width: 0; font-size: 12px; line-height: 1.6; letter-spacing: .04em; color: var(--text-sub); }
+    .tpl-act { flex: none; }
+    .tpl-actions[hidden] { display: none; }
+    .tpl-act {
+      min-height: 40px; border-radius: 999px; border: 1.5px dashed var(--accent); background: none;
+      color: var(--text-sub); font-size: 12px; font-weight: 700; letter-spacing: .06em; padding: 8px 16px 10px; cursor: pointer;
+      transition: background .15s, opacity .2s;
+    }
+    .tpl-act:disabled { opacity: .45; cursor: default; }
+    @media (hover: hover) { .tpl-act:hover:not(:disabled) { background: var(--mist); } }
+    .tpl-form { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+    .tpl-form[hidden] { display: none; }
+    .tpl-form input {
+      flex: 1 1 130px; min-width: 0; height: 46px; border-radius: 14px; border: 1.5px solid var(--border);
+      background: var(--mist); color: var(--text); font-size: 15px; padding: 0 12px 2px; outline: none;
+      transition: border-color .2s, background .2s, opacity .2s;
+    }
+    .tpl-form input:focus { border-color: var(--accent); background: #fff; }
+    .tpl-form .btn { flex: none; width: auto; min-width: 84px; min-height: 46px; padding-left: 14px; padding-right: 14px; font-size: 14px; }
+    .tpl-form .btn[hidden] { display: none; }
+    .tpl-btn.sel { background: var(--primary-soft); border-color: var(--accent); }
+    .step { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .step input {
+      height: 48px; min-width: 0; border-radius: 14px; border: 1.5px solid var(--border);
+      background: var(--mist); color: var(--text); font-size: 16px; padding: 0 12px 2px; outline: none;
+      transition: border-color .2s, background .2s, opacity .2s;
+    }
+    .step input:focus { border-color: var(--accent); background: #fff; }
+    .step input:disabled { opacity: .45; }
+    .step .st-name { flex: 1; }
+    .step .st-min { width: 64px; flex: none; text-align: center; font-size: 18px; font-weight: 500; padding: 0 0 2px; }
+    .step .unit { font-size: 12px; color: var(--text-sub); flex: none; }
+    .st-del { flex: none; width: 44px; height: 44px; margin: 0 -6px 0 -2px; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .st-del span { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); color: var(--text-sub); font-size: 15px; line-height: 1; display: flex; align-items: center; justify-content: center; padding-bottom: 2px; transition: background .15s; }
+    .st-del:disabled { opacity: .35; cursor: default; }
+    @media (hover: hover) { .st-del:hover:not(:disabled) span { background: var(--mist); } }
+    .add-step {
+      width: 100%; min-height: 46px; border-radius: 14px; border: 1.5px dashed var(--accent);
+      background: none; color: var(--text-sub); font-size: 13px; font-weight: 700; letter-spacing: .06em;
+      padding: 11px 8px 13px; cursor: pointer; transition: background .15s, opacity .2s;
+    }
+    .add-step:disabled { opacity: .45; cursor: default; }
+    @media (hover: hover) { .add-step:hover:not(:disabled) { background: var(--mist); } }
+    .add-row { display: flex; gap: 8px; }
+    .add-row .add-step { flex: 1; min-width: 0; width: auto; white-space: normal; line-height: 1.4; letter-spacing: .03em; padding-left: 8px; padding-right: 8px; }
+    .tpl-confirm { margin: 10px 0 0; padding: 14px; border-radius: 16px; background: var(--mist); border: 1.5px solid var(--accent); }
+    .tpl-confirm[hidden] { display: none; }
+    .tpl-confirm p { font-size: 13px; line-height: 1.8; color: var(--text); letter-spacing: .03em; margin: 0 0 12px; }
+    .tpl-confirm-btns { display: flex; gap: 8px; }
+    .tpl-confirm-btns .btn { flex: 1; min-height: 46px; font-size: 14px; padding-left: 8px; padding-right: 8px; }
+    .tpl-note { margin: 8px 0 0; font-size: 12px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
+    .tpl-note[hidden] { display: none; }
+    .tpl-btn.flash { animation: tplFlash 1.4s ease-out; }
+    @keyframes tplFlash { 0% { background: var(--primary-soft); border-color: var(--accent); } 100% { background: var(--blush); border-color: transparent; } }
+    .rounds-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+    .rounds-row label { font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: .04em; }
+    .rounds-row select {
+      -webkit-appearance: none; appearance: none;
+      height: 46px; min-width: 120px; border-radius: 14px; border: 1.5px solid var(--border);
+      background: var(--mist) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236F636A' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+      color: var(--text); font-size: 16px; font-weight: 500; padding: 0 38px 2px 16px; outline: none; cursor: pointer;
+    }
+    .rounds-row select:focus { border-color: var(--accent); }
+    .rounds-row select:disabled { opacity: .45; cursor: default; }
+    .iv-hint { margin-top: 12px; font-size: 11px; color: var(--text-sub); line-height: 1.8; letter-spacing: .04em; }
+
+    /* ===== セット ===== */
+    .quick-row { display: flex; justify-content: center; margin: 12px 0 2px; }
+    .quick {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+      min-height: 44px; padding: 0 10px 0 18px; border-radius: 999px; background: var(--mist);
+      font-size: 12px; font-weight: 700; color: var(--text-sub); letter-spacing: .06em; white-space: nowrap;
+    }
+    .quick span { padding-bottom: 2px; }
+    .quick-row + .sec-div { margin-top: 18px; }
+    .presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .chip {
+      min-height: 52px;
+      border-radius: 16px;
+      background: var(--blush);
+      border: 1.5px solid transparent;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      padding: 13px 8px 15px;
+      cursor: pointer;
+      transition: transform .15s, background .2s, border-color .2s, opacity .2s;
+    }
+    .chip:active:not(:disabled) { transform: scale(.97); }
+    .chip.on { background: var(--primary-soft); border-color: var(--accent); }
+    .chip:disabled { opacity: .45; cursor: default; }
+    @media (hover: hover) { .chip:hover:not(:disabled):not(.on) { background: var(--blush-hover); } }
+
+    /* ===== 自由に設定 ===== */
+    .custom-row { display: flex; gap: 10px; }
+    .field { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .field input {
+      width: 100%;
+      height: 56px;
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      background: var(--mist);
+      text-align: center;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text);
+      padding: 0 0 2px;
+      outline: none;
+      transition: border-color .2s, background .2s, opacity .2s;
+    }
+    .field input:focus { border-color: var(--accent); background: #fff; }
+    .field input:disabled { opacity: .45; }
+    .field span { font-size: 12px; color: var(--text-sub); letter-spacing: .08em; }
+    .custom-start { flex: none; align-self: flex-start; width: 96px; height: 56px; min-height: 56px; padding: 0 0 2px; font-size: 14px; letter-spacing: .06em; }
+    @media (max-width: 340px) { .custom-start { width: 76px; } }
+
+    /* ===== アコーディオン ===== */
+    .acc { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+    .data-note {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      margin-bottom: 2px;
+    }
+    .data-note-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 11px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-sub);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      letter-spacing: .06em;
+      transition: background .15s;
+    }
+    .data-note-btn:hover { background: var(--mist); }
+    .data-note-arrow { font-size: 10px; transition: transform .25s ease; display: inline-block; color: var(--text-sub); opacity: 0.6; }
+    .data-note.open .data-note-arrow { transform: rotate(180deg); }
+    .data-note-body {
+      display: none;
+      padding: 12px 16px 14px;
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 2.0;
+      border-top: 1px solid var(--border);
+    }
+    .data-note.open .data-note-body { display: block; }
+    .data-note-body p { margin-bottom: 6px; }
+    .data-note-body p:last-child { margin-bottom: 0; }
+
+    .reload-latest-btn, .mini-btn {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 9px 12px 11px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-sub);
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+    }
+    .reload-latest-btn:hover, .mini-btn:hover { background: var(--mist); border-color: var(--accent); }
+    .reload-latest-btn:active, .mini-btn:active { transform: scale(.97); }
+
+    /* 履歴（ひらく・とじる。下の注意事項とは違う見た目） */
+    .log-card { padding: 4px 20px; transition: padding .3s ease; }
+    .log-card.open { padding-bottom: 18px; }
+    .log-head { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 0; background: none; border: 0; cursor: pointer; color: var(--text); }
+    .log-title { flex: none; font-size: 12px; font-weight: 700; letter-spacing: .10em; color: var(--text-sub); }
+    .log-line { flex: 1; min-width: 12px; height: 0; border-top: 2px dotted var(--line); }
+    .log-meta { flex: none; font-size: 12px; letter-spacing: .04em; color: var(--text-sub); }
+    .log-meta { transition: opacity .2s; }
+    .log-card.open .log-meta { opacity: 0; }
+    .log-chev { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-sub); transition: transform .25s ease, background .15s; }
+    .log-card.open .log-chev { transform: rotate(180deg); }
+    @media (hover: hover) { .log-head:hover .log-chev { background: var(--mist); } }
+    .log-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+    .log-card.open .log-body { grid-template-rows: 1fr; }
+    .log-inner { overflow: hidden; min-height: 0; visibility: hidden; transition: visibility .3s; }
+    .log-card.open .log-inner { visibility: visible; }
+    .log-inner > #logBox { padding-top: 4px; }
+
+    /* ストップウォッチのラップ */
+    .lap-list { max-height: 300px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .lap-head, .lap-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: baseline; }
+    .lap-head { font-size: 11px; color: var(--text-sub); letter-spacing: .06em; padding: 0 0 4px; }
+    .lap-head span:last-child, .lap-row .tt { text-align: right; }
+    .lap-row { padding: 8px 0; border-bottom: 2px dotted var(--line-soft); font-size: 15px; color: var(--text); font-variant-numeric: tabular-nums; }
+    .lap-row .no { font-size: 12px; color: var(--text-sub); }
+    .lap-row .sp { display: flex; align-items: baseline; gap: 8px; font-weight: 500; }
+    .lap-row .tt { font-size: 13px; color: var(--text-sub); }
+    .tag { font-size: 10px; font-weight: 700; letter-spacing: .04em; padding: 1px 7px 2px; border-radius: 999px; color: var(--text); }
+    .tag.best { background: var(--secondary); }
+    .tag.worst { background: var(--primary-soft); }
+
+    /* 履歴のストップウォッチ（ラップをひらく） */
+    .log-row.has-laps { cursor: pointer; }
+    .log-row .lc { margin-left: 6px; font-size: 10px; font-weight: 700; padding: 1px 7px 2px; border-radius: 999px; background: var(--mist); color: var(--text-sub); }
+    .log-laps { padding: 4px 0 8px 50px; border-bottom: 2px dotted var(--line-soft); }
+    .log-laps[hidden] { display: none; }
+    .log-laps div { display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; font-size: 12px; line-height: 1.9; color: var(--text-sub); font-variant-numeric: tabular-nums; }
+    .log-laps div span:last-child { text-align: right; }
+
+    /* 履歴：日別／タイトル別 */
+    .log-seg { display: flex; gap: 2px; background: var(--mist); border-radius: 999px; padding: 3px; margin: 0 0 14px; }
+    .log-seg button {
+      flex: 1; min-height: 36px; border: 0; border-radius: 999px; background: transparent;
+      color: var(--text-sub); font-size: 12px; font-weight: 700; letter-spacing: .08em; padding: 7px 4px 9px; cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .log-seg button[aria-pressed="true"] { background: var(--primary-soft); color: var(--text); }
+    .log-cap { font-size: 11px; color: var(--text-sub); letter-spacing: .04em; margin: 0 0 6px; }
+    .log-select {
+      -webkit-appearance: none; appearance: none; width: 100%; margin: 0 0 6px;
+      height: 46px; border-radius: 999px; border: 1.5px solid var(--border);
+      background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2375665D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center;
+      color: var(--text); font-size: 15px; font-weight: 500; padding: 0 44px 2px 20px; outline: none; cursor: pointer;
+    }
+    .log-select:focus { border-color: var(--accent); }
+    .log-row .t.wide { width: 78px; }
+    .ttl { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 0; background: none; border: 0; border-bottom: 2px dotted var(--line-soft); cursor: pointer; text-align: left; color: var(--text); }
+    .ttl-l { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+    .ttl-n { font-size: 14px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ttl-n.none { color: var(--text-sub); }
+    .ttl-s { font-size: 11px; color: var(--text-sub); letter-spacing: .04em; }
+    .ttl-t { flex: none; font-size: 15px; font-weight: 700; }
+    .ttl-c { flex: none; width: 14px; text-align: center; color: var(--text-sub); font-size: 18px; line-height: 1; transition: transform .2s; }
+    .ttl[aria-expanded="true"] .ttl-c { transform: rotate(90deg); }
+    .ttl-body { padding: 0 0 6px 10px; background: transparent; }
+    .ttl-body[hidden] { display: none; }
+    @media (hover: hover) { .ttl:hover .ttl-n { text-decoration: underline; text-decoration-style: dotted; } }
+
+    /* 履歴の中身 */
+    .mini-btn[hidden] { display: none; }
+    .log-list { max-height: 300px; overflow-y: auto; -webkit-overflow-scrolling: touch; margin: 0 0 4px; }
+    .card .mini-btn { margin-top: 14px; }
+    .log-empty { font-size: 12px; line-height: 1.9; color: var(--text-sub); text-align: center; padding: 4px 0 2px; }
+    .log-day { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 12px 0 2px; font-size: 12px; font-weight: 700; color: var(--text); letter-spacing: .04em; line-height: 1.6; }
+    .log-day:first-child { margin-top: 0; }
+    .log-day span:last-child { font-weight: 500; color: var(--text-sub); }
+    .log-row { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 2px dotted var(--line-soft); font-size: 13px; line-height: 1.5; color: var(--text); }
+    .log-row .t { flex: none; width: 40px; color: var(--text-sub); font-size: 12px; }
+    .log-row .n { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .log-row .n.none { color: var(--text-sub); }
+    .log-row .d { flex: none; color: var(--text-sub); font-size: 12px; }
+
+    /* 設定（スイッチ） */
+    .sw-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 0; cursor: pointer; }
+    .sw-row[hidden] { display: none; }
+    .sw-row + .sw-row { border-top: 1px dashed var(--border); }
+    .sw-text { display: flex; flex-direction: column; gap: 2px; font-size: 13px; font-weight: 700; color: var(--text); }
+    .sw-text small { font-size: 11px; font-weight: 400; color: var(--text-sub); line-height: 1.7; }
+    .sw {
+      -webkit-appearance: none; appearance: none;
+      flex: none; width: 46px; height: 28px; border-radius: 999px;
+      background: var(--switch-off); position: relative; cursor: pointer; border: 0;
+      transition: background .2s;
+    }
+    .sw::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 22px; height: 22px; border-radius: 50%; background: #fff;
+      transition: transform .2s;
+    }
+    .sw.sw-s { width: 34px; height: 20px; }
+    .sw.sw-s::after { top: 3px; left: 3px; width: 14px; height: 14px; }
+    .sw.sw-s:checked::after { transform: translateX(14px); }
+    .sw:checked { background: var(--primary); }
+    .sw:checked::after { transform: translateX(18px); }
+
+    /* ===== フッター ===== */
+    .x-footer-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 2px 0; }
+    .x-footer-icons { display: flex; align-items: center; gap: 8px; }
+    .x-icon-btn {
+      position: relative;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 6px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      text-decoration: none;
+      transition: background .2s, border-color .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .x-icon-btn svg { fill: var(--text-sub); }
+    .x-icon-btn:hover { background: var(--mist); border-color: var(--border); }
+    .x-icon-btn::after {
+      content: attr(data-tooltip);
+      position: absolute; bottom: calc(100% + 6px); left: 0;
+      transform: translateY(4px);
+      background: var(--text); color: #fff;
+      font-size: 10px; letter-spacing: .04em;
+      padding: 4px 8px; border-radius: 6px;
+      white-space: nowrap; opacity: 0; pointer-events: none;
+      transition: opacity .15s, transform .15s; z-index: 20;
+    }
+    @media (hover: hover) { .x-icon-btn:hover::after { opacity: .88; transform: translateY(0); } }
+    /* ===== シェア機能 ここから（CSS） ===== */
+    .x-icon-btn[hidden] { display: none; }
+    .x-icon-btn.share-icon-btn svg { fill: none; stroke: var(--text-sub); transform: translateX(-1px); }
+    .share-icon-btn { cursor: pointer; padding: 0; font: inherit; }
+    .share-toast {
+      position: fixed; z-index: 60; display: none; opacity: 0; pointer-events: none;
+      background: var(--text); color: #fff; font-size: 11px; letter-spacing: .04em;
+      padding: 6px 10px 7px; border-radius: 8px; white-space: nowrap; transition: opacity .15s;
+    }
+    /* ===== シェア機能 ここまで（CSS） ===== */
+    .last-updated { font-size: 10px; color: var(--text-sub); letter-spacing: .04em; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>くらしのタイマー</h1>
+  <h2>Daily Life Timer</h2>
+  <div class="title-ja-sub">くらしの時間を、やさしく記録</div>
+  <a class="brand" href="https://webkorisu.github.io/yucchis-portal/" target="_blank" rel="noopener noreferrer" aria-label="✿ YUCCHIのアプリ一覧を開く"><span class="brand-deco">✿</span>&nbsp;&nbsp;Y&nbsp;U&nbsp;C&nbsp;C&nbsp;H&nbsp;I&nbsp;&nbsp;<span class="brand-deco">✿</span></a>
+  <div class="data-hint">データはこの端末の中に保存されます</div>
+</header>
+
+<main class="wrap">
+
+  <!-- 一番上のタブ：タイマー／ストップウォッチ -->
+  <div class="top-tabs" role="tablist" aria-label="タイマーかストップウォッチか">
+    <button type="button" class="top-tab" role="tab" data-top="timer" aria-selected="true">タイマー</button>
+    <button type="button" class="top-tab" role="tab" data-top="watch" aria-selected="false">ストップウォッチ</button>
+  </div>
+
+  <!-- タイマー -->
+  <section class="card timer-card" aria-label="タイマー">
+    <div class="dial" id="dial" data-state="idle">
+      <svg viewBox="0 0 280 280" aria-hidden="true">
+        <circle class="ring-track" cx="140" cy="140" r="124"></circle>
+        <circle class="ring-prog" id="ringProg" cx="140" cy="140" r="124" transform="rotate(-90 140 140)"></circle>
+        <circle class="ring-head" id="ringHead" cx="140" cy="16" r="7"></circle>
+      </svg>
+      <span class="ripple" aria-hidden="true"></span><span class="ripple r2" aria-hidden="true"></span>
+      <div class="dial-center">
+        <div class="time" id="time" role="timer"></div>
+        <input type="text" class="dial-name" id="dialName" placeholder="なまえをつける" autocomplete="off" enterkeyhint="done" aria-label="タイマーのなまえ（なくてもOK）">
+        <div class="dial-sub" id="dialSub" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button type="button" class="btn btn-sub" id="resetBtn">リセット</button>
+      <button type="button" class="btn btn-main" id="mainBtn">スタート</button>
+    </div>
+    <div class="msg" id="msg" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- タブ・セット・自由に設定・インターバル -->
+  <section class="card" aria-label="時間をセット">
+    <div class="tabs" id="lowerTabs" role="tablist" aria-label="タイマーの種類">
+      <button type="button" class="tab" role="tab" data-mode="timer" aria-selected="true">ふつう</button>
+      <button type="button" class="tab" role="tab" data-mode="repeat" aria-selected="false">くり返し</button>
+      <button type="button" class="tab" role="tab" data-mode="interval" aria-selected="false">インターバル</button>
+    </div>
+
+    <div id="blockTimer">
+      <div class="sec-div"><span id="presetTitle">セット</span></div>
+      <div class="presets" id="presets">
+        <button type="button" class="chip" data-sec="180"  aria-pressed="false">3分</button>
+        <button type="button" class="chip" data-sec="300"  aria-pressed="false">5分</button>
+        <button type="button" class="chip" data-sec="600"  aria-pressed="false">10分</button>
+        <button type="button" class="chip" data-sec="900"  aria-pressed="false">15分</button>
+        <button type="button" class="chip" data-sec="1800" aria-pressed="false">30分</button>
+        <button type="button" class="chip" data-sec="3600" aria-pressed="false">1時間</button>
+      </div>
+      <div class="quick-row">
+        <label class="quick"><span>すぐスタート</span><input type="checkbox" class="sw sw-s" id="swQuick" role="switch"></label>
+      </div>
+      <div class="sec-div"><span>自由に設定</span></div>
+      <div class="custom-row">
+        <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cH" maxlength="2" value="0" aria-label="時間"><span>時間</span></label>
+        <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cM" maxlength="2" value="5" aria-label="分"><span>分</span></label>
+        <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cS" maxlength="2" value="0" aria-label="秒"><span>秒</span></label>
+        <button type="button" class="btn btn-main custom-start" id="customBtn" aria-label="この時間でスタート">スタート</button>
+      </div>
+    </div>
+
+    <div id="blockWatch" hidden>
+      <div class="sec-div"><span>ラップ</span></div>
+      <div id="lapBox"></div>
+    </div>
+
+    <div id="blockInterval" hidden>
+      <div class="sec-div"><span>よく使う組み合わせ</span></div>
+      <div class="tpl" id="tplBox"></div>
+      <div class="tpl-actions" id="tplActions">
+        <span class="tpl-hint" id="tplHint"></span>
+        <button type="button" class="tpl-act" id="tplEdit">編集</button>
+      </div>
+      <div class="sec-div"><span>順番にくり返す</span></div>
+      <div class="steps" id="steps"></div>
+      <div class="add-row">
+        <button type="button" class="add-step" id="addStep">＋ ステップを足す</button>
+        <button type="button" class="add-step" id="tplAdd">この内容を保存</button>
+      </div>
+      <div class="tpl-form" id="tplForm" hidden>
+        <input type="text" id="tplName" autocomplete="off" enterkeyhint="done" placeholder="なまえ（なくてもOK）" aria-label="保存するなまえ">
+        <button type="button" class="btn btn-sub" id="tplCancel" hidden>やめる</button>
+        <button type="button" class="btn btn-main" id="tplSave">保存</button>
+      </div>
+      <div class="tpl-confirm" id="tplConfirm" role="alertdialog" aria-labelledby="tplConfirmText" hidden>
+        <p id="tplConfirmText"></p>
+        <div class="tpl-confirm-btns">
+          <button type="button" class="btn btn-sub" id="tplConfirmNo">なまえを変える</button>
+          <button type="button" class="btn btn-main" id="tplConfirmYes">上書きする</button>
+        </div>
+      </div>
+      <p class="tpl-note" id="tplNote" role="status" aria-live="polite" hidden></p>
+      <div class="rounds-row">
+        <label for="rounds">くり返す回数</label>
+        <select id="rounds">
+          <option value="1">1回</option><option value="2">2回</option><option value="3">3回</option>
+          <option value="4">4回</option><option value="5">5回</option><option value="6">6回</option>
+          <option value="7">7回</option><option value="8">8回</option><option value="9">9回</option>
+          <option value="10">10回</option><option value="0">ずっと</option>
+        </select>
+      </div>
+      <p class="iv-hint">終わるたびにチャイムで知らせて、自動で次に進みます。上の「スタート」で始めます。</p>
+    </div>
+  </section>
+
+  <!-- 履歴 -->
+  <section class="card log-card" id="logCard" aria-label="履歴">
+    <button type="button" class="log-head" id="logHead" aria-expanded="false" aria-controls="logBody">
+      <span class="log-title">履歴</span>
+      <span class="log-line" aria-hidden="true"></span>
+      <span class="log-meta" id="logMeta"></span>
+      <span class="log-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+    <div class="log-body" id="logBody">
+      <div class="log-inner">
+        <div id="logBox"></div>
+        <button type="button" class="mini-btn" id="clearLog">履歴をすべて消す</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- アコーディオン -->
+  <div class="acc">
+
+    <div class="data-note" id="settingsNote">
+      <button type="button" class="data-note-btn" onclick="toggleSettingsNote()" aria-expanded="false">
+        <span>✿ 設定</span>
+        <span class="data-note-arrow">▼</span>
+      </button>
+      <div class="data-note-body">
+        <label class="sw-row">
+          <span class="sw-text">音で知らせる<small>時間になると、やさしいチャイムが鳴ります</small></span>
+          <input type="checkbox" class="sw" id="swSound" role="switch">
+        </label>
+        <label class="sw-row" id="rowVibe">
+          <span class="sw-text">バイブで知らせる<small>バイブに対応している端末のみ</small></span>
+          <input type="checkbox" class="sw" id="swVibe" role="switch">
+        </label>
+        <label class="sw-row" id="rowWake">
+          <span class="sw-text">画面をつけたままにする<small>タイマー中は、画面が暗くなりません</small></span>
+          <input type="checkbox" class="sw" id="swWake" role="switch">
+        </label>
+        <label class="sw-row">
+          <span class="sw-text">裏でも動かす<small>ほかのアプリに切り替えても、鳴りやすくなります。音楽が止まったり、ロック画面に再生中と出たりすることがあります</small></span>
+          <input type="checkbox" class="sw" id="swBg" role="switch">
+        </label>
+        <button type="button" class="mini-btn" id="testSoundBtn">音をためす</button>
+      </div>
+    </div>
+
+    <div class="data-note" id="aboutNote">
+      <button type="button" class="data-note-btn" onclick="toggleAboutNote()" aria-expanded="false">
+        <span>✿ このアプリについて</span>
+        <span class="data-note-arrow">▼</span>
+      </button>
+      <div class="data-note-body">
+        <p>このアプリは、日々の暮らしをちょっと便利にするために作られた個人制作のツールです。</p>
+        <p>タイマーの時間・音・バイブは、お使いの端末やブラウザの状態によって、ずれたり鳴らなかったりすることがあります。火を使う調理や大切な予定など、安全や約束に関わる場面では、必ずほかの方法でもご確認ください。</p>
+        <p>作者（YUCCHI）は、アプリの内容・結果によって生じたいかなる損害についても責任を負いかねます。あらかじめご了承ください。</p>
+        <p>このアプリのコード・デザインは、作者（YUCCHI）が制作したものです。コードやデザインをそのまま複製・再配布・販売することはご遠慮ください。</p>
+      </div>
+    </div>
+
+    <div class="data-note" id="dataNote">
+      <button type="button" class="data-note-btn" onclick="toggleDataNote()" aria-expanded="false">
+        <span>✿ データについて</span>
+        <span class="data-note-arrow">▼</span>
+      </button>
+      <div class="data-note-body">
+        <p>設定・タイマーの状態・履歴は、この端末のブラウザに保存されます。スマホとPCなど、端末が異なると共有されません。</p>
+        <p>ホーム画面から開く場合と、ブラウザやリンクから開く場合でも、保存は別々になります。</p>
+        <p>ブラウザの「履歴を消去」や「キャッシュ削除」を行うと、保存されたデータが消える場合があります。</p>
+        <p>📱 ホーム画面に追加してご利用の場合、アップデート後もすぐには最新版に切り替わらないことがあります。反映されない時は、アプリスイッチャーから一度完全に閉じて開き直すか、下のボタンで最新版を読み込み直せます（設定などの保存データが消えることはありません）。</p>
+        <button type="button" class="reload-latest-btn" onclick="reloadLatestVersion()">🔄 最新版を読み込み直す</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="x-footer-row">
+    <div class="x-footer-icons">
+      <a href="https://webkorisu.github.io/yucchis-portal/" target="_blank" rel="noopener noreferrer"
+         aria-label="✿ YUCCHIのアプリ一覧を開く" data-tooltip="アプリ一覧へ" class="x-icon-btn">
+        <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12.74 1.67 L22 10 L22 20.5 Q22 22 20.5 22 L14.5 22 L14.5 15 L9.5 15 L9.5 22 L3.5 22 Q2 22 2 20.5 L2 10 L11.26 1.67 Q12 1 12.74 1.67 Z"/>
+        </svg>
+      </a>
+      <a href="https://x.com/yuttyan4444" target="_blank" rel="noopener noreferrer"
+         aria-label="XでYUCCHIをフォロー" data-tooltip="Xへ" class="x-icon-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.254 5.622L18.244 2.25Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"/>
+        </svg>
+      </a>
+      <!-- ===== シェア機能 ここから（共有マーク） ===== -->
+      <button type="button" class="x-icon-btn share-icon-btn" id="shareIconBtn"
+              aria-label="リンクをシェア" data-tooltip="リンクをシェア" onclick="shareAppLink()">
+        <svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3" fill="none"/><circle cx="6" cy="12" r="3" fill="none"/><circle cx="18" cy="19" r="3" fill="none"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>
+      </button>
+      <!-- ===== シェア機能 ここまで（共有マーク） ===== -->
+    </div>
+    <div class="last-updated">最終更新：2026.11.08</div>
+  </div>
+
+</main>
+
+<script>
+/* ===== アコーディオン・読み込み直し（全アプリ共通の書き方） ===== */
+function toggleNoteById(id) {
+  var box = document.getElementById(id);
+  box.classList.toggle('open');
+  var btn = box.querySelector('.data-note-btn');
+  if (btn) btn.setAttribute('aria-expanded', box.classList.contains('open') ? 'true' : 'false');
+}
+function toggleSettingsNote() { toggleNoteById('settingsNote'); }
+function toggleAboutNote()    { toggleNoteById('aboutNote'); }
+function toggleDataNote()     { toggleNoteById('dataNote'); }
+function reloadLatestVersion() {
+  location.href = location.pathname + '?v=' + Date.now();
+}
+
+/* ===== シェア機能 ここから（JS） ===== */
+var SHARE_ICON_ENABLED = true;   // false にすると、フッターの共有マークが消える
+var SHARE_APP_URL = 'https://webkorisu.github.io/daily-life-timer/';   // 固定（location は使わない）
+var SHARE_APP_TITLE = 'くらしのタイマー';
+(function () {
+  var b = document.getElementById('shareIconBtn');
+  if (b) b.hidden = !SHARE_ICON_ENABLED;
+})();
+async function copyPlain(text) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; }
+  } catch (e) {}
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length);
+    var ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e) { return false; }
+}
+var shareToastTimer = null;
+function showShareToast(text, anchor) {
+  var t = document.getElementById('shareToast');
+  if (!t) { t = document.createElement('div'); t.id = 'shareToast'; t.className = 'share-toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+  t.textContent = text; t.style.opacity = '0'; t.style.display = 'block';
+  var r = anchor.getBoundingClientRect(), tw = t.offsetWidth, th = t.offsetHeight;
+  var left = Math.min(Math.max(8, r.left), window.innerWidth - tw - 8);
+  var top = r.bottom + 8;                                          // ボタンのすぐ下。入らなければ上
+  if (top + th > window.innerHeight - 8) top = r.top - th - 8;
+  t.style.left = left + 'px'; t.style.top = Math.max(8, top) + 'px';
+  requestAnimationFrame(function () { t.style.opacity = '.92'; });
+  clearTimeout(shareToastTimer);
+  shareToastTimer = setTimeout(function () { t.style.opacity = '0'; setTimeout(function () { t.style.display = 'none'; }, 180); }, 2000);
+}
+async function shareAppLink() {
+  var btn = document.getElementById('shareIconBtn');
+  var text = SHARE_APP_TITLE + '\n✿ YUCCHI ✿\n\n' + SHARE_APP_URL;   // アプリ名とブランド名は別の行
+  if (navigator.share && window.matchMedia('(pointer: coarse)').matches) {
+    try { await navigator.share({ text: text }); } catch (e) {}
+    return;
+  }
+  var ok = await copyPlain(SHARE_APP_URL);   // パソコンは、URLだけをコピー
+  showShareToast(ok ? 'リンクをコピーしました' : 'コピーできませんでした', btn);
+}
+/* ===== シェア機能 ここまで（JS） ===== */
+
+/* ===== くらしのタイマー本体 ===== */
+(function () {
+  'use strict';
+
+  /* 保存キー（一度公開したら変えないこと） */
+  var K = { state: 'tm_state', last: 'tm_last', sound: 'tm_sound', vibe: 'tm_vibe', wake: 'tm_wake', bg: 'tm_bg', quick: 'tm_quick', mode: 'tm_mode', plan: 'tm_plan', name: 'tm_name', nameRep: 'tm_name_rep', log: 'tm_log', logOpen: 'tm_logopen', nameSw: 'tm_name_sw', sw: 'tm_sw', top: 'tm_top', logView: 'tm_logview', tpl: 'tm_tpl' };
+
+  var MAX_SEC = 24 * 3600 - 1;   // 23:59:59
+  var DEFAULT_SEC = 300;         // はじめての人は5分
+  var MODES = ['timer', 'repeat', 'interval', 'watch'];      // 画面のタブ
+  var ST_MODES = ['timer', 'repeat', 'interval'];            // タイマーの動き方（ストップウォッチは別管理）
+  var MAX_LAPS = 300;
+  var MAX_STEPS = 6, MAX_STEP_MIN = 180;
+  var NAME_MAX = 10;   // ステップのなまえは10文字まで（絵文字も1つ＝1文字）
+  var seg = (window.Intl && Intl.Segmenter) ? new Intl.Segmenter('ja', { granularity: 'grapheme' }) : null;
+  function clip(v) {
+    v = String(v || '');
+    if (seg) {
+      var out = [], it = seg.segment(v)[Symbol.iterator](), n;
+      while (!(n = it.next()).done) { if (out.length >= NAME_MAX) break; out.push(n.value.segment); }
+      return out.join('');
+    }
+    return Array.from(v).slice(0, NAME_MAX).join('');
+  }
+  var BASE_TITLE = document.title;
+  var $ = function (id) { return document.getElementById(id); };
+
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+  /* ---------- 設定 ---------- */
+  var settings = {
+    sound: store.get(K.sound) !== '0',
+    vibe:  store.get(K.vibe)  !== '0',
+    wake:  store.get(K.wake)  !== '0',
+    bg:    store.get(K.bg)    !== '0',
+    quick: store.get(K.quick) !== '0'   // タップですぐスタート（はじめはオン）
+  };
+  var accum = false;       // ボタンで時間を足している最中かどうか
+  var sw = { status: 'idle', startAt: 0, base: 0, laps: [] };   // ストップウォッチ（idle／running／stopped）。lapsは、ラップを押した時点までの合計ms
+  var names = { timer: '', repeat: '', watch: '' };   // タイマーとくり返しの「なまえ」（別々に保存。インターバルは、ステップごとのなまえを使う）
+  var shownNameKey = '';
+  var MAX_LOG = 200;       // 履歴は、新しいほうから200件まで
+  var log = [];            // 履歴 {e:終わった時刻, n:なまえ, s:秒, m:t/r/i}
+  var logDirty = false;
+  var tab = 'timer';       // いま出ている画面：timer（ふつう）／repeat（くり返し）／interval（インターバル）／watch（ストップウォッチ）
+  var timerTab = 'timer';  // タイマーの中で、最後に選んでいた種類（ストップウォッチから戻ったときに使う）
+
+  /* インターバルの中身（なまえ・秒）と回数（0＝ずっと） */
+  var plan = { steps: [{ n: '勉強', s: 1500 }, { n: '運動', s: 600 }], rounds: 3 };
+
+  /* ---------- 状態 ---------- */
+  var st = { status: 'idle', mode: 'timer', total: DEFAULT_SEC * 1000, endAt: 0, remain: DEFAULT_SEC * 1000, idx: 0, round: 1, plan: null };
+  var idleMs = st.total;   // インターバルのあと、タイマーの時間をもとに戻すための記憶
+
+  function normPlan(o) {
+    try {
+      if (!o || !Array.isArray(o.steps) || !o.steps.length) return null;
+      var steps = [];
+      for (var i = 0; i < o.steps.length && i < MAX_STEPS; i++) {
+        var x = o.steps[i] || {};
+        var s = Math.round(Number(x.s));
+        if (!(s >= 0 && s <= MAX_STEP_MIN * 60)) s = 0;
+        steps.push({ n: clip(x.n), s: s });
+      }
+      var r = parseInt(o.rounds, 10);
+      if (!(r >= 0 && r <= 10)) r = 3;
+      return { steps: steps, rounds: r };
+    } catch (e) { return null; }
+  }
+  function stepName(p, i) {
+    var s = p.steps[i];
+    return (s && s.n) ? s.n : 'ステップ' + (i + 1);
+  }
+  function planFirstMs() { return plan.steps[0].s * 1000; }
+
+  function loadState() {
+    var last = parseInt(store.get(K.last), 10);
+    if (last > 0 && last <= MAX_SEC) { st.total = last * 1000; st.remain = st.total; }
+    idleMs = st.total;
+    var m = store.get(K.mode);
+    if (ST_MODES.indexOf(m) >= 0) timerTab = m;      // 古い版で 'watch' が入っていても、ふつうに戻す
+    tab = timerTab;
+    if (store.get(K.top) === 'watch') tab = 'watch';
+    var pp = store.get(K.plan);
+    if (pp) { try { var np = normPlan(JSON.parse(pp)); if (np) plan = np; } catch (e) {} }
+
+    var raw = store.get(K.state);
+    if (!raw) return;
+    try {
+      var o = JSON.parse(raw);
+      var total = Number(o.total), endAt = Number(o.endAt), remain = Number(o.remain);
+      if (!(total >= 1000 && total <= MAX_SEC * 1000)) return;
+      var mode = ST_MODES.indexOf(o.mode) >= 0 ? o.mode : 'timer';
+      var sp = null;
+      if (mode === 'interval') {
+        sp = normPlan(o.plan);
+        if (!sp || sp.steps.some(function (x) { return x.s < 1; })) return;
+      }
+      var idx = parseInt(o.idx, 10) || 0, round = parseInt(o.round, 10) || 1;
+      if (sp && idx >= sp.steps.length) idx = 0;
+      var setBase = function () { st.mode = mode; st.plan = sp; st.idx = idx; st.round = round; st.total = total; };
+      if (o.status === 'running' && endAt > 0) {
+        setBase(); st.endAt = endAt; st.remain = 0; st.status = 'running';
+        if (endAt <= Date.now()) advance(true, Date.now());   // 閉じている間に進んだぶんは、音を鳴らさずに追いつく
+      } else if (o.status === 'paused' && remain > 0 && remain <= total) {
+        setBase(); st.status = 'paused'; st.remain = remain;
+      } else if (o.status === 'done') {
+        setBase(); st.status = 'done'; st.remain = 0;
+      }
+      if (st.status !== 'idle') { tab = st.mode; timerTab = st.mode; }
+    } catch (e) {}
+  }
+  function saveState() {
+    store.set(K.state, JSON.stringify({ status: st.status, mode: st.mode, total: st.total, endAt: st.endAt, remain: st.remain, idx: st.idx, round: st.round, plan: st.plan }));
+  }
+  function savePlan() { store.set(K.plan, JSON.stringify(plan)); }
+  function isLocked() { return st.status === 'running' || st.status === 'paused' || sw.status !== 'idle'; }
+
+  /* ---------- 画面の部品 ---------- */
+  var dial = $('dial'), timeEl = $('time'), subEl = $('dialSub');
+  var ringProg = $('ringProg'), ringHead = $('ringHead');
+  var mainBtn = $('mainBtn'), resetBtn = $('resetBtn'), msgEl = $('msg');
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var tabBtns = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var topBtns = Array.prototype.slice.call(document.querySelectorAll('.top-tab'));
+  var lowerTabs = $('lowerTabs');
+  var cH = $('cH'), cM = $('cM'), cS = $('cS'), customBtn = $('customBtn');
+  var dialName = $('dialName');
+  var logBox = $('logBox'), clearLogBtn = $('clearLog');
+  var logCard = $('logCard'), logHead = $('logHead'), logMeta = $('logMeta');
+  var blockTimer = $('blockTimer'), blockInterval = $('blockInterval'), blockWatch = $('blockWatch'), lapBox = $('lapBox');
+  var R = 124, C = 2 * Math.PI * R;
+  ringProg.style.strokeDasharray = C + ' ' + C;
+
+  function two(n) { return (n < 10 ? '0' : '') + n; }
+  function fmt(ms) {
+    var s = Math.max(0, Math.ceil(ms / 1000));
+    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    return h > 0 ? h + ':' + two(m) + ':' + two(sec) : two(m) + ':' + two(sec);
+  }
+  function label(sec) {
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60, t = '';
+    if (h) t += h + '時間';
+    if (m) t += m + '分';
+    if (s) t += s + '秒';
+    return t;
+  }
+  function clock(ms) {
+    var d = new Date(ms);
+    return two(d.getHours()) + ':' + two(d.getMinutes());
+  }
+
+  var lastTimeStr = '';
+  function renderTime(str) {
+    if (str === lastTimeStr) return;
+    lastTimeStr = str;
+    var html = '', frac = false;
+    for (var i = 0; i < str.length; i++) {
+      var ch = str.charAt(i);
+      if (ch === ':') html += '<span class="colon">:</span>';
+      else if (ch === '.') { html += '<span class="dot">.</span>'; frac = true; }
+      else html += '<span class="dg' + (frac ? ' cs' : '') + '">' + ch + '</span>';
+    }
+    timeEl.innerHTML = html;
+    timeEl.setAttribute('aria-label', str);
+  }
+
+  function setLabel() {
+    var r = st.plan ? st.plan.rounds : 0;
+    return r > 0 ? st.round + '/' + r + 'セット' : st.round + 'セット目';
+  }
+  function subText() {
+    var s = st.status;
+    if (s === 'running') {
+      if (st.mode === 'interval') return stepName(st.plan, st.idx) + '\n' + setLabel();
+      if (st.mode === 'repeat') return 'くり返し ' + st.round + '回目\n' + clock(st.endAt) + ' に鳴ります';
+      return clock(st.endAt) + ' に終了';
+    }
+    if (s === 'paused') return st.mode === 'interval' ? stepName(st.plan, st.idx) + '\n一時停止中' : '一時停止中';
+    if (s === 'done') return st.mode === 'interval' ? 'すべて終わりました' : '時間になりました';
+    if (tab === 'interval') {
+      if (planFirstMs() < 1000) return '分を入れてください';
+      return stepName(plan, 0) + 'から始まります\n' + (plan.rounds > 0 ? plan.rounds + 'セット' : 'ずっとくり返し');
+    }
+    if (st.total < 1000) return '時間を入れてください';
+    var lb = label(Math.round(st.total / 1000));
+    return tab === 'repeat' ? lb + 'おきにくり返し' : lb + 'タイマー';
+  }
+
+  function render() {
+    var s, left, prog, timeStr, sub, nm0 = '';
+    if (tab === 'watch') {
+      var el = swElapsed();
+      s = sw.status === 'running' ? 'running' : sw.status === 'stopped' ? 'paused' : 'idle';
+      timeStr = fmtSw(el, false);
+      prog = (el % 60000) / 60000;                 // リングは、1分で一周する（秒針）
+      if (el > 0 && prog === 0) prog = 1;
+      sub = swSub();
+    } else {
+      s = st.status;
+      if (s === 'running')      { left = Math.max(0, st.endAt - Date.now()); prog = left / st.total; }
+      else if (s === 'paused')  { left = st.remain; prog = left / st.total; }
+      else if (s === 'done')    { left = 0; prog = 1; }
+      else {
+        var base = tab === 'interval' ? planFirstMs() : st.total;
+        left = base; prog = base >= 1000 ? 1 : 0;
+      }
+      timeStr = fmt(left);
+      sub = subText();
+    }
+
+    dial.setAttribute('data-state', s);
+    renderTime(timeStr);
+
+    /* リング */
+    prog = Math.min(1, Math.max(0, prog));
+    if (drawStart) {   // スタート直後は、リングが描かれていく
+      if (tab === 'watch' || (s !== 'running' && s !== 'paused')) { drawStart = 0; }
+      else {
+        var dt = (performance.now() - drawStart) / DRAW_MS;
+        if (dt >= 1) drawStart = 0; else prog *= 1 - Math.pow(1 - dt, 3);
+      }
+    }
+    ringProg.style.strokeDashoffset = (C * (1 - prog)).toFixed(2);
+    ringProg.style.opacity = prog > 0.002 ? '1' : '0';
+    if (s === 'done' || prog <= 0.002) {
+      ringHead.style.display = 'none';
+    } else {
+      var a = prog * 2 * Math.PI;
+      ringHead.style.display = '';
+      ringHead.setAttribute('cx', (140 + R * Math.sin(a)).toFixed(2));
+      ringHead.setAttribute('cy', (140 - R * Math.cos(a)).toFixed(2));
+    }
+
+    var showName = tab === 'watch' ? true : (s === 'idle') ? tab !== 'interval' : st.mode !== 'interval';
+    if (dialName.hidden === showName) dialName.hidden = !showName;
+    if (subEl.textContent !== sub) subEl.textContent = sub;
+    var nkey = nameKey();
+    if (showName && nkey !== shownNameKey) { dialName.value = names[nkey]; shownNameKey = nkey; }   // タブが変わったら、そのタブのなまえに入れかえる
+    var nm = showName && names[nkey] ? names[nkey] + ' ' : '';
+
+    /* ブラウザのタブの名前 */
+    var t = BASE_TITLE;
+    if (tab === 'watch') {
+      if (sw.status === 'running') t = nm + timeStr + '｜くらしのタイマー';
+      else if (sw.status === 'stopped') t = nm + timeStr + '（停止中）｜くらしのタイマー';
+    } else if (s === 'running') t = (st.mode === 'interval' ? stepName(st.plan, st.idx) + ' ' : nm) + fmt(left) + '｜くらしのタイマー';
+    else if (s === 'paused') t = '一時停止｜くらしのタイマー';
+    else if (s === 'done') t = nm + '時間です｜くらしのタイマー';
+    if (document.title !== t) document.title = t;
+  }
+
+  function syncChips() {
+    var sec = Math.round(st.total / 1000);
+    chips.forEach(function (c) {
+      var on = !accum && Number(c.getAttribute('data-sec')) === sec;
+      c.classList.toggle('on', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function lockEditor(locked) {
+    var same = tplFindSame(), unchanged = tplEditIdx >= 0 && tplIsUnchanged();
+    Array.prototype.forEach.call(blockInterval.querySelectorAll('input,select,button'), function (el) {
+      var base = false;
+      if (el.classList.contains('st-del')) base = plan.steps.length <= 1;
+      if (el.id === 'addStep') base = plan.steps.length >= MAX_STEPS;
+      if (el.id === 'tplAdd') base = (tplEditIdx < 0 && !tplForm.hidden) ? false : same >= 0;   // 保存ずみと同じ内容なら、新しく保存できない（ただし、フォームを開いている間は「やめる」）
+      if (el.id === 'tplSave') base = tplEditIdx >= 0 ? unchanged : same >= 0;    // 上書きは、直したときだけ
+      el.disabled = locked || base;
+    });
+    tplUpdateSameNote(same, unchanged);
+    tplSyncAddLabel();
+  }
+  function syncControls() {
+    var s = st.status, locked = isLocked();
+    if (tab === 'watch') {
+      mainBtn.textContent = sw.status === 'running' ? 'ストップ' : sw.status === 'stopped' ? '再開' : 'スタート';
+      resetBtn.textContent = sw.status === 'stopped' ? 'リセット' : 'ラップ';
+      resetBtn.disabled = (sw.status === 'idle');
+    } else {
+      mainBtn.textContent = { idle: 'スタート', running: '一時停止', paused: '再開', done: 'とめる' }[s];
+      resetBtn.textContent = 'リセット';
+      resetBtn.disabled = (s === 'done') || (s === 'idle' && !(accum && tab !== 'interval'));
+    }
+    chips.forEach(function (c) { c.disabled = false; });
+    [cH, cM, cS, customBtn].forEach(function (x) { x.disabled = locked; });
+    tabBtns.forEach(function (b) { b.disabled = locked && b.getAttribute('data-mode') !== tab; });
+    topBtns.forEach(function (b) { b.disabled = locked && ((b.getAttribute('data-top') === 'watch') !== (tab === 'watch')); });
+    lockEditor(locked);
+    syncChips();
+  }
+  function refresh() { render(); syncControls(); }
+
+  var msgTimer = null;
+  function say(text) {
+    msgEl.textContent = text;
+    msgEl.classList.add('show');
+    clearTimeout(msgTimer);
+    msgTimer = setTimeout(function () { msgEl.classList.remove('show'); }, 2400);
+  }
+
+  /* ---------- ストップウォッチ ---------- */
+  function swElapsed() { return sw.base + (sw.status === 'running' ? Math.max(0, Date.now() - sw.startAt) : 0); }
+  function fmtSw(ms, full) {
+    ms = Math.max(0, Math.floor(ms));
+    var cs = Math.floor(ms / 10) % 100, s = Math.floor(ms / 1000);
+    var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    if (h > 0 && !full) return h + ':' + two(m) + ':' + two(sec);   // 1時間をこえると、ダイヤルは小数を出さない
+    return (h > 0 ? h + ':' + two(m) : two(m)) + ':' + two(sec) + '.' + two(cs);
+  }
+  function swSub() {
+    var n = sw.laps.length;
+    if (sw.status === 'running') return n ? 'ラップ ' + n + '回' : '計測中';
+    if (sw.status === 'stopped') return '停止中' + (n ? ' ・ ラップ ' + n + '回' : '');
+    return 'スタートで計測します';
+  }
+  function swSave() { store.set(K.sw, JSON.stringify(sw)); }
+  function swLoad() {
+    try {
+      var o = JSON.parse(store.get(K.sw) || 'null');
+      if (!o || (o.status !== 'running' && o.status !== 'stopped')) return;
+      var base = Number(o.base) || 0, startAt = Number(o.startAt) || 0;
+      if (o.status === 'running' && !(startAt > 0)) return;
+      sw.status = o.status; sw.base = Math.max(0, base); sw.startAt = startAt;
+      sw.laps = Array.isArray(o.laps) ? o.laps.map(Number).filter(function (n) { return n >= 0; }).slice(0, MAX_LAPS) : [];
+    } catch (e) {}
+  }
+  function renderLaps() {
+    lapBox.textContent = '';
+    if (!sw.laps.length) {
+      var p = document.createElement('p'); p.className = 'log-empty';
+      p.textContent = '「ラップ」を押すと、ここに記録されます。';
+      lapBox.appendChild(p); return;
+    }
+    var splits = sw.laps.map(function (c, i) { return c - (i ? sw.laps[i - 1] : 0); });
+    var best = -1, worst = -1;
+    if (splits.length >= 3) {
+      splits.forEach(function (v, i) {
+        if (best < 0 || v < splits[best]) best = i;
+        if (worst < 0 || v > splits[worst]) worst = i;
+      });
+    }
+    var list = document.createElement('div'); list.className = 'lap-list';
+    var head = document.createElement('div'); head.className = 'lap-head';
+    ['', 'ラップ', '合計'].forEach(function (t) { var s = document.createElement('span'); s.textContent = t; head.appendChild(s); });
+    list.appendChild(head);
+    for (var i = splits.length - 1; i >= 0; i--) {   // 新しいものから
+      var row = document.createElement('div'); row.className = 'lap-row';
+      var no = document.createElement('span'); no.className = 'no'; no.textContent = String(i + 1);
+      var sp = document.createElement('span'); sp.className = 'sp';
+      var v = document.createElement('span'); v.textContent = fmtSw(splits[i], true); sp.appendChild(v);
+      if (i === best || i === worst) {
+        var tg = document.createElement('span'); tg.className = 'tag ' + (i === best ? 'best' : 'worst'); tg.textContent = i === best ? '最速' : '最遅'; sp.appendChild(tg);
+      }
+      var tt = document.createElement('span'); tt.className = 'tt'; tt.textContent = fmtSw(sw.laps[i], true);
+      row.appendChild(no); row.appendChild(sp); row.appendChild(tt); list.appendChild(row);
+    }
+    lapBox.appendChild(list);
+  }
+  var swRaf = 0;
+  function swLoop() {   // 画面が見えている間だけ、なめらかに動かす
+    swRaf = 0;
+    if (sw.status !== 'running' || tab !== 'watch' || document.hidden) return;
+    render();
+    swRaf = requestAnimationFrame(swLoop);
+  }
+  function swKick() { if (!swRaf && sw.status === 'running' && tab === 'watch') swRaf = requestAnimationFrame(swLoop); }
+  function swMain() {
+    var now = Date.now();
+    if (sw.status === 'running') { sw.base += Math.max(0, now - sw.startAt); sw.startAt = 0; sw.status = 'stopped'; releaseWake(); }
+    else { sw.startAt = now; sw.status = 'running'; requestWake(); startFx(); }
+    swSave(); refresh(); swKick();
+  }
+  function swLeft() {
+    if (sw.status === 'running') {                         // ラップ
+      if (sw.laps.length >= MAX_LAPS) { say('ラップは' + MAX_LAPS + '回までです'); return; }
+      sw.laps.push(Math.floor(swElapsed()));
+      swSave(); renderLaps(); render();
+    } else if (sw.status === 'stopped') {                  // リセット（履歴に残す）
+      var el = Math.floor(swElapsed());
+      if (el >= 1000 || sw.laps.length) {
+        log.push({ e: Date.now(), n: names.watch, s: Math.max(1, Math.round(el / 1000)), ms: el, m: 's', laps: sw.laps.slice(0, 100) });
+        logDirty = true; flushLog();
+      }
+      sw = { status: 'idle', startAt: 0, base: 0, laps: [] };
+      releaseWake(); swSave(); renderLaps(); refresh();
+    }
+  }
+
+  /* ---------- タブ ---------- */
+  function applyTab() {
+    tabBtns.forEach(function (b) {
+      b.setAttribute('aria-selected', b.getAttribute('data-mode') === tab ? 'true' : 'false');
+    });
+    topBtns.forEach(function (b) {
+      b.setAttribute('aria-selected', (b.getAttribute('data-top') === 'watch') === (tab === 'watch') ? 'true' : 'false');
+    });
+    lowerTabs.hidden = (tab === 'watch');
+    blockTimer.hidden = (tab === 'interval' || tab === 'watch');
+    blockInterval.hidden = (tab !== 'interval');
+    blockWatch.hidden = (tab !== 'watch');
+    $('presetTitle').textContent = tab === 'repeat' ? 'くり返す間隔' : 'セット';
+  }
+  function setTab(m) {
+    if (m === tab || isLocked()) return;
+    if (st.status === 'done') acknowledge();
+    tab = m;
+    if (m !== 'watch') timerTab = m;
+    store.set(K.mode, timerTab); store.set(K.top, tab === 'watch' ? 'watch' : 'timer');
+    accum = false;
+    applyTab(); refresh(); swKick();
+  }
+  tabBtns.forEach(function (b) { b.addEventListener('click', function () { setTab(b.getAttribute('data-mode')); }); });
+  topBtns.forEach(function (b) { b.addEventListener('click', function () { setTab(b.getAttribute('data-top') === 'watch' ? 'watch' : timerTab); }); });
+
+  /* ---------- 履歴 ---------- */
+  function readLog() {
+    try {
+      var a = JSON.parse(store.get(K.log) || '[]');
+      if (!Array.isArray(a)) return [];
+      return a.filter(function (x) { return x && x.e > 0 && x.s > 0; }).slice(-MAX_LOG).map(function (x) {
+        var m = String(x.m || 't').charAt(0), o = { e: Number(x.e), n: clip(x.n), s: Number(x.s), m: m };
+        if (m === 's') { o.ms = Number(x.ms) || o.s * 1000; o.laps = Array.isArray(x.laps) ? x.laps.map(Number).filter(function (n) { return n >= 0; }).slice(0, 100) : []; }
+        return o;
+      });
+    } catch (e) { return []; }
+  }
+  function pushLog(endAt, sec) {
+    var nm = st.mode === 'interval' ? stepName(st.plan, st.idx) : (names[st.mode === 'repeat' ? 'repeat' : 'timer'] || '');
+    log.push({ e: endAt, n: nm, s: sec, m: st.mode.charAt(0) });
+    logDirty = true;
+  }
+  function flushLog() {
+    if (!logDirty) return;
+    logDirty = false;
+    if (log.length > MAX_LOG) log = log.slice(-MAX_LOG);
+    store.set(K.log, JSON.stringify(log));
+    renderLog();
+  }
+  var WD = ['日', '月', '火', '水', '木', '金', '土'];
+  function dayKey(d) { return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate(); }
+  function dayLabel(d, now) {
+    var diff = Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000);
+    var base = (d.getMonth() + 1) + '/' + d.getDate() + '（' + WD[d.getDay()] + '）';
+    return diff === 0 ? '今日 ' + base : diff === 1 ? 'きのう ' + base : base;
+  }
+  var MODE_NAME = { t: 'タイマー', r: 'くり返し', i: 'インターバル', s: 'ストップウォッチ' };
+  /* 履歴の見かた：day＝日別／title＝タイトル別 */
+  var logView = store.get(K.logView) === 'title' ? 'title' : 'day';
+  var logDay = '';            // 日別で、いま選んでいる日
+  var logTitleOpen = {};      // タイトル別で、ひらいているタイトル
+  function entryRow(x, showDate, parent) {
+    var d = new Date(x.e), row = document.createElement('div'); row.className = 'log-row';
+    var t = document.createElement('span'); t.className = 't' + (showDate ? ' wide' : '');
+    t.textContent = (showDate ? (d.getMonth() + 1) + '/' + d.getDate() + ' ' : '') + two(d.getHours()) + ':' + two(d.getMinutes());
+    var n = document.createElement('span'); n.className = 'n' + (x.n ? '' : ' none'); n.textContent = showDate ? '' : (x.n || MODE_NAME[x.m] || 'タイマー');   // タイトル別では、見出しと同じなまえは出さない
+    var hasLaps = x.m === 's' && x.laps && x.laps.length;
+    if (hasLaps) { var lc = document.createElement('span'); lc.className = 'lc'; lc.textContent = 'ラップ' + x.laps.length; n.appendChild(lc); }
+    var s = document.createElement('span'); s.className = 'd'; s.textContent = x.m === 's' ? fmtSw(x.ms, true) : label(Math.round(x.s));
+    row.appendChild(t); row.appendChild(n); row.appendChild(s); parent.appendChild(row);
+    if (hasLaps) {      // タップすると、ラップがひらく
+      var det = document.createElement('div'); det.className = 'log-laps'; det.hidden = true;
+      x.laps.forEach(function (c, i) {
+        var line = document.createElement('div');
+        [String(i + 1), fmtSw(c - (i ? x.laps[i - 1] : 0), true), fmtSw(c, true)].forEach(function (tx) { var sp = document.createElement('span'); sp.textContent = tx; line.appendChild(sp); });
+        det.appendChild(line);
+      });
+      row.classList.add('has-laps'); row.setAttribute('role', 'button'); row.tabIndex = 0;
+      var toggle = function () { det.hidden = !det.hidden; };
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+      parent.appendChild(det);
+    }
+  }
+  function renderLog() {
+    logBox.textContent = '';
+    if (!log.length) {
+      var p = document.createElement('p'); p.className = 'log-empty';
+      p.textContent = 'まだ履歴はありません。時間が最後まで終わると、ここに残ります。';
+      logBox.appendChild(p); clearLogBtn.hidden = true; logMeta.textContent = ''; return;
+    }
+    clearLogBtn.hidden = false;
+    var now = new Date(), i;
+    var sorted = log.slice().sort(function (a, b) { return b.e - a.e; });          // 新しいものから
+    var days = [], cur = null;
+    sorted.forEach(function (x) {
+      var d = new Date(x.e), k = dayKey(d);
+      if (!cur || cur.key !== k) { cur = { key: k, date: d, total: 0, items: [] }; days.push(cur); }
+      cur.total += x.s; cur.items.push(x);
+    });
+    logMeta.textContent = dayKey(days[0].date) === dayKey(now) ? '今日 ' + label(days[0].total) : log.length + '件';
+
+    /* 日別 ／ タイトル別 の切りかえ */
+    var seg = document.createElement('div'); seg.className = 'log-seg'; seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '履歴の見かた');
+    [['day', '日別'], ['title', 'タイトル別']].forEach(function (v) {
+      var bt = document.createElement('button'); bt.type = 'button'; bt.textContent = v[1];
+      bt.setAttribute('aria-pressed', logView === v[0] ? 'true' : 'false');
+      bt.addEventListener('click', function () { logView = v[0]; store.set(K.logView, logView); renderLog(); });
+      seg.appendChild(bt);
+    });
+    logBox.appendChild(seg);
+
+    if (logView === 'day') {
+      if (!days.some(function (d) { return d.key === logDay; })) logDay = days[0].key;     // はじめは、いちばん新しい日
+      var cap = document.createElement('div'); cap.className = 'log-cap'; cap.textContent = '記録した日を選ぶ';
+      var sel = document.createElement('select'); sel.className = 'log-select'; sel.setAttribute('aria-label', '記録した日を選ぶ');
+      days.forEach(function (d) {
+        var o = document.createElement('option'); o.value = d.key; o.textContent = dayLabel(d.date, now) + '　' + d.items.length + '件'; sel.appendChild(o);
+      });
+      sel.value = logDay;
+      sel.addEventListener('change', function () { logDay = sel.value; renderLog(); });
+      logBox.appendChild(cap); logBox.appendChild(sel);
+      var day = days.filter(function (d) { return d.key === logDay; })[0];
+      var head = document.createElement('div'); head.className = 'log-day';
+      var h1 = document.createElement('span'); h1.textContent = dayLabel(day.date, now);
+      var h2 = document.createElement('span'); h2.textContent = '合計 ' + label(day.total);
+      head.appendChild(h1); head.appendChild(h2);
+      var list = document.createElement('div'); list.className = 'log-list';
+      list.appendChild(head);
+      day.items.forEach(function (x) { entryRow(x, false, list); });
+      logBox.appendChild(list);
+    } else {
+      var map = {}, order = [];
+      sorted.forEach(function (x) {
+        var key = (x.n || '').trim() || MODE_NAME[x.m] || 'タイマー';
+        var g = map['k:' + key];
+        if (!g) { g = map['k:' + key] = { name: key, none: !(x.n || '').trim(), total: 0, items: [] }; order.push(g); }
+        g.total += x.s; g.items.push(x);
+      });
+      order.sort(function (a, b) { return b.total - a.total; });                      // 長く使ったものが上
+      var cap2 = document.createElement('div'); cap2.className = 'log-cap'; cap2.textContent = '長く使った順に、なまえごとにまとめています';
+      logBox.appendChild(cap2);
+      var tl = document.createElement('div'); tl.className = 'log-list';
+      order.forEach(function (g) {
+        var open = !!logTitleOpen[g.name];
+        var hd = document.createElement('button'); hd.type = 'button'; hd.className = 'ttl'; hd.setAttribute('aria-expanded', open ? 'true' : 'false');
+        var left = document.createElement('span'); left.className = 'ttl-l';
+        var nm = document.createElement('span'); nm.className = 'ttl-n' + (g.none ? ' none' : ''); nm.textContent = g.name;
+        var sb = document.createElement('span'); sb.className = 'ttl-s';
+        var ld = new Date(g.items[0].e); sb.textContent = g.items.length + '回 ・ 最近 ' + (ld.getMonth() + 1) + '/' + ld.getDate();
+        left.appendChild(nm); left.appendChild(sb);
+        var tot = document.createElement('span'); tot.className = 'ttl-t'; tot.textContent = label(g.total);
+        var ch = document.createElement('span'); ch.className = 'ttl-c'; ch.setAttribute('aria-hidden', 'true'); ch.textContent = '›';
+        hd.appendChild(left); hd.appendChild(tot); hd.appendChild(ch);
+        var body = document.createElement('div'); body.className = 'ttl-body'; body.hidden = !open;
+        g.items.forEach(function (x) { entryRow(x, true, body); });
+        hd.addEventListener('click', function () {
+          var o = body.hidden; body.hidden = !o; logTitleOpen[g.name] = o; hd.setAttribute('aria-expanded', o ? 'true' : 'false');
+        });
+        tl.appendChild(hd); tl.appendChild(body);
+      });
+      logBox.appendChild(tl);
+    }
+  }
+
+  function setLogOpen(on) {
+    logCard.classList.toggle('open', on);
+    logHead.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+  logHead.addEventListener('click', function () {
+    var on = !logCard.classList.contains('open');
+    setLogOpen(on); store.set(K.logOpen, on ? '1' : '0');
+  });
+  var clearArmed = 0;
+  clearLogBtn.addEventListener('click', function () {
+    if (!clearArmed) {      // 押し間違い防止：もう一度押すと消える
+      clearLogBtn.textContent = 'もう一度押すと、すべて消えます';
+      clearArmed = setTimeout(function () { clearArmed = 0; clearLogBtn.textContent = '履歴をすべて消す'; }, 3000);
+      return;
+    }
+    clearTimeout(clearArmed); clearArmed = 0;
+    clearLogBtn.textContent = '履歴をすべて消す';
+    log = []; store.set(K.log, '[]'); renderLog();
+  });
+
+  /* ---------- なまえ（タイマー・くり返し） ---------- */
+  function nameKey() { var m = st.status === 'idle' ? tab : st.mode; return m === 'repeat' ? 'repeat' : m === 'watch' ? 'watch' : 'timer'; }
+  function saveName(k) { store.set(k === 'repeat' ? K.nameRep : k === 'watch' ? K.nameSw : K.name, names[k]); }
+  dialName.addEventListener('input', function (e) {
+    if (!e.isComposing) { var c = clip(dialName.value); if (c !== dialName.value) dialName.value = c; }
+    var k = nameKey();
+    names[k] = clip(dialName.value);
+    saveName(k);
+    render();
+  });
+  dialName.addEventListener('compositionend', function () {
+    var k = nameKey();
+    dialName.value = clip(dialName.value); names[k] = dialName.value;
+    saveName(k); render();
+  });
+  dialName.addEventListener('keydown', function (e) { if (e.key === 'Enter') dialName.blur(); });
+
+  /* ---------- 自由入力 ---------- */
+  function readCustom() {
+    var h = Math.min(23, parseInt(cH.value, 10) || 0);
+    var m = Math.min(59, parseInt(cM.value, 10) || 0);
+    var s = Math.min(59, parseInt(cS.value, 10) || 0);
+    return h * 3600 + m * 60 + s;
+  }
+  function writeCustom(sec) {
+    cH.value = String(Math.floor(sec / 3600));
+    cM.value = String(Math.floor((sec % 3600) / 60));
+    cS.value = String(sec % 60);
+  }
+  function cleanField(input, max) {
+    var v = input.value.replace(/\D/g, '').slice(0, 2);
+    if (v !== '' && Number(v) > max) v = String(max);
+    input.value = v;
+  }
+  [[cH, 23], [cM, 59], [cS, 59]].forEach(function (p) {
+    var input = p[0], max = p[1];
+    input.addEventListener('focus', function () { setTimeout(function () { try { input.select(); } catch (e) {} }, 0); });
+    input.addEventListener('input', function () {
+      cleanField(input, max);
+      if (st.status === 'done') acknowledge();
+      if (st.status !== 'idle') return;
+      accum = false;
+      st.total = readCustom() * 1000;
+      st.remain = st.total;
+      render(); syncControls();
+    });
+    input.addEventListener('blur', function () { input.value = String(Number(input.value) || 0); });
+  });
+
+  /* ---------- インターバルの編集 ---------- */
+  var stepsEl = $('steps'), roundsSel = $('rounds');
+  function renderSteps() {
+    stepsEl.textContent = '';
+    plan.steps.forEach(function (s, i) {
+      var row = document.createElement('div'); row.className = 'step';
+      var nm = document.createElement('input');
+      nm.type = 'text'; nm.className = 'st-name'; nm.placeholder = 'なまえ';
+      nm.value = s.n; nm.setAttribute('data-i', i); nm.setAttribute('aria-label', (i + 1) + 'つ目のなまえ');
+      nm.autocomplete = 'off';
+      var mn = document.createElement('input');
+      mn.type = 'text'; mn.className = 'st-min'; mn.maxLength = 3; mn.setAttribute('inputmode', 'numeric');
+      mn.value = s.s > 0 ? String(Math.round(s.s / 60)) : ''; mn.placeholder = '0';
+      mn.setAttribute('data-i', i); mn.setAttribute('aria-label', (i + 1) + 'つ目の分');
+      mn.autocomplete = 'off';
+      var u = document.createElement('span'); u.className = 'unit'; u.textContent = '分';
+      var del = document.createElement('button');
+      del.type = 'button'; del.className = 'st-del'; del.setAttribute('data-i', i);
+      del.setAttribute('aria-label', (i + 1) + 'つ目を消す');
+      del.innerHTML = '<span>×</span>';
+      row.appendChild(nm); row.appendChild(mn); row.appendChild(u); row.appendChild(del);
+      stepsEl.appendChild(row);
+    });
+    lockEditor(isLocked());
+  }
+  stepsEl.addEventListener('input', function (e) {
+    var t = e.target, i = Number(t.getAttribute('data-i'));
+    if (isNaN(i) || !plan.steps[i]) return;
+    if (t.classList.contains('st-name')) {
+      if (!e.isComposing) { var c = clip(t.value); if (c !== t.value) t.value = c; }   // 変換中は、確定してから切る
+      plan.steps[i].n = clip(t.value);
+    } else if (t.classList.contains('st-min')) {
+      var v = t.value.replace(/\D/g, '').slice(0, 3);
+      if (v !== '' && Number(v) > MAX_STEP_MIN) v = String(MAX_STEP_MIN);
+      t.value = v;
+      plan.steps[i].s = (Number(v) || 0) * 60;
+    }
+    savePlan();
+    lockEditor(isLocked());
+    if (st.status === 'idle' && tab === 'interval') render();
+  });
+  stepsEl.addEventListener('compositionend', function (e) {
+    var t = e.target, i = Number(t.getAttribute('data-i'));
+    if (!t.classList || !t.classList.contains('st-name') || !plan.steps[i]) return;
+    t.value = clip(t.value); plan.steps[i].n = t.value;
+    savePlan(); if (st.status === 'idle' && tab === 'interval') render();
+  });
+  stepsEl.addEventListener('focusin', function (e) {
+    var t = e.target;
+    if (t.classList && t.classList.contains('st-min')) setTimeout(function () { try { t.select(); } catch (er) {} }, 0);
+  });
+  stepsEl.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.st-del') : null;
+    if (!b || b.disabled) return;
+    var i = Number(b.getAttribute('data-i'));
+    if (plan.steps.length <= 1 || !plan.steps[i]) return;
+    plan.steps.splice(i, 1);
+    savePlan(); renderSteps(); refresh();
+  });
+  $('addStep').addEventListener('click', function () {
+    if (isLocked() || plan.steps.length >= MAX_STEPS) return;
+    plan.steps.push({ n: '', s: 300 });
+    savePlan(); renderSteps(); refresh();
+  });
+  /* よく使う組み合わせ（自分で保存・編集できる） */
+  var MAX_TPL = 8;
+  var DEFAULT_TPLS = [
+    { n: '', steps: [{ n: '勉強', s: 1500 }, { n: '運動', s: 600 }], rounds: null },     // rounds が null のものは、回数を変えない
+    { n: '', steps: [{ n: '作業', s: 1500 }, { n: '休憩', s: 300 }], rounds: null }
+  ];
+  var tpls = [], tplEditing = false;
+  var tplBox = $('tplBox'), tplForm = $('tplForm'), tplName = $('tplName'), tplEditBtn = $('tplEdit'), tplAddBtn = $('tplAdd');
+  var tplActions = $('tplActions'), tplNoteEl = $('tplNote'), tplNoteTimer = null, tplFlash = -1;
+  function tplSay(text) {      // 保存まわりの知らせは、ボタンのすぐ下に出す
+    tplNoteEl.textContent = text; tplNoteEl.hidden = false;
+    clearTimeout(tplNoteTimer); tplNoteTimer = setTimeout(function () { tplNoteEl.hidden = true; }, 4500);
+  }
+  function cloneSteps(a) { return a.map(function (x) { return { n: x.n, s: x.s }; }); }
+  function loadTpls() {
+    var raw = store.get(K.tpl);
+    if (raw === null) { tpls = DEFAULT_TPLS.map(function (t) { return { n: t.n, steps: cloneSteps(t.steps), rounds: t.rounds }; }); return; }
+    tpls = [];
+    try {
+      var a = JSON.parse(raw);
+      if (Array.isArray(a)) a.slice(0, MAX_TPL).forEach(function (x) {
+        var np = normPlan({ steps: x && x.steps, rounds: x && x.rounds });
+        if (!np || np.steps.some(function (s) { return s.s < 60; })) return;
+        tpls.push({ n: clip(x.n), steps: np.steps, rounds: (x.rounds === null || x.rounds === undefined) ? null : np.rounds });
+      });
+    } catch (e) {}
+  }
+  function saveTpls() { store.set(K.tpl, JSON.stringify(tpls)); }
+  function tplLabel(t) {
+    if (t.n) return t.n;
+    return t.steps.map(function (s, i) { return (s.n || 'ステップ' + (i + 1)) + Math.round(s.s / 60); }).join('＋');
+  }
+  function tplDetail(t) {
+    return t.steps.map(function (s, i) { return (s.n || 'ステップ' + (i + 1)) + Math.round(s.s / 60) + '分'; }).join('、') +
+      (t.rounds === null ? '' : t.rounds > 0 ? '、' + t.rounds + '回' : '、ずっとくり返す');
+  }
+  var tplEditIdx = -1;                         // 編集中のもの（-1＝新しく保存するとき）
+  var tplEditBase = null;                      // 編集を始めたときの内容（直したかどうかを比べる用）
+  var DEFAULT_ROUNDS = 3;
+  function tplSig(steps) { return JSON.stringify(steps.map(function (x) { return [(x.n || '').trim(), Math.round(x.s / 60)]; })); }
+  function tplFindSame() {                     // いまの入力と同じ内容が、すでに保存されているか（あれば、その番号）
+    if (typeof tpls === 'undefined' || !tpls) return -1;
+    var cur = tplSig(plan.steps);
+    for (var i = 0; i < tpls.length; i++) {
+      var t = tpls[i];
+      if (tplSig(t.steps) === cur && (t.rounds === null ? plan.rounds === DEFAULT_ROUNDS : t.rounds === plan.rounds)) return i;
+    }
+    return -1;
+  }
+  function tplIsUnchanged() {                  // 編集を始めたときから、変わっていないか
+    if (!tplEditBase) return false;
+    return tplSig(plan.steps) === tplEditBase.sig && plan.rounds === tplEditBase.rounds && clip(tplName.value.trim()) === tplEditBase.name;
+  }
+  function tplUpdateSameNote(same, unchanged) {   // 見える文章は出さない。押せない理由は、ボタンのtitle（カーソルを置いたとき・読み上げ）だけに入れる
+    var why = same >= 0 ? '同じ組み合わせが、すでに保存されています（「' + tplLabel(tpls[same]) + '」）' : '';
+    tplAddBtn.title = (tplEditIdx < 0 && !tplForm.hidden) ? '' : why;
+    tplSaveBtn.title = tplEditIdx >= 0 ? (unchanged ? 'まだ変更がありません' : '') : why;
+  }
+  var tplSaveBtn = $('tplSave'), tplCancelBtn = $('tplCancel'), tplHint = $('tplHint');
+  var tplPending = null;                       // 「上書きしますか？」の返事待ち：{ idx, item }
+  function tplSyncAddLabel() {                 // 保存ボタンが2つ並んで見えないように：フォームを開いている間は「やめる」
+    tplAddBtn.textContent = (tplEditIdx < 0 && !tplForm.hidden) ? 'やめる' : 'この内容を保存';
+  }
+  function hideTplConfirm() { tplPending = null; $('tplConfirm').hidden = true; }
+  function resetTplForm() {                    // なまえ欄まわりを、新しく保存するときの形に戻す
+    tplForm.hidden = true; tplName.value = ''; tplCancelBtn.hidden = true; tplSaveBtn.textContent = '保存';
+    hideTplConfirm(); tplSyncAddLabel();
+  }
+  function startEditTpl(i) {                   // 編集中に、ボタンをタップ → 入力欄に中身を入れる
+    var t = tpls[i]; if (!t) return;
+    tplEditIdx = i;
+    plan.steps = cloneSteps(t.steps);
+    if (t.rounds !== null) { plan.rounds = t.rounds; roundsSel.value = String(plan.rounds); }
+    savePlan(); renderSteps();
+    tplEditBase = { sig: tplSig(plan.steps), rounds: plan.rounds, name: t.n };
+    tplName.value = t.n; tplCancelBtn.hidden = false; tplSaveBtn.textContent = '上書き保存'; tplForm.hidden = false;
+    tplNoteEl.hidden = true;
+    renderTpls(); refresh();
+  }
+  function renderTpls() {
+    tplBox.textContent = '';
+    tplBox.classList.toggle('editing', tplEditing);
+    if (!tpls.length) {
+      var p = document.createElement('p'); p.className = 'tpl-empty';
+      p.textContent = 'まだありません。下の入力を整えて、「この内容を保存」で追加できます。';
+      tplBox.appendChild(p);
+    }
+    tpls.forEach(function (t, i) {
+      var item = document.createElement('div'); item.className = 'tpl-item';
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'tpl-btn';
+      b.textContent = tplLabel(t); b.title = tplDetail(t);
+      if (i === tplFlash) b.classList.add('flash');
+      if (tplEditing && i === tplEditIdx) b.classList.add('sel');
+      b.setAttribute('aria-label', tplLabel(t) + (tplEditing ? 'を編集する' : 'を呼び出す') + '（' + tplDetail(t) + '）');
+      b.addEventListener('click', function () {
+        if (isLocked()) return;
+        if (tplEditing) { startEditTpl(i); return; }
+        if (st.status === 'done') acknowledge();
+        plan.steps = cloneSteps(t.steps);
+        if (t.rounds !== null) { plan.rounds = t.rounds; roundsSel.value = String(plan.rounds); }
+        savePlan(); renderSteps(); refresh();
+      });
+      var d = document.createElement('button'); d.type = 'button'; d.className = 'tpl-del';
+      d.setAttribute('aria-label', tplLabel(t) + 'を消す'); d.innerHTML = '<span>×</span>';
+      d.addEventListener('click', function () {
+        if (isLocked()) return;
+        if (i === tplEditIdx) { tplEditIdx = -1; resetTplForm(); }
+        else if (i < tplEditIdx) tplEditIdx--;
+        tpls.splice(i, 1); saveTpls(); renderTpls(); tplSay('消しました');
+      });
+      item.appendChild(b); item.appendChild(d); tplBox.appendChild(item);
+    });
+    tplFlash = -1;
+    tplEditBtn.textContent = tplEditing ? '完了' : '編集';
+    tplHint.textContent = !tplEditing ? '' : tplEditIdx >= 0 ? '「' + tplLabel(tpls[tplEditIdx]) + '」を編集中。下で直して「上書き保存」を押してください' : '直したいものをタップしてください（×で消せます）';
+    tplActions.hidden = !tpls.length && !tplEditing;
+    lockEditor(isLocked());
+  }
+  tplEditBtn.addEventListener('click', function () {
+    if (isLocked()) return;
+    tplEditing = !tplEditing;
+    if (!tplEditing) { if (tplEditIdx >= 0) resetTplForm(); tplEditIdx = -1; }
+    renderTpls();
+  });
+  tplCancelBtn.addEventListener('click', function () { resetTplForm(); tplEditIdx = -1; renderTpls(); });
+  tplAddBtn.addEventListener('click', function () {
+    if (isLocked()) return;
+    if (tplEditIdx >= 0) { tplEditIdx = -1; resetTplForm(); renderTpls(); }   // 編集中に押したら、新しく保存する形に
+    tplNoteEl.hidden = true;
+    if (tplForm.hidden) { tplForm.hidden = false; tplName.value = ''; try { tplName.focus(); } catch (e) {} }
+    else resetTplForm();                                                       // ひらいている間は「やめる」
+    hideTplConfirm(); lockEditor(isLocked());
+  });
+  function tplFindByLabel(lbl) {
+    for (var i = 0; i < tpls.length; i++) if (tplLabel(tpls[i]) === lbl) return i;
+    return -1;
+  }
+  function tplCommit(item, idx, msg) {          // idx が -1 なら、新しく追加。そうでなければ、その番号を上書き
+    if (idx >= 0) { tpls[idx] = item; tplFlash = idx; } else { tpls.push(item); tplFlash = tpls.length - 1; }
+    tplEditIdx = -1; tplEditing = false; resetTplForm(); saveTpls(); renderTpls();
+    tplSay(msg);
+  }
+  function saveCurrentTpl() {
+    if (isLocked()) return;
+    var editing = tplEditIdx >= 0;
+    for (var i = 0; i < plan.steps.length; i++) {
+      if (!(plan.steps[i].s >= 60)) { tplSay((i + 1) + 'つ目の分を入れてから、保存してください'); return; }
+    }
+    var item = { n: clip(tplName.value.trim()), steps: cloneSteps(plan.steps), rounds: plan.rounds };
+    var lbl = tplLabel(item), dup = tplFindByLabel(lbl);
+    if (editing) {
+      if (dup >= 0 && dup !== tplEditIdx) { tplSay('「' + lbl + '」は、ほかのものに使われています。別のなまえにしてください'); return; }
+      tplCommit(item, tplEditIdx, '上書き保存しました');
+      return;
+    }
+    if (dup >= 0) {                              // 同じなまえがすでにある → 上書きするか、聞く
+      tplPending = { idx: dup, item: item };
+      $('tplConfirmText').textContent = '「' + lbl + '」は、すでに保存されています。上書き保存しますか？（これまでの内容は、いまの内容に置きかわります）';
+      tplNoteEl.hidden = true; $('tplConfirm').hidden = false;      // 前の知らせは消す
+      return;
+    }
+    if (tpls.length >= MAX_TPL) { tplSay('保存できるのは' + MAX_TPL + 'つまでです。上の「編集」で消してください'); return; }
+    tplCommit(item, -1, '保存しました。上の「よく使う組み合わせ」に追加されました');
+  }
+  $('tplConfirmYes').addEventListener('click', function () {
+    if (!tplPending || isLocked()) return;
+    var pd = tplPending; tplCommit(pd.item, pd.idx, '上書き保存しました');
+  });
+  $('tplConfirmNo').addEventListener('click', function () {     // なまえを変える
+    hideTplConfirm(); try { tplName.focus(); tplName.select(); } catch (e) {}
+  });
+  tplSaveBtn.addEventListener('click', saveCurrentTpl);
+  tplName.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); saveCurrentTpl(); } });
+  tplName.addEventListener('input', function (e) { if (!e.isComposing) { var c = clip(tplName.value); if (c !== tplName.value) tplName.value = c; } hideTplConfirm(); lockEditor(isLocked()); });
+  tplName.addEventListener('compositionend', function () { tplName.value = clip(tplName.value); lockEditor(isLocked()); });
+
+  roundsSel.addEventListener('change', function () {
+    plan.rounds = Number(roundsSel.value) || 0;
+    savePlan(); refresh(); lockEditor(isLocked());
+  });
+  function checkPlan() {
+    var steps = [];
+    for (var i = 0; i < plan.steps.length; i++) {
+      var s = plan.steps[i];
+      if (!(s.s >= 60)) { say((i + 1) + 'つ目の分を入れてください'); return null; }
+      steps.push({ n: clip(s.n || ('ステップ' + (i + 1))), s: s.s });
+    }
+    return { steps: steps, rounds: plan.rounds };
+  }
+
+  /* ---------- 音・バイブ・画面 ---------- */
+  var player = new Audio();
+  player.setAttribute('playsinline', '');
+  player.preload = 'auto';
+  var silentURL = null, chimeURL = null, chimePCM = null, chimeRate = 22050;
+  var keepOn = false, alarmTimer = null, vibeTimer = null;
+
+  function makeWavURL(samples, rate) {
+    var n = samples.length, buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+    function w(o, s) { for (var i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); }
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE'); w(12, 'fmt ');
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true);
+    v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+    w(36, 'data'); v.setUint32(40, n * 2, true);
+    for (var i = 0; i < n; i++) v.setInt16(44 + i * 2, samples[i], true);
+    return URL.createObjectURL(new Blob([buf], { type: 'audio/wav' }));
+  }
+  function buildSilent() {
+    var a = new Int16Array(8000);
+    for (var i = 0; i < a.length; i++) a[i] = (i % 2 ? 2 : -2);   // 聞こえないほど小さな音
+    return makeWavURL(a, 8000);
+  }
+  function buildChime() {
+    var rate = 22050, len = Math.floor(rate * 3.4), out = new Float32Array(len);
+    var notes = [[0, 987.77], [0.22, 1318.51], [0.44, 1661.22], [0.66, 1975.53]];
+    notes.forEach(function (nt) {
+      var s0 = Math.floor(nt[0] * rate), f = nt[1];
+      for (var i = s0; i < len; i++) {
+        var t = (i - s0) / rate;
+        if (t > 1.8) break;
+        var env = Math.min(1, t / 0.006) * Math.exp(-t * 3.4);
+        var x = Math.sin(2 * Math.PI * f * t)
+              + 0.22 * Math.sin(2 * Math.PI * f * 2 * t) * Math.exp(-t * 3)
+              + 0.10 * Math.sin(2 * Math.PI * f * 2.76 * t) * Math.exp(-t * 5);
+        out[i] += x * env;
+      }
+    });
+    var peak = 0, i;
+    for (i = 0; i < len; i++) peak = Math.max(peak, Math.abs(out[i]));
+    var k = 0.55 * 32767 / (peak || 1), pcm = new Int16Array(len);
+    for (i = 0; i < len; i++) pcm[i] = Math.round(out[i] * k);
+    chimePCM = pcm; chimeRate = rate;
+    return makeWavURL(pcm, rate);
+  }
+  function ensureAudio() {
+    if (!silentURL) silentURL = buildSilent();
+    if (!chimeURL) chimeURL = buildChime();
+  }
+  /* 予備：プレビュー枠などで、ふつうの再生が止められたときは、別の方法で鳴らす */
+  var actx = null, webSrc = null;
+  function getCtx() {
+    try {
+      if (!actx) { var AC = window.AudioContext || window.webkitAudioContext; if (AC) actx = new AC(); }
+      if (actx && actx.state === 'suspended') actx.resume();
+    } catch (e) {}
+    return actx;
+  }
+  function stopWeb() {
+    if (webSrc) { try { webSrc.stop(); } catch (e) {} webSrc = null; }
+  }
+  function webChime(loop, times) {
+    var c = getCtx();
+    if (!c || !chimePCM) return;
+    stopWeb();
+    try {
+      var n = chimePCM.length, t = Math.max(1, times || 1);
+      var buf = c.createBuffer(1, n * t, chimeRate), d = buf.getChannelData(0);
+      for (var r = 0; r < t; r++) for (var i = 0; i < n; i++) d[r * n + i] = chimePCM[i] / 32768;
+      webSrc = c.createBufferSource();
+      webSrc.buffer = buf; webSrc.loop = loop;
+      webSrc.connect(c.destination); webSrc.start();
+    } catch (e) {}
+  }
+  var curSrc = '';
+  function playSrc(url, loop, times) {
+    try {
+      player.loop = loop;
+      if (curSrc !== url) { player.src = url; curSrc = url; }
+      var p = player.play();
+      if (p && p.catch) p.catch(function () { if (url === chimeURL) { stepChimeLeft = 0; webChime(loop, times); } });
+      return p;
+    } catch (e) { return null; }
+  }
+  /* 1回だけ鳴らしたチャイムが終わったら、裏で動かすための無音にもどす */
+  var STEP_CHIME_TIMES = 3;   // くり返し・インターバルの区切りで、チャイムを鳴らす回数
+  var stepChimeLeft = 0;
+  player.addEventListener('ended', function () {
+    if (stepChimeLeft > 1 && settings.sound && chimeURL) {      // 区切りのチャイムを、あと何回か
+      stepChimeLeft--;
+      try { player.currentTime = 0; } catch (e) {}
+      playSrc(chimeURL, false);
+      return;
+    }
+    stepChimeLeft = 0;
+    if (keepOn && st.status === 'running' && silentURL) playSrc(silentURL, true);
+  });
+  function setMedia() {
+    try {
+      if ('mediaSession' in navigator && window.MediaMetadata) {
+        navigator.mediaSession.metadata = new MediaMetadata({ title: 'くらしのタイマー', artist: 'YUCCHI' });
+      }
+    } catch (e) {}
+  }
+  function keepAlive() {
+    if (keepOn) return;
+    keepOn = true; ensureAudio(); playSrc(silentURL, true); setMedia();
+  }
+  function stopSound() {
+    keepOn = false; stepChimeLeft = 0;
+    stopWeb();
+    try { player.pause(); } catch (e) {}
+  }
+  function stopVibe() {
+    clearInterval(vibeTimer); vibeTimer = null;
+    clearTimeout(alarmTimer); alarmTimer = null;
+    try { if (navigator.vibrate) navigator.vibrate(0); } catch (e) {}
+  }
+  /* スタートを押した瞬間（ユーザー操作）に、音を鳴らす準備をしておく */
+  function unlockAudio() {
+    if (!settings.sound) return;
+    getCtx();
+    ensureAudio();
+    if (settings.bg) { keepAlive(); return; }
+    var p = playSrc(silentURL, false);
+    if (p && p.then) p.then(function () { if (!keepOn) { try { player.pause(); } catch (e) {} } }).catch(function () {});
+  }
+
+  /* 最後まで終わったときの音（90秒で自動的にとまる） */
+  function startAlarm() {
+    if (settings.sound) { ensureAudio(); keepOn = false; stepChimeLeft = 0; playSrc(chimeURL, true); }
+    else { stopSound(); }
+    if (settings.vibe && navigator.vibrate) {
+      var pat = [400, 200, 400, 200, 400];
+      try { navigator.vibrate(pat); } catch (e) {}
+      vibeTimer = setInterval(function () { try { navigator.vibrate(pat); } catch (e) {} }, 3400);
+    }
+    alarmTimer = setTimeout(function () { stopSound(); stopVibe(); }, 90000);
+  }
+  /* くり返し・インターバルの区切りで、1回だけ鳴らす音 */
+  function stepChime() {
+    if (settings.sound) { ensureAudio(); stepChimeLeft = STEP_CHIME_TIMES; playSrc(chimeURL, false, STEP_CHIME_TIMES); }
+    if (settings.vibe && navigator.vibrate) {      // チャイムと同じ間隔で、3回
+      var pat = [], k;
+      for (k = 0; k < STEP_CHIME_TIMES; k++) { if (k) pat.push(2600); pat.push(400, 200, 400); }
+      try { navigator.vibrate(pat); } catch (e) {}
+    }
+  }
+
+  var wakeSentinel = null;
+  function requestWake() {
+    if (!settings.wake || wakeSentinel || !('wakeLock' in navigator) || document.visibilityState !== 'visible') return;
+    try {
+      navigator.wakeLock.request('screen').then(function (s) {
+        wakeSentinel = s;
+        s.addEventListener('release', function () { if (wakeSentinel === s) wakeSentinel = null; });
+      }).catch(function () {});
+    } catch (e) {}
+  }
+  function releaseWake() {
+    if (wakeSentinel) { try { wakeSentinel.release(); } catch (e) {} wakeSentinel = null; }
+  }
+
+  /* ---------- 時計（裏でも止まりにくいように、別の働き手も使う） ---------- */
+  var worker = null, workerURL = null;
+  function startWorker() {
+    stopWorker();
+    try {
+      workerURL = URL.createObjectURL(new Blob(['setInterval(function(){postMessage(1)},250)'], { type: 'text/javascript' }));
+      worker = new Worker(workerURL);
+      worker.onmessage = tick;
+      worker.onerror = function () { stopWorker(); };
+    } catch (e) { worker = null; }
+  }
+  function stopWorker() {
+    if (worker) { try { worker.terminate(); } catch (e) {} worker = null; }
+    if (workerURL) { try { URL.revokeObjectURL(workerURL); } catch (e) {} workerURL = null; }
+  }
+
+  function startEnv() {
+    startWorker();
+    requestWake();
+    if (settings.sound && settings.bg) keepAlive();
+  }
+  function stopEnv() {
+    stopWorker(); releaseWake(); stopSound(); stopVibe();
+  }
+
+  /* ---------- 進み方（終わり・くり返し・次のステップ） ---------- */
+  function finalDone(silent) {
+    st.status = 'done'; st.remain = 0;
+    stopWorker(); releaseWake();
+    if (!silent) startAlarm();
+  }
+  /* 終了時刻から数えなおすので、画面が止まっていても、ずれません */
+  function advance(silent, now) {
+    var moved = 0;
+    while (st.status === 'running' && st.endAt <= now) {
+      pushLog(st.endAt, Math.round(st.total / 1000));          // 終わった1回ぶんを履歴に残す
+      if (st.mode === 'timer') { finalDone(silent); flushLog(); return; }
+      if (st.mode === 'repeat') {
+        st.round++;
+      } else {
+        st.idx++;
+        if (st.idx >= st.plan.steps.length) {
+          st.idx = 0; st.round++;
+          if (st.plan.rounds > 0 && st.round > st.plan.rounds) { finalDone(silent); flushLog(); return; }
+        }
+        st.total = st.plan.steps[st.idx].s * 1000;
+      }
+      st.endAt += st.total; moved++;
+      if (moved > 20000) { st.endAt = now + st.total; break; }
+    }
+    flushLog();
+    if (moved > 0 && !silent) {
+      stepChime();
+      if (st.mode === 'interval') say('次は ' + stepName(st.plan, st.idx));
+    }
+  }
+  function tick() {
+    if (st.status !== 'running') return;
+    var now = Date.now();
+    if (st.endAt <= now) { advance(false, now); saveState(); refresh(); }
+    else render();
+  }
+
+  /* ---------- スタートの演出 ----------
+     START_FX を書きかえると、演出が切りかわります
+       'draw'   … リングが、上からくるっと描かれる
+       'ripple' … ダイヤルのまわりに、波紋がふわっと広がる
+       'none'   … 演出なし                                  */
+  var START_FX = 'ripple';
+  var DRAW_MS = 900;
+  var drawStart = 0;
+  function startFx() {
+    try {
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (START_FX === 'ripple') {
+        dial.classList.remove('fx'); void dial.offsetWidth; dial.classList.add('fx');
+      } else if (START_FX === 'draw') {
+        drawStart = performance.now() || 1;
+        (function loop() { if (!drawStart) return; render(); requestAnimationFrame(loop); })();
+      }
+    } catch (e) {}
+  }
+  dial.addEventListener('animationend', function (e) {
+    if (e.target.classList && e.target.classList.contains('r2')) dial.classList.remove('fx');
+  });
+
+  /* ---------- 操作 ---------- */
+  function toIdle() {
+    if (st.mode === 'interval') st.total = idleMs;   // タイマーの時間をもとに戻す
+    st.status = 'idle'; st.mode = 'timer'; st.plan = null; st.idx = 0; st.round = 1;
+    st.endAt = 0; st.remain = st.total; accum = false;
+  }
+  function startNew(ms, o) {
+    o = o || {};
+    if (!(ms >= 1000)) { say('時間を入れてください'); return; }
+    unlockAudio();
+    accum = false;
+    var mode = o.mode || 'timer';
+    if (mode === 'interval') idleMs = st.total;
+    st.mode = mode; st.plan = o.plan || null; st.idx = 0; st.round = 1;
+    st.status = 'running'; st.total = ms; st.remain = ms; st.endAt = Date.now() + ms;
+    if (mode !== 'interval') {
+      store.set(K.last, String(Math.round(ms / 1000)));
+      writeCustom(Math.round(ms / 1000));
+    }
+    saveState(); startEnv(); refresh(); startFx();
+  }
+  function startFromTab() {
+    if (tab === 'interval') {
+      var p = checkPlan();
+      if (!p) return;
+      startNew(p.steps[0].s * 1000, { mode: 'interval', plan: p });
+    } else {
+      startNew(st.total, { mode: tab });
+    }
+  }
+  function pause() {
+    st.remain = Math.max(1, st.endAt - Date.now());
+    st.status = 'paused'; st.endAt = 0;
+    stopEnv(); saveState(); refresh();
+  }
+  function resume() {
+    unlockAudio();
+    st.status = 'running'; st.endAt = Date.now() + st.remain;
+    saveState(); startEnv(); refresh(); startFx();
+  }
+  function reset() {
+    if (st.status === 'idle' && accum) {      // 足していた時間を、0に戻す
+      accum = false; st.total = 0; st.remain = 0;
+      writeCustom(0); refresh(); return;
+    }
+    stopEnv(); toIdle();
+    saveState(); refresh();
+  }
+  function acknowledge() {
+    stopEnv(); toIdle();
+    saveState(); refresh();
+  }
+  function addTime(ms) {
+    var total = st.total + ms;
+    if (total > MAX_SEC * 1000) { say('最大は23時間59分です'); return; }
+    if (st.status === 'running') st.endAt += ms; else st.remain += ms;
+    st.total = total; accum = true;
+    store.set(K.last, String(Math.round(total / 1000)));
+    saveState(); refresh();
+    say('＋' + label(Math.round(ms / 1000)));
+  }
+
+  mainBtn.addEventListener('click', function () {
+    if (tab === 'watch') { swMain(); return; }
+    if (st.status === 'idle') startFromTab();
+    else if (st.status === 'running') pause();
+    else if (st.status === 'paused') resume();
+    else acknowledge();
+  });
+  resetBtn.addEventListener('click', function () { if (tab === 'watch') swLeft(); else reset(); });
+
+  $('presets').addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('.chip') : null;
+    if (!b || b.disabled) return;
+    var ms = Number(b.getAttribute('data-sec')) * 1000;
+    if (st.status === 'done') acknowledge();
+    if (st.status === 'running' || st.status === 'paused') { addTime(ms); return; }   // 動いている間は、延ばす
+    var nt = (accum ? st.total : 0) + ms;                                              // 1回目は、その時間にセット。続けて押すと足される
+    if (nt > MAX_SEC * 1000) { say('最大は23時間59分です'); return; }
+    st.total = nt; st.remain = nt;
+    writeCustom(Math.round(nt / 1000));
+    if (settings.quick) { startNew(nt, { mode: tab }); return; }
+    accum = true;
+    refresh();
+    say('＋' + label(Math.round(ms / 1000)));
+  });
+  customBtn.addEventListener('click', function () {
+    if (customBtn.disabled) return;
+    var sec = readCustom();
+    if (sec < 1) { say('時間を入れてください'); return; }
+    if (st.status === 'done') acknowledge();
+    startNew(sec * 1000, { mode: tab });
+  });
+
+  /* ---------- 設定画面 ---------- */
+  var swSound = $('swSound'), swVibe = $('swVibe'), swWake = $('swWake'), swBg = $('swBg'), swQuick = $('swQuick');
+  swSound.checked = settings.sound; swVibe.checked = settings.vibe;
+  swWake.checked = settings.wake;   swBg.checked = settings.bg;   swQuick.checked = settings.quick;
+  if (!navigator.vibrate) $('rowVibe').hidden = true;
+  if (!('wakeLock' in navigator)) $('rowWake').hidden = true;
+
+  swSound.addEventListener('change', function () {
+    settings.sound = swSound.checked; store.set(K.sound, settings.sound ? '1' : '0');
+    if (st.status === 'running') { if (settings.sound) { unlockAudio(); } else { stopSound(); } }
+  });
+  swQuick.addEventListener('change', function () {
+    settings.quick = swQuick.checked; store.set(K.quick, settings.quick ? '1' : '0');
+    say(settings.quick ? 'ボタンを押すと、すぐ始まります' : 'ボタンで時間を足して、スタートで始めます');
+  });
+  swVibe.addEventListener('change', function () {
+    settings.vibe = swVibe.checked; store.set(K.vibe, settings.vibe ? '1' : '0');
+  });
+  swWake.addEventListener('change', function () {
+    settings.wake = swWake.checked; store.set(K.wake, settings.wake ? '1' : '0');
+    if (st.status === 'running') { if (settings.wake) requestWake(); else releaseWake(); }
+  });
+  swBg.addEventListener('change', function () {
+    settings.bg = swBg.checked; store.set(K.bg, settings.bg ? '1' : '0');
+    if (st.status === 'running') { if (settings.bg && settings.sound) keepAlive(); else stopSound(); }
+  });
+  $('testSoundBtn').addEventListener('click', function () {
+    if (st.status !== 'idle') { say('タイマー中は、ためせません'); return; }
+    getCtx();
+    ensureAudio();
+    playSrc(chimeURL, false);
+    say('チャイムが鳴ります');
+  });
+
+  /* ---------- 画面の出入り ---------- */
+  document.addEventListener('visibilitychange', function () {
+    tick();
+    if (document.visibilityState === 'visible' && (st.status === 'running' || sw.status === 'running')) requestWake();
+    render(); swKick();
+  });
+  window.addEventListener('pageshow', function () { tick(); render(); swKick(); });
+
+  /* ---------- はじめ ---------- */
+  names.timer = clip(store.get(K.name));
+  names.repeat = clip(store.get(K.nameRep));
+  names.watch = clip(store.get(K.nameSw));
+  log = readLog();
+  loadState();
+  swLoad();
+  if (sw.status !== 'idle' && st.status === 'idle') tab = 'watch';   // ストップウォッチ中に閉じていたら、そのまま続きを出す
+  renderLog();
+  setLogOpen(store.get(K.logOpen) === '1');
+  saveState();
+  writeCustom(Math.round((st.mode === 'interval' ? idleMs : st.total) / 1000));
+  roundsSel.value = String(plan.rounds);
+  loadTpls();
+  renderSteps();
+  renderTpls();
+  applyTab();
+  renderLaps();
+  if (st.status === 'running') startEnv();
+  if (sw.status === 'running') requestWake();
+  refresh();
+  swKick();
+  setInterval(function () { tick(); if (sw.status === 'running' && tab === 'watch') render(); }, 250);   // 画面が見えているときの時計（ずれは、終了時刻から毎回計算するので起きません）
+})();
+
+</script>
+
+</body>
+</html>
