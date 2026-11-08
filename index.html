@@ -227,16 +227,15 @@
     @media (prefers-reduced-motion: reduce) { .ripple { display: none; } }
 
     .dial-name {
-      width: 70%; max-width: 150px; height: 26px; padding: 0 2px 2px; text-align: center;
-      font-size: 14px; font-weight: 500; letter-spacing: .04em; color: var(--text);
+      width: 80%; max-width: 176px; height: 26px; padding: 0 2px 2px; text-align: center;
+      font-size: 16px; font-weight: 500; letter-spacing: .02em; color: var(--text);
       background: transparent; border: 0; border-bottom: 2px dotted var(--line); border-radius: 0; outline: none;
       transition: border-color .2s;
     }
     .dial-name::placeholder { color: var(--text-sub); opacity: .6; }
     .dial-name:focus { border-bottom-color: var(--accent); }
     .dial-name[hidden] { display: none; }
-    @media (max-width: 360px) { .dial-name { font-size: 13px; } }
-
+    
     .dial[data-state="done"] .time { color: var(--primary); }
     .dial[data-state="done"] .ring-prog { animation: pulse 1.6s ease-in-out infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
@@ -336,7 +335,7 @@
     .tpl-form[hidden] { display: none; }
     .tpl-form input {
       flex: 1 1 130px; min-width: 0; height: 46px; border-radius: 14px; border: 1.5px solid var(--border);
-      background: var(--mist); color: var(--text); font-size: 15px; padding: 0 12px 2px; outline: none;
+      background: var(--mist); color: var(--text); font-size: 16px; padding: 0 12px 2px; outline: none;
       transition: border-color .2s, background .2s, opacity .2s;
     }
     .tpl-form input:focus { border-color: var(--accent); background: #fff; }
@@ -549,7 +548,7 @@
       -webkit-appearance: none; appearance: none; width: 100%; margin: 0 0 6px;
       height: 46px; border-radius: 999px; border: 1.5px solid var(--border);
       background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2375665D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 18px center;
-      color: var(--text); font-size: 15px; font-weight: 500; padding: 0 44px 2px 20px; outline: none; cursor: pointer;
+      color: var(--text); font-size: 16px; font-weight: 500; padding: 0 44px 2px 20px; outline: none; cursor: pointer;
     }
     .log-select:focus { border-color: var(--accent); }
     .log-row .t.wide { width: 78px; }
