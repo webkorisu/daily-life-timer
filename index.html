@@ -189,7 +189,27 @@
 
     /* ===== ダイヤル ===== */
     .dial { position: relative; width: min(240px, 68vw); aspect-ratio: 1; margin: 0 auto; }
-    @media (max-height: 700px) { .dial { width: min(208px, 58vw); } }
+    /* 画面が低い端末（高さ900px以下）：ダイヤルを少し小さく、上の余白を詰めて、「セット」のボタンなどを、スクロールなしで押せるようにする */
+    @media (max-height: 900px) {
+      .dial { width: min(224px, 64vw); }
+      header { padding-top: 10px; padding-bottom: 8px; }
+      header h2 { margin-bottom: 6px; }
+      header .title-ja-sub { margin-bottom: 8px; }
+      header .data-hint { margin-top: 6px; }
+      .wrap .card, .wrap .timer-card { padding-top: 14px; }
+      .tabs { margin-bottom: 12px; }
+  
+      button.sec-acc { min-height: 40px; margin-bottom: 0; }
+      .sec-div { margin-bottom: 10px; }
+    }
+    @media (max-height: 780px) {                              /* さらに低い端末：ダイヤルをもう少し小さく、ヘッダーを詰める */
+      .dial { width: min(208px, 58vw); }
+      header { padding-top: 8px; padding-bottom: 4px; }
+      header h1 { margin-bottom: 2px; }
+      header h2 { margin-bottom: 2px; }
+      header .title-ja-sub { margin-bottom: 4px; }
+      header .data-hint { display: none; }                   /* 同じ内容が、下の「データについて」にある */
+    }
     .dial svg { width: 100%; height: 100%; display: block; overflow: visible; }
     .ring-track { fill: none; stroke: var(--track); stroke-width: 5; }
     .ring-prog { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
@@ -288,6 +308,17 @@
     /* ===== セクション見出し ===== */
     .sec-div { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
     .sec-div span { font-size: 12px; font-weight: 700; color: var(--text-sub); white-space: nowrap; letter-spacing: .10em; }
+    button.sec-acc { width: 100%; min-height: 44px; padding: 0; margin-bottom: 4px; background: none; border: 0; cursor: pointer; font: inherit; color: inherit; }
+    .sec-acc .acc-meta { font-size: 11px; font-weight: 400; letter-spacing: .04em; color: var(--text-sub); margin-left: -4px; }
+    .sec-acc .acc-chev { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-sub); transition: transform .25s ease; }
+    .sec-acc[aria-expanded="true"] .acc-chev { transform: rotate(180deg); }
+    /* 開閉の見出しは、「お気に入り」「履歴」と同じ形：文字が左、点線、件数、矢印が右 */
+    button.sec-acc { justify-content: flex-start; text-align: left; gap: 10px; }
+    .sec-acc::before { display: none; }
+    .sec-acc::after { order: 1; min-width: 12px; }
+    .sec-acc .acc-meta { order: 2; margin-left: 0; font-size: 12px; }
+    .sec-acc .acc-chev { order: 3; width: 28px; height: 28px; }
+    #lsBody[hidden], #tplBody[hidden], #presetBody[hidden], #freeBody[hidden], #catAccBody[hidden], #presetBlock[hidden], #freeBlock[hidden], #catBlock[hidden] { display: none; }
     .sec-div::before, .sec-div::after { content: ''; flex: 1; height: 0; border-top: 2px dotted var(--line); }   /* 点線 */
 
     /* ===== タブ ===== */
@@ -335,6 +366,7 @@
     .tpl-actions .tpl-act[hidden] { display: none; }
     .tpl-hint { margin: -4px 0 14px; font-size: 12px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
     .tpl-hint[hidden] { display: none; }
+    #tplNote { margin: 0 0 14px; }
     #tplNewConfirm { margin: -4px 0 14px; }
     .tpl-act { flex: none; }
     .tpl-actions[hidden] { display: none; }
@@ -371,9 +403,15 @@
     .step input:focus { border-color: var(--accent); background: #fff; }
     .step input:disabled { opacity: .45; }
     .step .st-name { flex: 1; text-overflow: ellipsis; }
-    .min-wrap { position: relative; flex: none; width: 80px; }
-    .step .st-min { width: 100%; text-align: center; font-size: 18px; font-weight: 500; padding: 0 22px 2px 8px; }
-    .min-wrap .unit { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); margin-top: -1px; font-size: 12px; color: var(--text-sub); pointer-events: none; }
+    .time-pill { flex: none; display: flex; align-items: center; gap: 0; height: 48px; padding: 0 6px 2px 4px; border: 1.5px solid var(--border); border-radius: 14px; background: var(--mist); transition: border-color .2s, background .2s; }
+    .time-pill:focus-within { border-color: var(--accent); background: #fff; }
+    .step .time-pill input { width: 20px; min-width: 0; height: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; text-align: right; font-size: 16px; font-weight: 500; color: var(--text); outline: none; }
+    .step .time-pill input:focus { border: 0; background: transparent; }
+    .step .time-pill .st-min { width: 28px; }
+    .time-pill .unit { position: static; transform: none; margin: 0 3px 0 1px; font-size: 11px; color: var(--text-sub); pointer-events: none; }
+    .min-wrap { position: relative; flex: none; width: 62px; }
+    .step .st-min, .step .st-sec { width: 100%; text-align: center; font-size: 17px; font-weight: 500; padding: 0 19px 2px 6px; }
+    .min-wrap .unit { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); margin-top: -1px; font-size: 12px; color: var(--text-sub); pointer-events: none; }
     .step .st-del { visibility: hidden; }                       /* ×は、いま触っているステップだけに出す（場所は空けておく） */
     .step.active .st-del:not(:disabled) { visibility: visible; }
     .st-del { flex: none; width: 44px; height: 44px; margin: 0 -6px 0 -2px; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -458,8 +496,6 @@
     .field input:focus { border-color: var(--accent); background: #fff; }
     .field input:disabled { opacity: .45; }
     .field span { font-size: 12px; color: var(--text-sub); letter-spacing: .08em; }
-    .custom-start { flex: none; align-self: flex-start; width: 96px; height: 56px; min-height: 56px; padding: 0 0 2px; font-size: 14px; letter-spacing: .06em; }
-    @media (max-width: 340px) { .custom-start { width: 76px; } }
 
     /* ===== アコーディオン ===== */
     .acc { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
@@ -527,7 +563,7 @@
     .log-line { flex: 1; min-width: 12px; height: 0; border-top: 2px dotted var(--line); }
     .log-meta { flex: none; font-size: 12px; letter-spacing: .04em; color: var(--text-sub); }
     .log-meta { transition: opacity .2s; }
-    .log-card.open .log-meta { opacity: 0; }
+    .log-card.open .log-meta, .log-meta:empty { display: none; }       /* 開いているとき・空のときは、場所ごと消す（透明にするだけだと、点線が、その分だけ短くなる） */
     .log-chev { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-sub); transition: transform .25s ease, background .15s; }
     .log-card.open .log-chev { transform: rotate(180deg); }
     @media (hover: hover) { .log-head:hover .log-chev { background: var(--mist); } }
@@ -536,6 +572,75 @@
     .log-inner { overflow: hidden; min-height: 0; visibility: hidden; transition: visibility .3s; }
     .log-card.open .log-inner { visibility: visible; }
     .log-inner > #logBox { padding-top: 4px; }
+
+    /* ===== インターバル：ふだんは要約、編集・新しく作るのときだけ入力欄 ===== */
+    .iv-summary { margin: 0 0 4px; padding: 12px 14px 13px; border-radius: 16px; background: var(--mist); border: 1.5px solid var(--border); }
+    .iv-summary[hidden], #ivEditor[hidden] { display: none; }
+    .iv-sum-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 2px; }
+    .iv-sum-cap { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--text-sub); }
+    .iv-summary .tpl-act { min-height: 36px; padding: 5px 14px 7px; }
+    .iv-sum-steps { font-size: 15px; font-weight: 700; line-height: 1.7; color: var(--text); overflow-wrap: anywhere; }
+    .iv-sum-meta { margin-top: 2px; font-size: 12px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
+    .iv-edit-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 0 12px; }
+    .iv-edit-title { min-width: 0; font-size: 13px; font-weight: 700; letter-spacing: .04em; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ===== シンプル／くり返しの一覧 ===== */
+    #repCountRow { margin: 18px 0 14px; }
+    #presetHead[hidden], #presets[hidden] { display: none; }
+    #repCountRow .rounds-row { margin-top: 0; }
+    .rep-hint { margin: 6px 0 0; font-size: 11px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
+    #repCountRow[hidden], #lsCntRow[hidden], #freeHead[hidden], #customRow[hidden], #quickRow[hidden] { display: none; }
+    #lsBlock { margin-bottom: 16px; }
+    #presetBlock, #freeBlock, #catBlock { margin-bottom: 4px; }
+    button#presetHead, button#freeHead, button#catAccHead { min-height: 34px; margin-bottom: 4px; }              /* セット・自由に設定の見出しは、低めに（画面の高さを節約する） */
+    #presetBlock { margin-top: -8px; }                                                              /* 上のタブとの間を、少し詰める */
+    #presetBody { padding-bottom: 2px; }
+    #freeBody, #catAccBody { padding-bottom: 4px; }
+    #freeBlock + #repCountRow + #lsBlock, #presetBlock + #freeBlock + #repCountRow + #lsBlock { margin-top: 4px; margin-bottom: 0; }
+    #lsNote { margin: 0 0 14px; }
+    #lsNewConfirm { margin: -4px 0 14px; }
+    #lsConfirm { margin: 12px 0 0; }
+    #lsBlock .tpl-note[hidden], #lsBlock .tpl-confirm[hidden], #lsBlock .iv-summary[hidden], #lsEditor[hidden], .ls-pair[hidden], .ls-att-hint[hidden] { display: none; }
+    .ls-input { width: 100%; height: 46px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--mist); color: var(--text); font-size: 15px; padding: 0 12px 2px; outline: none; text-overflow: ellipsis; transition: border-color .2s, background .2s; }
+    .ls-input:focus { border-color: var(--accent); background: #fff; }
+    .ls-time { margin-top: 12px; }
+    .ls-att { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 12px; color: var(--text-sub); letter-spacing: .02em; }
+    .ls-att > span { flex: none; white-space: nowrap; }
+    .ls-att select {
+      -webkit-appearance: none; appearance: none; flex: 1 1 0; width: 0; min-width: 0; height: 42px; border-radius: 12px; border: 1.5px solid var(--border);
+      background: var(--mist) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2375665D' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+      color: var(--text); font-size: 14px; padding: 0 30px 2px 12px; outline: none; cursor: pointer; text-overflow: ellipsis;
+    }
+    .ls-att select:focus { border-color: var(--accent); }
+    .ls-att select:disabled { opacity: .45; }
+    .ls-att-hint { margin: 4px 0 0; font-size: 11px; color: var(--text-sub); letter-spacing: .04em; }
+    .ls-quick { margin-top: 14px; }
+    .ls-quick-hint { margin: 6px 0 0; text-align: center; font-size: 11px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
+    .ls-pair { display: flex; gap: 8px; margin-top: 16px; }
+    .ls-pair .btn { flex: 1; min-height: 46px; font-size: 14px; }
+
+    /* ===== カテゴリー ===== */
+    .cdot { display: inline-block; flex: none; width: 14px; height: 14px; border-radius: 50%; background: #DDD5CC; }
+    .cat-row { display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 2px dotted var(--line-soft); -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    .cat-row.pressing { background: var(--mist); border-radius: 10px; }
+    .cat-row.act-open { background: var(--mist); border-radius: 10px; padding-left: 8px; padding-right: 8px; }
+    .cat-acts { grid-column: 1 / -1; display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-top: 2px; }
+    .cat-row .cat-name { min-width: 0; font-size: 14px; font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cat-row .fav-open { min-height: 36px; padding: 6px 12px 8px; }
+    .cat-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 8px; }          /* 丸の大きさに合わせて、1行に並ぶ数が変わる */
+    .swatch { width: 100%; max-width: 44px; justify-self: center; aspect-ratio: 1; min-height: 0; padding: 0; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+    .swatch.sel { border-color: var(--text); box-shadow: inset 0 0 0 2px var(--surface); }
+    .cat-card .log-meta:empty { display: none; }
+    .cat-pick { position: relative; flex: 1 1 0; min-width: 0; display: flex; }
+    .cat-pick .cdot { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; z-index: 1; }
+    .att-sel .cat-pick select, .ls-att .cat-pick select { width: 100%; padding-left: 34px; }
+    .att-tag .cdot { vertical-align: baseline; }
+    .att-tag { cursor: pointer; }
+    .att-tag .att-k { color: var(--text-sub); opacity: .75; }
+    .step.has-att:not(.active) .att-tag { display: inline-block; padding: 5px 6px 5px; }
+    .iv-cat-hint { margin: -4px 0 10px; font-size: 11px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
+    .iv-cat-hint[hidden] { display: none; }
+    .sec-acc .acc-meta .mdot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: baseline; }
 
     /* ===== お気に入り ===== */
     .attach-row { display: flex; justify-content: center; margin-top: 12px; }
@@ -579,6 +684,13 @@
     .fav-form-btns .btn { flex: 1; min-height: 46px; font-size: 14px; }
     .viewer { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(70, 58, 50, .9); }
     .viewer[hidden] { display: none; }
+    .modal { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(70, 58, 50, .55); }
+    .modal[hidden] { display: none; }
+    .modal-box { width: 100%; max-width: 340px; padding: 22px 20px 18px; border-radius: 22px; background: var(--surface); box-shadow: 0 10px 30px rgba(70, 58, 50, .25); }
+    .modal-title { margin: 0 0 8px; font-size: 16px; font-weight: 700; line-height: 1.6; letter-spacing: .04em; color: var(--text); overflow-wrap: anywhere; }
+    .modal-body { margin: 0 0 18px; font-size: 13px; line-height: 1.8; letter-spacing: .04em; color: var(--text-sub); white-space: pre-line; overflow-wrap: anywhere; }
+    .modal-btns { display: flex; gap: 8px; }
+    .modal-btns .btn { flex: 1; min-height: 48px; font-size: 15px; }
     .viewer-box { width: 100%; max-width: 520px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .viewer-title { color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: .06em; max-width: 100%; text-align: center; overflow-wrap: anywhere; }
     #viewerImg { max-width: 100%; max-height: 70vh; border-radius: 14px; background: #FFFFFF; object-fit: contain; touch-action: pinch-zoom; }
@@ -641,19 +753,16 @@
     .log-head2 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 12px 0 2px; font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: .04em; line-height: 1.6; }
     .log-head2 span:last-child { font-weight: 500; font-size: 12px; color: var(--text-sub); }
     .log-sub { margin: 16px 0 2px; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--text-sub); }
-    .drow { display: grid; grid-template-columns: 74px 1fr auto; gap: 10px; align-items: center; width: 100%; padding: 8px 0; background: none; border: 0; border-bottom: 2px dotted var(--line-soft); text-align: left; color: var(--text); font-size: 12px; }
-    button.drow { cursor: pointer; }
-    .drow .dl { color: var(--text-sub); white-space: nowrap; }
-    .drow .bar { height: 8px; border-radius: 999px; background: var(--mist); overflow: hidden; }
-    .drow .bar i { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
-    .drow .dt { font-size: 13px; font-weight: 700; white-space: nowrap; min-width: 52px; text-align: right; }
-    .drow.zero .dt { font-weight: 400; color: var(--text-sub); }
-    @media (hover: hover) { button.drow:hover .dl { text-decoration: underline; text-decoration-style: dotted; } }
-    .lrow { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 2px dotted var(--line-soft); font-size: 13px; }
+    .lrow { display: grid; grid-template-columns: auto 1fr auto auto auto; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 2px dotted var(--line-soft); font-size: 13px; }
     .lrow .ln { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .lrow .ln.none { color: var(--text-sub); }
     .lrow .lc2 { font-size: 11px; color: var(--text-sub); }
     .lrow .lt { font-weight: 700; white-space: nowrap; min-width: 52px; text-align: right; }
+    .lrow .lp { font-size: 12px; color: var(--text-sub); white-space: nowrap; min-width: 34px; text-align: right; }
+    .lrow .ldot, .ttl .ldot { flex: none; width: 10px; height: 10px; border-radius: 50%; align-self: center; }
+    /* 割合の棒は、全部この形：1本の丸い棒を、なまえの色で区切る（区切りは、細い白い線。色の境目は、角ばる。丸いのは、両はしだけ） */
+    .ratio-bar { display: flex; gap: 1px; height: 12px; margin: 8px 0 4px; border-radius: 999px; overflow: hidden; background: var(--surface); }
+    .ratio-bar i { display: block; flex: 1 1 0; min-width: 3px; height: 100%; border-radius: 0; }
     .mini-btn.share { background: var(--primary-soft); border-color: var(--accent); color: var(--text); }
     .mini-btn[hidden], .log-cap[hidden] { display: none; }
     .log-cap-share { margin: 6px 0 0; text-align: center; }
@@ -665,6 +774,9 @@
     .ttl-t { flex: none; font-size: 15px; font-weight: 700; }
     .ttl-c { flex: none; width: 14px; text-align: center; color: var(--text-sub); font-size: 18px; line-height: 1; transition: transform .2s; }
     .ttl[aria-expanded="true"] .ttl-c { transform: rotate(90deg); }
+    .ttl { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+    .ttl.pressing, .ttl.act-open { background: var(--mist); border-radius: 10px; }
+    .ttl-acts { flex: none; margin: 2px 0 6px; }
     .ttl-body { padding: 0 0 6px 10px; background: transparent; }
     .ttl-body[hidden] { display: none; }
     @media (hover: hover) { .ttl:hover .ttl-n { text-decoration: underline; text-decoration-style: dotted; } }
@@ -679,8 +791,24 @@
     .log-day span:last-child { font-weight: 500; color: var(--text-sub); }
     .log-row { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; border-bottom: 2px dotted var(--line-soft); font-size: 13px; line-height: 1.5; color: var(--text); }
     .log-row .t { flex: none; width: 40px; color: var(--text-sub); font-size: 12px; }
-    .log-row .n { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .log-row .n { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
+    .log-row .n .nt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .log-row .n .ldot { flex: none; width: 10px; height: 10px; border-radius: 50%; }
     .log-row .n.none { color: var(--text-sub); }
+    /* 履歴の編集（なまえ・カテゴリーを直す／1件を消す。時間と日時は、変えない） */
+    .log-row { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }      /* 長押しで、文字の選択・メニューが出ないように */
+    .log-row.pressing { background: var(--mist); border-radius: 10px; }
+    .log-row.act-open { flex-wrap: wrap; background: var(--mist); border-radius: 10px; padding-left: 8px; padding-right: 8px; }
+    .log-lp-hint { margin: 10px 0 8px; line-height: 1.7; }
+    .log-acts { flex: 1 1 100%; display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: 2px 0 0; }
+    .log-eb { min-height: 32px; padding: 4px 14px 6px; border-radius: 999px; border: 1.5px solid var(--accent); background: var(--primary-soft); color: var(--text); font-size: 12px; font-weight: 700; letter-spacing: .04em; cursor: pointer; }
+    .log-db { min-width: 32px; height: 32px; padding: 0 8px 2px; border-radius: 16px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text-sub); font-size: 14px; cursor: pointer; white-space: nowrap; }
+    .log-form { display: flex; flex-direction: column; gap: 10px; margin: 6px 0 6px; padding: 12px; border-radius: 14px; background: var(--mist); border: 1.5px solid var(--border); }
+    .log-form input[type="text"] { height: 44px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text); font-size: 15px; padding: 0 12px 2px; outline: none; min-width: 0; text-overflow: ellipsis; }
+    .log-form input[type="text"]:focus { border-color: var(--accent); }
+    .log-form .ls-att { margin-top: 0; }
+    .log-form-btns { display: flex; gap: 8px; }
+    .log-form-btns .btn { flex: 1; min-height: 44px; font-size: 14px; }
     .log-row .d { flex: none; color: var(--text-sub); font-size: 12px; }
 
     /* 設定（スイッチ） */
@@ -796,24 +924,101 @@
     </div>
 
     <div id="blockTimer">
-      <div class="sec-div"><span id="presetTitle">セット</span></div>
+      <!-- シンプル／くり返しの一覧（なまえ・時間・お気に入りを保存）。ふだんは要約、「新しく作る」「編集」「直す」のときだけ入力欄 -->
+      <div id="lsBlock">
+        <button type="button" class="sec-div sec-acc" id="lsHead" aria-expanded="false" aria-controls="lsBody"><span id="lsTitle">シンプル一覧</span><span class="acc-meta" id="lsMeta"></span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <div id="lsBody" hidden>
+          <div class="tpl" id="lsBox"></div>
+          <div class="tpl-actions">
+            <button type="button" class="tpl-act" id="lsNew">＋ 新しく作る</button>
+            <button type="button" class="tpl-act" id="lsEdit">編集</button>
+          </div>
+          <p class="tpl-hint" id="lsHint" hidden></p>
+        </div>
+        <p class="tpl-note" id="lsNote" role="status" aria-live="polite" hidden></p>
+        <div class="tpl-confirm" id="lsNewConfirm" role="alertdialog" aria-labelledby="lsNewConfirmText" hidden>
+          <p id="lsNewConfirmText">いまの入力は、保存していません。消して、新しく作りますか？</p>
+          <div class="tpl-confirm-btns">
+            <button type="button" class="btn btn-sub" id="lsNewNo">もどる</button>
+            <button type="button" class="btn btn-main" id="lsNewYes">新しく作る</button>
+          </div>
+        </div>
+        <div class="iv-summary" id="lsSummary" hidden>
+          <div class="iv-sum-head"><span class="iv-sum-cap" id="lsSumCap">いまのタイマー</span><button type="button" class="tpl-act" id="lsReopen">直す</button></div>
+          <div class="iv-sum-steps" id="lsSumText"></div>
+          <div class="iv-sum-meta" id="lsSumMeta"></div>
+        </div>
+        <div id="lsEditor" hidden>
+          <div class="iv-edit-head">
+            <span class="iv-edit-title" id="lsEditTitle"></span>
+            <button type="button" class="tpl-act" id="lsClose">とじる</button>
+          </div>
+          <input type="text" class="ls-input" id="lsName" autocomplete="off" enterkeyhint="done" placeholder="なまえ（20文字まで・なくてもOK）" aria-label="なまえ">
+          <div class="custom-row ls-time">
+            <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="lsH" maxlength="2" value="0" aria-label="時間"><span>時間</span></label>
+            <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="lsM" maxlength="2" value="5" aria-label="分"><span>分</span></label>
+            <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="lsS" maxlength="2" value="0" aria-label="秒"><span>秒</span></label>
+          </div>
+          <label class="ls-att ls-cnt" id="lsCntRow" hidden><span>くり返す回数</span><select id="lsCount" aria-label="くり返す回数"></select></label>
+          <label class="ls-att"><span>カテゴリー</span><div class="cat-pick"><i class="cdot" id="lsCatDot"></i><select id="lsCat" aria-label="カテゴリー"></select></div></label>
+          <label class="ls-att"><span>開くもの</span><select id="lsAtt" aria-label="動いている間に開くお気に入り"></select></label>
+          <p class="ls-att-hint" id="lsAttHint" hidden>お気に入りを足すと、ここで付けられます</p>
+          <div class="quick-row ls-quick"><label class="quick"><span>すぐにスタート</span><input type="checkbox" class="sw sw-s" id="lsQuick" role="switch"></label></div>
+          <p class="ls-quick-hint" id="lsQuickHint">オンにすると、一覧のボタンをタップしたとき、すぐ始まります</p>
+          <button type="button" class="add-step save-last" id="lsAdd">この内容を保存</button>
+          <div class="ls-pair" id="lsPair" hidden>
+            <button type="button" class="btn btn-sub" id="lsSaveAs">別名で保存</button>
+            <button type="button" class="btn btn-main" id="lsSaveOver">上書き保存</button>
+          </div>
+          <div class="tpl-confirm" id="lsConfirm" role="alertdialog" aria-labelledby="lsConfirmText" hidden>
+            <p id="lsConfirmText"></p>
+            <div class="tpl-confirm-btns">
+              <button type="button" class="btn btn-sub" id="lsConfirmNo">もどる</button>
+              <button type="button" class="btn btn-main" id="lsConfirmYes">上書きする</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="repCountRow" hidden>
+        <div class="rounds-row">
+          <label for="repCount">くり返す回数</label>
+          <select id="repCount"></select>
+        </div>
+        <p class="rep-hint">上で決めた間隔を、この回数だけ、くり返します</p>
+      </div>
+      <div id="presetBlock">
+        <button type="button" class="sec-div sec-acc" id="presetHead" aria-expanded="true" aria-controls="presetBody"><span id="presetTitle">セット</span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <div id="presetBody">
       <div class="presets" id="presets">
-        <button type="button" class="chip" data-sec="180"  aria-pressed="false">3分</button>
+        <button type="button" class="chip" data-sec="60"  aria-pressed="false">1分</button>
         <button type="button" class="chip" data-sec="300"  aria-pressed="false">5分</button>
         <button type="button" class="chip" data-sec="600"  aria-pressed="false">10分</button>
         <button type="button" class="chip" data-sec="900"  aria-pressed="false">15分</button>
         <button type="button" class="chip" data-sec="1800" aria-pressed="false">30分</button>
         <button type="button" class="chip" data-sec="3600" aria-pressed="false">1時間</button>
       </div>
-      <div class="quick-row">
+      <div class="quick-row" id="quickRow">
         <label class="quick"><span>すぐにスタート</span><input type="checkbox" class="sw sw-s" id="swQuick" role="switch"></label>
       </div>
-      <div class="sec-div"><span>自由に設定</span></div>
-      <div class="custom-row">
+        </div>
+      </div>
+      <div id="catBlock">
+        <button type="button" class="sec-div sec-acc" id="catAccHead" aria-expanded="false" aria-controls="catAccBody"><span>カテゴリー</span><span class="acc-meta" id="catAccMeta"></span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <div id="catAccBody" hidden>
+          <label class="ls-att" style="margin-top:0"><div class="cat-pick"><i class="cdot" id="catMainDot"></i><select id="catMain" aria-label="カテゴリー"></select></div></label>
+          <p class="ls-att-hint" id="catMainHint" hidden>カテゴリーが、まだありません。下の「カテゴリー」のカードで、作れます</p>
+        </div>
+      </div>
+      <div id="freeBlock">
+        <button type="button" class="sec-div sec-acc" id="freeHead" aria-expanded="false" aria-controls="freeBody"><span id="freeTitle">自由に設定</span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <div id="freeBody" hidden>
+      <div class="custom-row" id="customRow">
         <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cH" maxlength="2" value="0" aria-label="時間"><span>時間</span></label>
         <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cM" maxlength="2" value="5" aria-label="分"><span>分</span></label>
         <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cS" maxlength="2" value="0" aria-label="秒"><span>秒</span></label>
-        <button type="button" class="btn btn-main custom-start" id="customBtn" aria-label="この時間でスタート">スタート</button>
+      </div>
+        </div>
       </div>
     </div>
 
@@ -823,13 +1028,16 @@
     </div>
 
     <div id="blockInterval" hidden>
-      <div class="sec-div"><span>よく使う組み合わせ</span></div>
-      <div class="tpl" id="tplBox"></div>
-      <div class="tpl-actions" id="tplActions">
-        <button type="button" class="tpl-act" id="tplNew">＋ 新しく作る</button>
-        <button type="button" class="tpl-act" id="tplEdit">編集</button>
+      <button type="button" class="sec-div sec-acc" id="tplHead" aria-expanded="false" aria-controls="tplBody"><span>インターバル一覧</span><span class="acc-meta" id="tplMeta"></span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+      <div id="tplBody" hidden>
+        <div class="tpl" id="tplBox"></div>
+        <div class="tpl-actions" id="tplActions">
+          <button type="button" class="tpl-act" id="tplNew">＋ 新しく作る</button>
+          <button type="button" class="tpl-act" id="tplEdit">編集</button>
+        </div>
+        <p class="tpl-hint" id="tplHint" hidden></p>
       </div>
-      <p class="tpl-hint" id="tplHint" hidden></p>
+      <p class="tpl-note" id="tplNote" role="status" aria-live="polite" hidden></p>
       <div class="tpl-confirm" id="tplNewConfirm" role="alertdialog" aria-labelledby="tplNewConfirmText" hidden>
         <p id="tplNewConfirmText">いまの入力は、保存していません。消して、新しく作りますか？</p>
         <div class="tpl-confirm-btns">
@@ -837,7 +1045,18 @@
           <button type="button" class="btn btn-main" id="tplNewYes">新しく作る</button>
         </div>
       </div>
-      <div class="sec-div"><span>順番にくり返す</span></div>
+      <div class="iv-summary" id="ivSummary" hidden>
+        <div class="iv-sum-head"><span class="iv-sum-cap">いまのインターバル</span><button type="button" class="tpl-act" id="ivReopen">直す</button></div>
+        <div class="iv-sum-steps" id="ivSumSteps"></div>
+        <div class="iv-sum-meta" id="ivSumMeta"></div>
+      </div>
+      <div id="ivEditor" hidden>
+      <div class="sec-div"><span>組み合わせ方</span></div>
+      <div class="iv-edit-head">
+        <span class="iv-edit-title" id="ivEditTitle">新しいインターバル</span>
+        <button type="button" class="tpl-act" id="ivClose">とじる</button>
+      </div>
+      <p class="iv-cat-hint" id="ivCatHint" hidden>カテゴリーを作ると、ステップごとに付けられます（下の「カテゴリー」のカードで作れます）</p>
       <div class="steps" id="steps"></div>
       <button type="button" class="add-step" id="addStep">＋ ステップを足す</button>
       <div class="rounds-row">
@@ -867,8 +1086,35 @@
           <button type="button" class="btn btn-main" id="tplConfirmYes">上書きする</button>
         </div>
       </div>
-      <p class="tpl-note" id="tplNote" role="status" aria-live="polite" hidden></p>
+      </div>
 
+    </div>
+  </section>
+
+  <!-- カテゴリー（なまえ＋色）。タイマーに付けて、履歴を、カテゴリーごとに色分けして集計する -->
+  <section class="card log-card cat-card" id="catCard" aria-label="カテゴリー">
+    <button type="button" class="log-head" id="catHead" aria-expanded="false" aria-controls="catBody">
+      <span class="log-title">カテゴリー</span>
+      <span class="log-line" aria-hidden="true"></span>
+      <span class="log-meta" id="catMeta"></span>
+      <span class="log-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+    <div class="log-body" id="catBody">
+      <div class="log-inner">
+        <p class="log-cap fav-lead">「勉強」「運動」「家事」のように、カテゴリーを作って、タイマーに付けておくと、履歴が、カテゴリーごとに色分けして、集計されます。<br>行を長押しすると、直したり、消したりできます。</p>
+        <div id="catList"></div>
+        <div class="fav-add"><button type="button" class="mini-btn" id="catAdd">＋ カテゴリーを作る</button></div>
+        <div class="fav-form" id="catForm" hidden>
+          <input type="text" id="catName" autocomplete="off" enterkeyhint="done" placeholder="なまえ（12文字まで）" aria-label="カテゴリーのなまえ">
+          <div class="cat-swatches" id="catSwatches" role="radiogroup" aria-label="色"></div>
+          <div class="fav-form-btns">
+            <button type="button" class="btn btn-sub" id="catCancel">やめる</button>
+            <button type="button" class="btn btn-main" id="catSave">保存</button>
+          </div>
+        </div>
+        <p class="tpl-note" id="catNote" role="status" aria-live="polite" hidden></p>
+        <p class="log-cap fav-foot">色は、12色から選べます。カテゴリーを消すと、付けていたタイマーは、「未分類」（灰色）になります。履歴の記録は、消えません。</p>
+      </div>
     </div>
   </section>
 
@@ -1009,6 +1255,18 @@
 
 </main>
 
+<!-- 確認のモーダル（「○○を削除しますか？」） -->
+<div class="modal" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="cmTitle" aria-describedby="cmBody" hidden>
+  <div class="modal-box">
+    <p class="modal-title" id="cmTitle"></p>
+    <p class="modal-body" id="cmBody"></p>
+    <div class="modal-btns">
+      <button type="button" class="btn btn-sub" id="cmNo">やめる</button>
+      <button type="button" class="btn btn-main" id="cmYes">削除する</button>
+    </div>
+  </div>
+</div>
+
 <!-- 画像のおおきな表示 -->
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="画像" hidden>
   <div class="viewer-box">
@@ -1086,7 +1344,7 @@ async function shareAppLink() {
   'use strict';
 
   /* 保存キー（一度公開したら変えないこと） */
-  var K = { state: 'tm_state', last: 'tm_last', sound: 'tm_sound', vibe: 'tm_vibe', wake: 'tm_wake', bg: 'tm_bg', quick: 'tm_quick', mode: 'tm_mode', plan: 'tm_plan', name: 'tm_name', nameRep: 'tm_name_rep', log: 'tm_log', logOpen: 'tm_logopen', nameSw: 'tm_name_sw', sw: 'tm_sw', top: 'tm_top', logView: 'tm_logview', tpl: 'tm_tpl', fav: 'tm_fav', favOpen: 'tm_favopen' };
+  var K = { state: 'tm_state', last: 'tm_last', sound: 'tm_sound', vibe: 'tm_vibe', wake: 'tm_wake', bg: 'tm_bg', quick: 'tm_quick', mode: 'tm_mode', plan: 'tm_plan', name: 'tm_name', nameRep: 'tm_name_rep', log: 'tm_log', logOpen: 'tm_logopen', nameSw: 'tm_name_sw', sw: 'tm_sw', top: 'tm_top', logView: 'tm_logview', tpl: 'tm_tpl', fav: 'tm_fav', favOpen: 'tm_favopen', lsT: 'tm_lst_t', lsR: 'tm_lst_r', sel: 'tm_sel', repCnt: 'tm_repcnt', lsq: 'tm_lsq', acc: 'tm_acc', cat: 'tm_cat', catSel: 'tm_catsel', catOpen: 'tm_catopen' };
 
   var MAX_SEC = 24 * 3600 - 1;   // 23:59:59
   var DEFAULT_SEC = 300;         // はじめての人は5分
@@ -1122,6 +1380,9 @@ async function shareAppLink() {
     quick: store.get(K.quick) !== '0'   // すぐにスタート（はじめはオン）
   };
   var accum = false;       // ボタンで時間を足している最中かどうか
+  var REP_COUNTS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 24, 30, 40, 50, 100];   // くり返す回数（「ずっと」は、なくした）
+  var REP_DEFAULT = 4;     // はじめの回数。以前の「ずっと」は、これに読み替える
+  var repCount = 4;        // くり返しの回数
   var sw = { status: 'idle', startAt: 0, base: 0, laps: [] };   // ストップウォッチ（idle／running／stopped）。lapsは、ラップを押した時点までの合計ms
   var names = { timer: '', repeat: '', watch: '' };   // タイマーとくり返しの「なまえ」（別々に保存。インターバルは、ステップごとのなまえを使う）
   var shownNameKey = '';
@@ -1135,7 +1396,7 @@ async function shareAppLink() {
   var plan = { steps: [{ n: '勉強', s: 1500 }, { n: '運動', s: 600 }], rounds: 3, manual: false };   // manual：true＝ステップが終わったら、タップするまで待つ
 
   /* ---------- 状態 ---------- */
-  var st = { status: 'idle', mode: 'timer', total: DEFAULT_SEC * 1000, endAt: 0, remain: DEFAULT_SEC * 1000, idx: 0, round: 1, plan: null };
+  var st = { status: 'idle', mode: 'timer', total: DEFAULT_SEC * 1000, endAt: 0, remain: DEFAULT_SEC * 1000, idx: 0, round: 1, plan: null, a: '', cnt: 0, g: '' };
   var idleMs = st.total;   // インターバルのあと、タイマーの時間をもとに戻すための記憶
 
   function normPlan(o) {
@@ -1148,6 +1409,7 @@ async function shareAppLink() {
         if (!(s >= 0 && s <= MAX_STEP_MIN * 60)) s = 0;
         var stp = { n: clip(x.n), s: s };
         if (typeof x.a === 'string' && x.a) stp.a = x.a.slice(0, 40);
+        if (typeof x.g === 'string' && x.g) stp.g = x.g.slice(0, 40);        // カテゴリー
         steps.push(stp);
       }
       var r = parseInt(o.rounds, 10);
@@ -1186,7 +1448,7 @@ async function shareAppLink() {
       }
       var idx = parseInt(o.idx, 10) || 0, round = parseInt(o.round, 10) || 1;
       if (sp && idx >= sp.steps.length) idx = 0;
-      var setBase = function () { st.mode = mode; st.plan = sp; st.idx = idx; st.round = round; st.total = total; };
+      var setBase = function () { st.mode = mode; st.plan = sp; st.idx = idx; st.round = round; st.total = total; st.a = (mode !== 'interval' && typeof o.a === 'string') ? o.a.slice(0, 40) : ''; st.cnt = (mode === 'repeat' && Number(o.cnt) > 0) ? Math.min(100, Math.floor(Number(o.cnt))) : 0; st.g = (mode !== 'interval' && typeof o.g === 'string') ? o.g.slice(0, 40) : ''; };
       if (o.status === 'running' && endAt > 0) {
         setBase(); st.endAt = endAt; st.remain = 0; st.status = 'running';
         if (endAt <= Date.now()) advance(true, Date.now());   // 閉じている間に進んだぶんは、音を鳴らさずに追いつく
@@ -1201,7 +1463,7 @@ async function shareAppLink() {
     } catch (e) {}
   }
   function saveState() {
-    store.set(K.state, JSON.stringify({ status: st.status, mode: st.mode, total: st.total, endAt: st.endAt, remain: st.remain, idx: st.idx, round: st.round, plan: st.plan }));
+    store.set(K.state, JSON.stringify({ status: st.status, mode: st.mode, total: st.total, endAt: st.endAt, remain: st.remain, idx: st.idx, round: st.round, plan: st.plan, a: st.a || '', cnt: st.cnt || 0, g: st.g || '' }));
   }
   function savePlan() { store.set(K.plan, JSON.stringify(plan)); }
   function isLocked() { return st.status === 'running' || st.status === 'paused' || st.status === 'wait' || sw.status !== 'idle'; }
@@ -1214,9 +1476,11 @@ async function shareAppLink() {
   var tabBtns = Array.prototype.slice.call(document.querySelectorAll('.tab'));
   var topBtns = Array.prototype.slice.call(document.querySelectorAll('.top-tab'));
   var lowerTabs = $('lowerTabs');
-  var cH = $('cH'), cM = $('cM'), cS = $('cS'), customBtn = $('customBtn');
+  var cH = $('cH'), cM = $('cM'), cS = $('cS');
   var dialName = $('dialName');
+  var repCountSel = $('repCount');
   var attachRow = $('attachRow');
+  var ivEditor = $('ivEditor'), ivSummary = $('ivSummary'), ivEditTitle = $('ivEditTitle'), ivNew = false, ivNewTitle = '新しいインターバル';   // ivNew＝「新しく作る」「直す」の入力欄をひらいている
   function growName() {                       // なまえが2行になったら、欄の高さを広げる
     dialName.style.height = 'auto';
     dialName.style.height = Math.max(26, dialName.scrollHeight) + 'px';
@@ -1268,19 +1532,19 @@ async function shareAppLink() {
     var s = st.status;
     if (s === 'running') {
       if (st.mode === 'interval') return stepName(st.plan, st.idx) + '\n' + setLabel();
-      if (st.mode === 'repeat') return 'くり返し ' + st.round + '回目\n' + clock(st.endAt) + ' に鳴ります';
+      if (st.mode === 'repeat') return 'くり返し ' + st.round + (st.cnt > 0 ? '/' + st.cnt : '') + '回目\n' + clock(st.endAt) + ' に鳴ります';
       return clock(st.endAt) + ' に終了';
     }
     if (s === 'wait') return '次は ' + stepName(st.plan, st.idx) + '\nスタートで始めます';
     if (s === 'paused') return st.mode === 'interval' ? stepName(st.plan, st.idx) + '\n一時停止中' : '一時停止中';
-    if (s === 'done') return st.mode === 'interval' ? 'すべて終わりました' : '時間になりました';
+    if (s === 'done') return (st.mode === 'interval' || (st.mode === 'repeat' && st.cnt > 0)) ? 'すべて終わりました' : '時間になりました';
     if (tab === 'interval') {
       if (planFirstMs() < 1000) return '分を入れてください';
       return stepName(plan, 0) + 'から始まります\n' + (plan.rounds > 0 ? plan.rounds + 'セット' : 'ずっとくり返し');
     }
     if (st.total < 1000) return '時間を入れてください';
     var lb = label(Math.round(st.total / 1000));
-    return tab === 'repeat' ? lb + 'おきにくり返し' : lb + 'タイマー';
+    return tab === 'repeat' ? lb + 'おき ・ ' + repCount + '回' : lb + 'タイマー';
   }
 
   function render() {
@@ -1357,7 +1621,24 @@ async function shareAppLink() {
       c.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
   }
+  function renderIvSummary() {                       // 入力欄をとじているときの、いまの組み合わせ（読むだけ）
+    var steps = plan.steps.map(function (s, i) {
+      var f = s.a ? favById(s.a) : null;
+      var gg = (s.g && catById(s.g)) ? '【' + catName(s.g) + '】' : '';
+      return (s.n || ('ステップ' + (i + 1))) + ' ' + label(s.s) + gg + (f ? '（' + kindLabel(f) + 'つき）' : '');
+    });
+    $('ivSumSteps').textContent = steps.join(' → ');
+    $('ivSumMeta').textContent = (plan.rounds > 0 ? plan.rounds + '回くり返し' : 'ずっとくり返し') + ' ・ ' + (plan.manual ? 'タップで次のステップ' : '自動で次のステップ');
+  }
+  function syncIvEditor() {                          // 入力欄は、「編集で組み合わせをタップしたとき」と「新しく作る」のときだけひらく
+    var open = !isLocked() && (ivNew || tplEditIdx >= 0);
+    ivEditor.hidden = !open; ivSummary.hidden = open;
+    $('ivCatHint').hidden = !open || cats.length > 0;
+    if (open) ivEditTitle.textContent = tplEditIdx >= 0 ? '「' + tplLabel(tpls[tplEditIdx]) + '」を編集中' : ivNewTitle;
+    else renderIvSummary();
+  }
   function lockEditor(locked) {
+    syncIvEditor();
     var same = tplFindSame(), unchanged = tplEditIdx >= 0 && tplIsUnchanged();
     Array.prototype.forEach.call(blockInterval.querySelectorAll('input,select,button'), function (el) {
       var base = false;
@@ -1385,11 +1666,13 @@ async function shareAppLink() {
       resetBtn.disabled = (s === 'done') || (s === 'idle' && !(accum && tab !== 'interval'));
     }
     chips.forEach(function (c) { c.disabled = false; });
-    [cH, cM, cS, customBtn].forEach(function (x) { x.disabled = locked; });
+    [cH, cM, cS].forEach(function (x) { x.disabled = locked; });
     tabBtns.forEach(function (b) { b.disabled = locked && b.getAttribute('data-mode') !== tab; });
     topBtns.forEach(function (b) { b.disabled = locked && ((b.getAttribute('data-top') === 'watch') !== (tab === 'watch')); });
     lockEditor(locked);
     syncChips();
+    repCountSel.disabled = locked;
+    lsRender();
   }
   function refresh() { render(); syncControls(); }
 
@@ -1505,9 +1788,15 @@ async function shareAppLink() {
     });
     lowerTabs.hidden = (tab === 'watch');
     blockTimer.hidden = (tab === 'interval' || tab === 'watch');
+    $('repCountRow').hidden = (tab !== 'repeat');
     blockInterval.hidden = (tab !== 'interval');
     blockWatch.hidden = (tab !== 'watch');
-    $('presetTitle').textContent = tab === 'repeat' ? 'くり返す間隔' : 'セット';
+    var isRep = (tab === 'repeat');                              // くり返しは、定型のボタンなし。自由な間隔だけ入れる
+    $('presetBlock').hidden = isRep;
+    // 並び：くり返し＝一覧（入力は、入力欄の中だけ）。シンプル＝セット／すぐにスタート／自由に設定／一覧
+    var ord = isRep ? ['lsBlock', 'presetBlock', 'freeBlock', 'catBlock', 'repCountRow']
+                    : ['presetBlock', 'freeBlock', 'catBlock', 'repCountRow', 'lsBlock'];   // シンプルは、セットのボタンが先（すぐ押せるように）。一覧は、いちばん下
+    if (blockTimer.getAttribute('data-order') !== ord.join()) { ord.forEach(function (id) { blockTimer.appendChild($(id)); }); blockTimer.setAttribute('data-order', ord.join()); }
   }
   function setTab(m) {
     if (m === tab || isLocked()) return;
@@ -1528,6 +1817,7 @@ async function shareAppLink() {
       if (!Array.isArray(a)) return [];
       return a.filter(function (x) { return x && x.e > 0 && x.s > 0; }).slice(-MAX_LOG).map(function (x) {
         var m = String(x.m || 't').charAt(0), o = { e: Number(x.e), n: clip(x.n), s: Number(x.s), m: m };
+        if (typeof x.g === 'string' && x.g) o.g = x.g.slice(0, 40);
         if (m === 's') { o.ms = Number(x.ms) || o.s * 1000; o.laps = Array.isArray(x.laps) ? x.laps.map(Number).filter(function (n) { return n >= 0; }).slice(0, 100) : []; }
         return o;
       });
@@ -1535,7 +1825,9 @@ async function shareAppLink() {
   }
   function pushLog(endAt, sec) {
     var nm = st.mode === 'interval' ? stepName(st.plan, st.idx) : (names[st.mode === 'repeat' ? 'repeat' : 'timer'] || '');
-    log.push({ e: endAt, n: nm, s: sec, m: st.mode.charAt(0) });
+    var gid = st.mode === 'interval' ? ((st.plan && st.plan.steps[st.idx] && st.plan.steps[st.idx].g) || '') : (st.g || '');
+    var ent = { e: endAt, n: nm, s: sec, m: st.mode.charAt(0) }; if (gid) ent.g = gid;                   // 終わった記録に、カテゴリーを付ける
+    log.push(ent);
     logDirty = true;
   }
   function flushLog() {
@@ -1591,15 +1883,142 @@ async function shareAppLink() {
   function shareHead() { return SHARE_APP_TITLE + '\n✿ YUCCHI ✿\n\n'; }                 // アプリ名とブランド名は別の行
   function shareTail() { return '\n\n' + SHARE_APP_URL; }
   var logTitleOpen = {};      // タイトル別で、ひらいているタイトル
+  var logEditEntry = null, logActEntry = null;      // いま直している1件／長押しして、「直す」「消す」を出している1件
+  var logActGroup = '', logEditGroup = '';          // タイトル別：長押しして「直す」「消す」を出している／直している、なまえ（そのなまえの記録を、まとめて）
+  var lpBlockUntil = 0, lpActive = false;           // 長押しがおわって、指をはなした直後は、タップとして扱わない（長押し中も同じ）
+  /* 確認のモーダル：askConfirm(タイトル, 説明, 実行ボタンの文字, 実行する関数) */
+  var cmModal = $('confirmModal'), cmOnYes = null, cmFocusBack = null;
+  function closeConfirm() { cmModal.hidden = true; cmOnYes = null; if (cmFocusBack) { try { cmFocusBack.focus(); } catch (e) {} cmFocusBack = null; } }
+  function askConfirm(title, body, yesLabel, onYes) {
+    $('cmTitle').textContent = title; $('cmBody').textContent = body || ''; $('cmBody').hidden = !body;
+    $('cmYes').textContent = yesLabel || 'OK'; cmOnYes = onYes;
+    cmFocusBack = document.activeElement; cmModal.hidden = false;
+    try { $('cmNo').focus(); } catch (e) {}                                       // はじめの選択は、「やめる」（まちがえて消さない）
+  }
+  $('cmNo').addEventListener('click', closeConfirm);
+  $('cmYes').addEventListener('click', function () { var f = cmOnYes; closeConfirm(); if (f) f(); });
+  cmModal.addEventListener('click', function (e) { if (e.target === cmModal) closeConfirm(); });                          // 外をタップで、やめる
+  document.addEventListener('keydown', function (e) {
+    if (cmModal.hidden) return;
+    if (e.key === 'Escape') { closeConfirm(); return; }
+    if (e.key === 'Tab') { var a = $('cmNo'), b = $('cmYes'); if (e.shiftKey && document.activeElement === a) { e.preventDefault(); b.focus(); } else if (!e.shiftKey && document.activeElement === b) { e.preventDefault(); a.focus(); } }
+  });
+  function openGroupActs(name) { logActGroup = name; logEditGroup = ''; logActEntry = null; logEditEntry = null; renderLog(); }
+  function buildGroupActs(g) {                                                                        // タイトル別：なまえごとに、まとめて「直す」「消す」
+    var acts = mk('div', 'log-acts ttl-acts');
+    var eb = mk('button', 'log-eb', 'まとめて直す'); eb.type = 'button';
+    eb.addEventListener('click', function (ev) { ev.stopPropagation(); logEditGroup = g.name; logActGroup = ''; renderLog(); });
+    var db = mk('button', 'log-db', 'まとめて消す'); db.type = 'button';
+    db.addEventListener('click', function (ev) {
+      ev.stopPropagation();
+      askConfirm('「' + g.name + '」の記録を、すべて削除しますか？', g.count + '件（合計 ' + label(g.total) + '）\nこの記録は、もとにもどせません', '削除する', function () {
+        g.items.forEach(function (x) { var ix = log.indexOf(x); if (ix >= 0) log.splice(ix, 1); });
+        logActGroup = ''; logDirty = true; flushLog(); renderLog();
+      });
+    });
+    acts.appendChild(eb); acts.appendChild(db);
+    return acts;
+  }
+  function buildGroupForm(g) {                                                                        // そのなまえの記録 N件に、まとめて反映する欄（なまえ・カテゴリー）
+    var f = mk('div', 'log-form');
+    f.appendChild(mk('p', 'log-cap', '「' + g.name + '」の記録 ' + g.count + '件に、まとめて反映します'));
+    var inp = mk('input'); inp.type = 'text'; inp.value = g.none ? '' : g.name; inp.placeholder = g.name + '（なまえなし）'; inp.setAttribute('aria-label', 'なまえ'); inp.autocomplete = 'off'; inp.setAttribute('enterkeyhint', 'done');
+    enterToClose(inp);
+    var lab = mk('label', 'ls-att'), cp = mk('div', 'cat-pick'), cd = mk('i', 'cdot'), sel = mk('select');
+    sel.setAttribute('aria-label', 'カテゴリー');
+    [['__keep', '変えない'], ['', '未分類']].concat(cats.map(function (c) { return [c.id, c.n]; })).forEach(function (o) { var op = mk('option', null, o[1]); op.value = o[0]; sel.appendChild(op); });
+    function dotSync() { cd.style.visibility = sel.value === '__keep' ? 'hidden' : 'visible'; cd.style.background = catColor(sel.value === '__keep' ? '' : sel.value); }
+    sel.value = '__keep'; dotSync(); sel.addEventListener('change', dotSync);
+    cp.appendChild(cd); cp.appendChild(sel); lab.appendChild(mk('span', null, 'カテゴリー')); lab.appendChild(cp);
+    var btns = mk('div', 'log-form-btns'), no = mk('button', 'btn btn-sub', 'やめる'), ok = mk('button', 'btn btn-main', 'まとめて保存'); no.type = 'button'; ok.type = 'button';
+    no.addEventListener('click', function () { logEditGroup = ''; renderLog(); });
+    ok.addEventListener('click', function () {
+      var nameIn = inp.value.trim();
+      if (nameIn !== (g.none ? '' : g.name)) {                                                      // なまえを変えた → 全部に
+        var nn = clip(nameIn); g.items.forEach(function (x) { x.n = nn; });
+        if (nn && logTitleOpen[g.name] !== undefined) logTitleOpen[nn] = logTitleOpen[g.name];
+      }
+      if (sel.value !== '__keep') g.items.forEach(function (x) { if (sel.value && catById(sel.value)) x.g = sel.value; else delete x.g; });      // カテゴリーを選んだ → 全部に
+      logEditGroup = ''; logDirty = true; flushLog(); renderLog();
+    });
+    btns.appendChild(no); btns.appendChild(ok); f.appendChild(inp); f.appendChild(lab); f.appendChild(btns);
+    return f;
+  }
+  function openLogActs(x) { logActEntry = x; logEditEntry = null; renderLog(); }
+  function attachLongPress(row, open, enterOpens) {                                                   // 行を長押し（0.5秒）→ open() を呼ぶ（履歴・カテゴリーで共通）
+    var timer = 0, sx = 0, sy = 0;
+    function cancel() { clearTimeout(timer); timer = 0; row.classList.remove('pressing'); }
+    row.addEventListener('pointerdown', function (e) {
+      if (e.target.closest && e.target.closest('.log-acts, .log-form, .cat-acts')) return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      sx = e.clientX; sy = e.clientY; row.classList.add('pressing');
+      timer = setTimeout(function () { timer = 0; lpActive = true; open(); }, 520);
+    });
+    row.addEventListener('pointermove', function (e) { if (timer && (Math.abs(e.clientX - sx) > 10 || Math.abs(e.clientY - sy) > 10)) cancel(); });       // 動かしたら（スクロールなど）、長押しにしない
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { row.addEventListener(ev, cancel); });
+    row.addEventListener('contextmenu', function (e) { e.preventDefault(); cancel(); lpActive = true; open(); });                    // PCの右クリック／スマホの長押しメニュー
+    row.addEventListener('keydown', function (e) { if (e.key === 'ContextMenu' || (e.key === 'Enter' && (e.shiftKey || enterOpens))) { e.preventDefault(); open(); } });
+  }
+  ['pointerup', 'pointercancel'].forEach(function (ev) {                                              // 指をはなしたら、そのあと少しだけ（0.45秒）、タップとして扱わない
+    document.addEventListener(ev, function () { if (lpActive) { lpActive = false; lpBlockUntil = Date.now() + 450; } }, true);
+  });
+  document.addEventListener('click', function (e) {                                                   // ほかの場所をタップしたら、「直す」「消す」を、しまう
+    if ((!logActEntry && !logActGroup) || lpActive || Date.now() < lpBlockUntil) return;
+    if (e.target.closest && (e.target.closest('.log-acts') || e.target.closest('.log-form'))) return;
+    logActEntry = null; logActGroup = ''; renderLog();
+  });
+  function buildLogForm(x) {                                                                          // 1件の「なまえ」「カテゴリー」を直す欄
+    var f = mk('div', 'log-form');
+    var inp = mk('input'); inp.type = 'text'; inp.value = x.n || ''; inp.placeholder = (MODE_NAME[x.m] || 'タイマー') + '（なまえなし）'; inp.setAttribute('aria-label', 'なまえ'); inp.autocomplete = 'off'; inp.setAttribute('enterkeyhint', 'done');
+    enterToClose(inp);
+    var lab = mk('label', 'ls-att'), cp = mk('div', 'cat-pick'), cd = mk('i', 'cdot'), sel = mk('select');
+    sel.setAttribute('aria-label', 'カテゴリー'); cp.appendChild(cd); cp.appendChild(sel); fillCatSelect(sel, x.g || '', cd);
+    sel.addEventListener('change', function () { cd.style.background = catColor(sel.value); });
+    lab.appendChild(mk('span', null, 'カテゴリー')); lab.appendChild(cp);
+    var btns = mk('div', 'log-form-btns'), no = mk('button', 'btn btn-sub', 'やめる'), ok = mk('button', 'btn btn-main', '保存'); no.type = 'button'; ok.type = 'button';
+    no.addEventListener('click', function () { logEditEntry = null; renderLog(); });
+    ok.addEventListener('click', function () {
+      x.n = clip(inp.value.trim()); if (sel.value && catById(sel.value)) x.g = sel.value; else delete x.g;      // 時間・日時は、変えない
+      logEditEntry = null; logDirty = true; flushLog(); renderLog();
+    });
+    btns.appendChild(no); btns.appendChild(ok); f.appendChild(inp); f.appendChild(lab); f.appendChild(btns);
+    return f;
+  }
   function entryRow(x, showDate, parent) {
     var d = new Date(x.e), row = document.createElement('div'); row.className = 'log-row';
     var t = document.createElement('span'); t.className = 't' + (showDate ? ' wide' : '');
     t.textContent = (showDate ? (d.getMonth() + 1) + '/' + d.getDate() + ' ' : '') + two(d.getHours()) + ':' + two(d.getMinutes());
-    var n = document.createElement('span'); n.className = 'n' + (x.n ? '' : ' none'); n.textContent = showDate ? '' : (x.n || MODE_NAME[x.m] || 'タイマー');   // タイトル別では、見出しと同じなまえは出さない
+    var n = document.createElement('span'); n.className = 'n' + (x.n ? '' : ' none');
+    if (!showDate) {                                                                                // タイトル別では、見出しと同じなまえは出さない
+      var key = (x.n || '').trim() || MODE_NAME[x.m] || 'タイマー';
+      var dot = document.createElement('span'); dot.className = 'ldot'; dot.style.background = catColor(x.g); n.appendChild(dot);
+      var nt = document.createElement('span'); nt.className = 'nt'; nt.textContent = x.n || MODE_NAME[x.m] || 'タイマー'; n.appendChild(nt);
+    }
     var hasLaps = x.m === 's' && x.laps && x.laps.length;
     if (hasLaps) { var lc = document.createElement('span'); lc.className = 'lc'; lc.textContent = 'ラップ' + x.laps.length; n.appendChild(lc); }
     var s = document.createElement('span'); s.className = 'd'; s.textContent = x.m === 's' ? fmtSw(x.ms, true) : label(Math.round(x.s));
-    row.appendChild(t); row.appendChild(n); row.appendChild(s); parent.appendChild(row);
+    row.appendChild(t); row.appendChild(n); row.appendChild(s);
+    row.tabIndex = 0; attachLongPress(row, function () { openLogActs(x); }, !hasLaps);                                             // 長押し（PCは、右クリック／Shift＋Enter）で、「直す」「消す」が出る
+    if (logActEntry === x) {
+      row.classList.add('act-open');
+      var acts = mk('span', 'log-acts'), nm0 = x.n || MODE_NAME[x.m] || 'タイマー';
+      var eb = mk('button', 'log-eb', '直す'); eb.type = 'button'; eb.setAttribute('aria-label', nm0 + 'を直す');
+      eb.addEventListener('click', function (ev) { ev.stopPropagation(); logEditEntry = x; logActEntry = null; renderLog(); });
+      var db = mk('button', 'log-db', '消す'); db.type = 'button'; db.setAttribute('aria-label', nm0 + 'を消す');
+      db.addEventListener('click', function (ev) {                                                   // 「○○を削除しますか？」の確認（モーダル）を出してから、消す
+        ev.stopPropagation();
+        var dd = new Date(x.e), when = (dd.getMonth() + 1) + '/' + dd.getDate() + ' ' + two(dd.getHours()) + ':' + two(dd.getMinutes()), dur = x.m === 's' ? fmtSw(x.ms, true) : label(Math.round(x.s));
+        askConfirm('「' + nm0 + '」を削除しますか？', when + '　' + dur + '\nこの記録は、もとにもどせません', '削除する', function () {
+          var ix = log.indexOf(x); if (ix < 0) return;
+          log.splice(ix, 1);
+          if (logEditEntry === x) logEditEntry = null;
+          logActEntry = null; logDirty = true; flushLog(); renderLog();
+        });
+      });
+      acts.appendChild(eb); acts.appendChild(db); row.appendChild(acts);
+    }
+    parent.appendChild(row);
+    if (logEditEntry === x) parent.appendChild(buildLogForm(x));
     if (hasLaps) {      // タップすると、ラップがひらく
       var det = document.createElement('div'); det.className = 'log-laps'; det.hidden = true;
       x.laps.forEach(function (c, i) {
@@ -1608,16 +2027,41 @@ async function shareAppLink() {
         det.appendChild(line);
       });
       row.classList.add('has-laps'); row.setAttribute('role', 'button'); row.tabIndex = 0;
-      var toggle = function () { det.hidden = !det.hidden; };
+      var toggle = function () { if (lpActive || Date.now() < lpBlockUntil) return; det.hidden = !det.hidden; };       // 長押しのあとの指はなしでは、ひらかない
       row.addEventListener('click', toggle);
-      row.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+      row.addEventListener('keydown', function (e) { if ((e.key === 'Enter' && !e.shiftKey) || e.key === ' ') { e.preventDefault(); toggle(); } });
       parent.appendChild(det);
     }
   }
+  var RATIO_COLORS = ['#BAAC9F', '#E8B4BC', '#BCCFC5', '#D4C6E2', '#EBC9B4', '#B8D4D9', '#EAD9A0', '#EFA59B', '#A9B7E3', '#C3CF98', '#C99FC2', '#CBA27E'], RATIO_OTHER = '#DDD5CC';    // 割合の色・12色（ベージュ・ローズ・セージ・ラベンダー・ピーチ・ブルー・バター・コーラル・ペリウィンクル・モス・プラム・クレイ）。順番は変えない（番号を保存しているため）
+  function aggCats(items) {                                     // カテゴリーごとの合計（長い順。「未分類」は、いつも、いちばん最後）
+    var map = {}, order = [];
+    items.forEach(function (x) {
+      var id = (x.g && catById(x.g)) ? x.g : '';
+      var g = map['k:' + id];
+      if (!g) { g = map['k:' + id] = { id: id, name: id ? catName(id) : '未分類', color: id ? catColor(id) : RATIO_OTHER, total: 0, count: 0, items: [] }; order.push(g); }
+      g.total += x.s; g.count++; g.items.push(x);
+    });
+    order.sort(function (a, b) { if (!a.id !== !b.id) return a.id ? -1 : 1; return b.total - a.total; });
+    return order;
+  }
+  function aggCatLines(items) {
+    return aggCats(items).map(function (g) { return '・' + g.name + ' ' + label(g.total) + (g.count > 1 ? '（' + g.count + '回）' : ''); }).join('\n');
+  }
+  function pctText(v, tot) { var p = tot > 0 ? v / tot * 100 : 0; return (p > 0 && p < 1) ? '<1%' : Math.round(p) + '%'; }
+  function ratioBar(groups, tot) {
+    var bar = mk('div', 'ratio-bar'), parts = [];
+    bar.setAttribute('role', 'img');
+    groups.forEach(function (g) { var s = mk('i'); s.style.flexGrow = String(g.total); s.style.background = g.color; bar.appendChild(s); parts.push(g.name + ' ' + pctText(g.total, tot)); });
+    bar.setAttribute('aria-label', '割合：' + parts.join('、'));
+    return bar;
+  }
+
   function renderLog() {
     logBox.textContent = '';
     if (!log.length) {
       logBox.appendChild(mk('p', 'log-empty', 'まだ履歴はありません。時間が最後まで終わると、ここに残ります。'));
+      logEditEntry = null; logActEntry = null; logActGroup = ''; logEditGroup = '';
       clearLogBtn.hidden = true; logShareBtn.hidden = true; logShareCap.hidden = true; logShareText = ''; logMeta.textContent = ''; return;
     }
     clearLogBtn.hidden = false; logShareBtn.hidden = false; logShareCap.hidden = false;
@@ -1647,11 +2091,13 @@ async function shareAppLink() {
     [['day', '日別'], ['week', '週別'], ['month', '月別'], ['title', 'タイトル別']].forEach(function (v) {
       var bt = mk('button', null, v[1]); bt.type = 'button';
       bt.setAttribute('aria-pressed', logView === v[0] ? 'true' : 'false');
-      bt.addEventListener('click', function () { logView = v[0]; store.set(K.logView, logView); renderLog(); });
+      bt.addEventListener('click', function () { logView = v[0]; logEditEntry = null; logActEntry = null; logActGroup = ''; logEditGroup = ''; store.set(K.logView, logView); renderLog(); });
       seg.appendChild(bt);
     });
     logBox.appendChild(seg);
-
+    if (logView === 'day' || logView === 'title') {                // 1件ずつ直せるのは、日別・タイトル別（週別・月別は、まとめた数字なので出さない）
+      logBox.appendChild(mk('p', 'log-cap log-lp-hint', logView === 'title' ? 'なまえを長押しすると、そのなまえの記録を、まとめて直したり、消したりできます（ひらいた中の1件ずつも、長押しで直せます）' : '行を長押しすると、なまえ・カテゴリーを直したり、消したりできます'));
+    } else { logEditEntry = null; logActEntry = null; logActGroup = ''; logEditGroup = ''; }
     function select(options, current, cap, onChange) {       // 「記録した○を選ぶ」のプルダウン
       var sel = mk('select', 'log-select'); sel.setAttribute('aria-label', cap);
       options.forEach(function (o) { var op = mk('option', null, o[1]); op.value = o[0]; sel.appendChild(op); });
@@ -1659,10 +2105,14 @@ async function shareAppLink() {
       sel.addEventListener('change', function () { onChange(sel.value); renderLog(); });
       logBox.appendChild(mk('div', 'log-cap', cap)); logBox.appendChild(sel);
     }
-    function titleRows(items, parent) {                       // なまえ別の内訳
-      aggTitles(items).forEach(function (g) {
-        var r = mk('div', 'lrow');
-        r.appendChild(mk('span', 'ln' + (g.none ? ' none' : ''), g.name));
+    function catRows(items, parent) {                          // カテゴリー別の内訳（割合の帯＋色の点＋％）
+      var gs = aggCats(items), tot = gs.reduce(function (s, g) { return s + g.total; }, 0);
+      parent.appendChild(ratioBar(gs, tot));
+      gs.forEach(function (g) {
+        var r = mk('div', 'lrow'), dot = mk('span', 'ldot'); dot.style.background = g.color;
+        r.appendChild(dot);
+        r.appendChild(mk('span', 'ln' + (g.id ? '' : ' none'), g.name));
+        r.appendChild(mk('span', 'lp', pctText(g.total, tot)));
         r.appendChild(mk('span', 'lc2', g.count + '回'));
         r.appendChild(mk('span', 'lt', label(g.total)));
         parent.appendChild(r);
@@ -1676,6 +2126,7 @@ async function shareAppLink() {
       var head = mk('div', 'log-day');
       head.appendChild(mk('span', null, dayLabel(day.date, now))); head.appendChild(mk('span', null, '合計 ' + label(day.total)));
       var list = mk('div', 'log-list'); list.appendChild(head);
+      list.appendChild(ratioBar(aggCats(day.items), day.total));                  // その日の、カテゴリーごとの割合の帯
       day.items.forEach(function (x) { entryRow(x, false, list); });
       logBox.appendChild(list);
       logShareText = shareHead() + fmtMDW(day.date, now) + 'の記録\n' + aggLines(day.items) + '\n合計 ' + label(day.total) + shareTail();
@@ -1692,49 +2143,40 @@ async function shareAppLink() {
       hd.appendChild(mk('span', null, lab(P))); hd.appendChild(mk('span', null, '合計 ' + label(P.total) + '・' + P.count + '件'));
       logBox.appendChild(hd);
 
-      /* 日ごと（棒の長さ＝その日の合計。タップで、その日の日別へ） */
-      logBox.appendChild(mk('div', 'log-sub', '日ごと'));
-      var rows = [];
-      if (isW) { for (var i = 0; i < 7; i++) { var dd = addDays(P.start, i), k2 = dayKey(dd); var f = P.days.filter(function (x) { return x.key === k2; })[0]; rows.push({ key: k2, date: dd, total: f ? f.total : 0 }); } }
-      else { P.days.slice().reverse().forEach(function (x) { rows.push({ key: x.key, date: x.date, total: x.total }); }); }
-      var mx = Math.max.apply(null, rows.map(function (r) { return r.total; })) || 1;
-      var dl = mk('div', 'log-list');
-      rows.forEach(function (r) {
-        var row = r.total > 0 ? mk('button', 'drow') : mk('div', 'drow zero');
-        if (r.total > 0) { row.type = 'button'; row.setAttribute('aria-label', fmtMDW(r.date, now) + ' ' + label(r.total) + '。タップで、その日の記録を見る'); }
-        row.appendChild(mk('span', 'dl', (r.date.getMonth() + 1) + '/' + r.date.getDate() + '（' + WD[r.date.getDay()] + '）'));
-        var bar = mk('span', 'bar'), fill = mk('i'); fill.style.width = Math.max(r.total > 0 ? 4 : 0, Math.round(r.total / mx * 100)) + '%'; bar.appendChild(fill); row.appendChild(bar);
-        row.appendChild(mk('span', 'dt', r.total > 0 ? label(r.total) : '—'));
-        if (r.total > 0) row.addEventListener('click', function () { logView = 'day'; logDay = r.key; store.set(K.logView, 'day'); renderLog(); });
-        dl.appendChild(row);
-      });
-      logBox.appendChild(dl);
-
-      /* なまえ別の内訳 */
-      logBox.appendChild(mk('div', 'log-sub', 'なまえ別'));
-      var tl2 = mk('div', 'log-list'); titleRows(P.items, tl2); logBox.appendChild(tl2);
+      /* カテゴリー別の内訳 */
+      logBox.appendChild(mk('div', 'log-sub', 'カテゴリー別'));
+      var tl2 = mk('div', 'log-list'); catRows(P.items, tl2); logBox.appendChild(tl2);
 
       var rangeText = isW ? weekRange(P.start, now) : monthPlain(P.y, P.m);
-      var dayLines = rows.filter(function (r) { return r.total > 0; }).map(function (r) { return fmtMDW(r.date, now) + ' ' + label(r.total); }).join('\n');
-      logShareText = shareHead() + rangeText + 'の記録\n合計 ' + label(P.total) + '（' + P.count + '件）\n\n【日ごと】\n' + dayLines + '\n\n【なまえ別】\n' + aggLines(P.items) + shareTail();
+      logShareText = shareHead() + rangeText + 'の記録\n合計 ' + label(P.total) + '（' + P.count + '件）\n\n【カテゴリー別】\n' + aggCatLines(P.items) + shareTail();
 
     } else {
       logBox.appendChild(mk('div', 'log-cap', '長く使った順に、なまえごとにまとめています'));
       var tl = mk('div', 'log-list');
-      aggTitles(sorted).forEach(function (g) {
+      var gsAll = aggTitles(sorted), totAll = gsAll.reduce(function (s, g) { return s + g.total; }, 0);
+      gsAll.forEach(function (g) { g.color = catColor(g.items[0].g); });                  // そのなまえの、いちばん新しい記録のカテゴリーの色
+      tl.appendChild(ratioBar(gsAll, totAll));
+      gsAll.forEach(function (g) {
         var open = !!logTitleOpen[g.name];
         var hd2 = mk('button', 'ttl'); hd2.type = 'button'; hd2.setAttribute('aria-expanded', open ? 'true' : 'false');
+        var dot2 = mk('span', 'ldot'); dot2.style.background = g.color; hd2.appendChild(dot2);
         var left = mk('span', 'ttl-l');
         left.appendChild(mk('span', 'ttl-n' + (g.none ? ' none' : ''), g.name));
-        var ld = new Date(g.items[0].e); left.appendChild(mk('span', 'ttl-s', g.count + '回 ・ 最近 ' + (ld.getMonth() + 1) + '/' + ld.getDate()));
+        var ld = new Date(g.items[0].e); left.appendChild(mk('span', 'ttl-s', g.count + '回 ・ ' + pctText(g.total, totAll) + ' ・ 最近 ' + (ld.getMonth() + 1) + '/' + ld.getDate()));
         hd2.appendChild(left); hd2.appendChild(mk('span', 'ttl-t', label(g.total)));
         var ch = mk('span', 'ttl-c', '›'); ch.setAttribute('aria-hidden', 'true'); hd2.appendChild(ch);
         var body = mk('div', 'ttl-body'); body.hidden = !open;
         g.items.forEach(function (x) { entryRow(x, true, body); });
         hd2.addEventListener('click', function () {
+          if (lpActive || Date.now() < lpBlockUntil) return;                                  // 長押しのあとの指はなしでは、ひらかない
           var o = body.hidden; body.hidden = !o; logTitleOpen[g.name] = o; hd2.setAttribute('aria-expanded', o ? 'true' : 'false');
         });
-        tl.appendChild(hd2); tl.appendChild(body);
+        attachLongPress(hd2, function () { openGroupActs(g.name); }, false);                  // なまえを長押し（PCは、右クリック／Shift＋Enter）→ そのなまえの記録を、まとめて「直す」「消す」
+        if (logActGroup === g.name) hd2.classList.add('act-open');
+        tl.appendChild(hd2);
+        if (logActGroup === g.name) tl.appendChild(buildGroupActs(g));
+        if (logEditGroup === g.name) tl.appendChild(buildGroupForm(g));
+        tl.appendChild(body);
       });
       logBox.appendChild(tl);
       var allTotal = sorted.reduce(function (s, x) { return s + x.s; }, 0);
@@ -1777,7 +2219,7 @@ async function shareAppLink() {
     names[k] = clip(dialName.value);
     saveName(k);
     growName();
-    render();
+    render(); lsRender();
   });
   dialName.addEventListener('compositionend', function () {
     var k = nameKey();
@@ -1796,6 +2238,119 @@ async function shareAppLink() {
   }
   enterToClose(dialName);
   window.addEventListener('resize', function () { if (!dialName.hidden) growName(); });
+
+  /* ---------- カテゴリー（なまえ＋12色から選んだ色） ---------- */
+  var CAT_MAX = 20, CAT_NAME_MAX = 12;
+  var cats = [];                                    // [{ id, n:なまえ, c:色の番号（0〜11） }]
+  var catSel = { timer: '', repeat: '' };           // いま選んでいるカテゴリー（シンプル・くり返しのタイマー）
+  function readCats() {
+    try {
+      var a = JSON.parse(store.get(K.cat) || '[]');
+      if (!Array.isArray(a)) return [];
+      return a.slice(0, CAT_MAX).filter(function (x) { return x && typeof x.id === 'string' && x.n; }).map(function (x) {
+        var c = Math.floor(Number(x.c)); return { id: x.id.slice(0, 40), n: String(x.n).slice(0, CAT_NAME_MAX), c: (c >= 0 && c < RATIO_COLORS.length) ? c : 0 };
+      });
+    } catch (e) { return []; }
+  }
+  function saveCats() { store.set(K.cat, JSON.stringify(cats)); }
+  function readCatSel() { try { var o = JSON.parse(store.get(K.catSel) || '{}') || {}; return { timer: typeof o.timer === 'string' ? o.timer.slice(0, 40) : '', repeat: typeof o.repeat === 'string' ? o.repeat.slice(0, 40) : '' }; } catch (e) { return { timer: '', repeat: '' }; } }
+  function saveCatSel() { store.set(K.catSel, JSON.stringify(catSel)); }
+  function catById(id) { for (var i = 0; i < cats.length; i++) if (cats[i].id === id) return cats[i]; return null; }
+  function catColor(id) { var c = id ? catById(id) : null; return c ? RATIO_COLORS[c.c] : RATIO_OTHER; }
+  function catName(id) { var c = id ? catById(id) : null; return c ? c.n : '未分類'; }
+  function newCatId() { return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
+  function fillCatSelect(sel, cur, dot) {                // 「未分類」＋カテゴリー の選択肢を入れる
+    var sig = JSON.stringify(cats.map(function (c) { return [c.id, c.n]; }));
+    if (sel.getAttribute('data-sig') !== sig) {
+      sel.textContent = '';
+      var o0 = mk('option', null, '未分類'); o0.value = ''; sel.appendChild(o0);
+      cats.forEach(function (c) { var o = mk('option', null, c.n); o.value = c.id; sel.appendChild(o); });
+      sel.setAttribute('data-sig', sig);
+    }
+    sel.value = (cur && catById(cur)) ? cur : '';
+    if (dot) dot.style.background = catColor(sel.value);
+  }
+
+  /* カテゴリーのカード */
+  var catCard = $('catCard'), catHead = $('catHead'), catMeta = $('catMeta'), catList = $('catList'), catForm = $('catForm'), catNameIn = $('catName'), catSwatches = $('catSwatches'), catNoteEl = $('catNote');
+  var catEditId = '', catPick = 0;
+  function catSay(t) { catNoteEl.textContent = t; catNoteEl.hidden = !t; }
+  function renderSwatches() {
+    catSwatches.textContent = '';
+    RATIO_COLORS.forEach(function (col, i) {
+      var b = mk('button', 'swatch' + (i === catPick ? ' sel' : '')); b.type = 'button'; b.style.background = col; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', i === catPick ? 'true' : 'false'); b.setAttribute('aria-label', (i + 1) + '番めの色');
+      b.addEventListener('click', function () { catPick = i; renderSwatches(); });
+      catSwatches.appendChild(b);
+    });
+  }
+  var catActId = '';                                  // 長押しして、「直す」「消す」を出している1つ
+  function openCatActs(id) { catActId = id; renderCats(); }
+  function renderCats() {
+    catList.textContent = '';
+    catMeta.textContent = cats.length ? cats.length + '件' : '';
+    if (!cats.length) catList.appendChild(mk('p', 'log-empty', 'まだありません。下のボタンから、作れます。'));
+    cats.forEach(function (c) {
+      var row = mk('div', 'cat-row'), dot = mk('span', 'cdot'); dot.style.background = RATIO_COLORS[c.c];
+      row.appendChild(dot); row.appendChild(mk('div', 'cat-name', c.n));
+      row.tabIndex = 0; attachLongPress(row, function () { openCatActs(c.id); }, true);                 // 長押し（PCは、右クリック／Enter）で、「直す」「消す」が出る
+      if (catActId === c.id) {
+        row.classList.add('act-open');
+        var acts = mk('span', 'cat-acts');
+        var eb = mk('button', 'log-eb', '直す'); eb.type = 'button'; eb.setAttribute('aria-label', c.n + 'を直す');
+        eb.addEventListener('click', function (ev) { ev.stopPropagation(); catActId = ''; renderCats(); showCatForm(c.id); });
+        var db = mk('button', 'log-db', '消す'); db.type = 'button'; db.setAttribute('aria-label', c.n + 'を消す');
+        db.addEventListener('click', function (ev) {                                                      // 「○○を削除しますか？」の確認（モーダル）を出してから、消す
+          ev.stopPropagation();
+          askConfirm('カテゴリーの「' + c.n + '」を削除しますか？', '履歴の記録は、消えません', '削除する', function () { catActId = ''; removeCat(c.id); });
+        });
+        acts.appendChild(eb); acts.appendChild(db); row.appendChild(acts);
+      }
+      catList.appendChild(row);
+    });
+  }
+  document.addEventListener('click', function (e) {                                                       // ほかの場所をタップしたら、「直す」「消す」を、しまう
+    if (!catActId || lpActive || Date.now() < lpBlockUntil) return;
+    if (e.target.closest && e.target.closest('.cat-acts')) return;
+    catActId = ''; renderCats();
+  });
+  function showCatForm(id) {
+    catEditId = id || ''; var c = id ? catById(id) : null;
+    catNameIn.value = c ? c.n : '';
+    if (c) catPick = c.c;
+    else { var cnt = RATIO_COLORS.map(function () { return 0; }); cats.forEach(function (x) { cnt[x.c]++; }); catPick = 0; for (var i = 1; i < cnt.length; i++) if (cnt[i] < cnt[catPick]) catPick = i; }   // はじめの色：まだ使っていない色
+    renderSwatches(); catForm.hidden = false; catSay('');
+    try { catNameIn.focus(); } catch (e) {}
+  }
+  function hideCatForm() { catForm.hidden = true; catEditId = ''; }
+  $('catAdd').addEventListener('click', function () { if (!catEditId && !catForm.hidden) return; if (cats.length >= CAT_MAX) { catSay('作れるのは' + CAT_MAX + 'こまでです。いらないものを消してください'); return; } showCatForm(''); });
+  $('catCancel').addEventListener('click', hideCatForm);
+  $('catSave').addEventListener('click', function () {
+    var n = clip(catNameIn.value.trim()).slice(0, CAT_NAME_MAX);
+    if (!n) { catSay('なまえを入れてください'); return; }
+    var dup = cats.some(function (c) { return c.n === n && c.id !== catEditId; });
+    if (dup) { catSay('「' + n + '」は、すでにあります。別のなまえにしてください'); return; }
+    if (catEditId) { var c = catById(catEditId); if (c) { c.n = n; c.c = catPick; } catSay('直しました'); }
+    else { if (cats.length >= CAT_MAX) { catSay('作れるのは' + CAT_MAX + 'こまでです'); return; } cats.push({ id: newCatId(), n: n, c: catPick }); catSay('「' + n + '」を作りました'); }
+    saveCats(); hideCatForm(); catChanged();
+  });
+  enterToClose(catNameIn);
+  catNameIn.addEventListener('input', function () { var v = catNameIn.value; if (v.length > CAT_NAME_MAX * 2) catNameIn.value = v.slice(0, CAT_NAME_MAX * 2); });
+  function removeCat(id) {
+    var nm = catName(id);
+    cats = cats.filter(function (c) { return c.id !== id; });
+    saveCats();
+    function drop(steps) { (steps || []).forEach(function (s) { if (s.g === id) delete s.g; }); }       // 付けていたものも、はずす（履歴の記録は、残る＝未分類になる）
+    drop(plan.steps); tpls.forEach(function (t) { drop(t.steps); }); if (st.plan) drop(st.plan.steps);
+    ['timer', 'repeat'].forEach(function (k) { lsItems[k].forEach(function (it) { if (it.g === id) delete it.g; }); saveLs(k); if (catSel[k] === id) catSel[k] = ''; });
+    saveCatSel(); if (st.g === id) st.g = '';
+    savePlan(); saveTpls(); saveState();
+    catSay('「' + nm + '」を消しました'); catChanged();
+  }
+  function catChanged() {                                    // カテゴリーが変わったあとの、画面の更新
+    renderCats(); renderSteps(); renderTpls(); lsSig = ''; lsRender(); if (typeof renderLog === 'function') renderLog();
+  }
+  function setCatOpen(on) { catCard.classList.toggle('open', on); catHead.setAttribute('aria-expanded', on ? 'true' : 'false'); }
+  catHead.addEventListener('click', function () { var on = !catCard.classList.contains('open'); setCatOpen(on); store.set(K.catOpen, on ? '1' : '0'); });
 
   /* ---------- お気に入り（リンク・画像） ---------- */
   var MAX_FAV = 20, MAX_FAV_IMG = 12;
@@ -1918,8 +2473,13 @@ async function shareAppLink() {
     saveFavs(); idbDel(id);
     function drop(steps) { (steps || []).forEach(function (s) { if (s.a === id) delete s.a; }); }       // ステップに付けていたものも、はずす
     drop(plan.steps); tpls.forEach(function (t) { drop(t.steps); }); if (st.plan) drop(st.plan.steps);
-    savePlan(); saveTpls(); if (st.plan) saveState();
-    renderFavs(); renderSteps(); renderTpls(); syncAttach(); favSay('消しました');
+    ['timer', 'repeat'].forEach(function (k) {                    // シンプル・くり返しの一覧からも、はずす
+      lsItems[k].forEach(function (it) { if (it.a === id) delete it.a; }); saveLs(k);
+      if (selAtt[k] === id) selAtt[k] = '';
+    });
+    saveSel(); if (st.a === id) st.a = '';
+    savePlan(); saveTpls(); saveState();
+    renderFavs(); renderSteps(); renderTpls(); syncAttach(); lsRender(); favSay('消しました');
   }
 
   /* 画像のおおきな表示 */
@@ -1991,6 +2551,7 @@ async function shareAppLink() {
   /* ダイヤルのカード：いまのステップに付けたお気に入りを、開くボタンで出す（休憩になったら出る。「タップで次へ」の待機中は、次のステップ） */
   var shownAttach = '';
   function attachNow() {
+    if ((st.mode === 'timer' || st.mode === 'repeat') && st.a && (st.status === 'running' || st.status === 'paused')) return favById(st.a);
     if (st.mode === 'interval' && st.plan && (st.status === 'running' || st.status === 'paused' || st.status === 'wait')) {
       var s = st.plan.steps[st.idx];
       if (s && s.a) return favById(s.a);
@@ -2009,6 +2570,310 @@ async function shareAppLink() {
     el.appendChild(mk('span', 'at-pre', '「')); el.appendChild(mk('span', 'at-name', favLabel(f))); el.appendChild(mk('span', 'at-post', '」' + verb));   // 長いなまえは、なまえだけを「…」にする
     attachRow.appendChild(el); attachRow.hidden = false;
   }
+
+  /* ---------- シンプル・くり返しの「一覧」（なまえ・時間・お気に入りを保存） ---------- */
+  var LS_MAX = 8;
+  var lsItems = { timer: [], repeat: [] };                    // [{ n:なまえ, s:秒, a:お気に入りの番号 }]
+  function lsFresh() { return { editing: false, editIdx: -1, base: null, newOpen: false, newTitle: '', flash: -1 }; }
+  var lsUI = { timer: lsFresh(), repeat: lsFresh() };
+  var accOpen = { timer: false, repeat: false, interval: false, preset: true, free: false, cat: false };      // 一覧を、ひらいているか（ふだんは、見出しだけ。タブごとに覚える）
+  function readAcc() { try { var o = JSON.parse(store.get(K.acc) || '{}') || {}; return { timer: o.timer === true, repeat: o.repeat === true, interval: o.interval === true, preset: o.preset !== false, free: o.free === true, cat: o.cat === true }; } catch (e) { return { timer: false, repeat: false, interval: false, preset: true, free: false, cat: false }; } }
+  function saveAcc() { store.set(K.acc, JSON.stringify(accOpen)); }
+  function syncAcc() {
+    var kk = lsK();
+    [['lsHead', 'lsBody', kk, 'lsMeta', lsItems[kk].length], ['tplHead', 'tplBody', 'interval', 'tplMeta', tpls.length]].forEach(function (a) {
+      var on = accOpen[a[2]];
+      $(a[0]).setAttribute('aria-expanded', on ? 'true' : 'false'); $(a[1]).hidden = !on;
+      $(a[3]).textContent = a[4] ? a[4] + '件' : '';
+    });
+    [['presetHead', 'presetBody', 'preset'], ['freeHead', 'freeBody', 'free'], ['catAccHead', 'catAccBody', 'cat']].forEach(function (a) {      // 「セット」「自由に設定」も、見出しで開閉（よく使うほうだけ開いておく）
+      $(a[0]).setAttribute('aria-expanded', accOpen[a[2]] ? 'true' : 'false'); $(a[1]).hidden = !accOpen[a[2]];
+    });
+  }
+  $('lsHead').addEventListener('click', function () { var kk = lsK(); accOpen[kk] = !accOpen[kk]; saveAcc(); lsRender(); });
+  $('tplHead').addEventListener('click', function () { accOpen.interval = !accOpen.interval; saveAcc(); syncAcc(); });
+  $('presetHead').addEventListener('click', function () { accOpen.preset = !accOpen.preset; saveAcc(); syncAcc(); });
+  $('freeHead').addEventListener('click', function () { accOpen.free = !accOpen.free; saveAcc(); syncAcc(); });
+  $('catAccHead').addEventListener('click', function () { accOpen.cat = !accOpen.cat; saveAcc(); syncAcc(); });
+  var lsQ = { timer: true, repeat: true };                  // 一覧の「すぐにスタート」（いまの入力の分。保存した項目ごとに持つ）
+  var selAtt = { timer: '', repeat: '' };                     // いま選んでいる「開くもの」（お気に入りの番号）
+  var lsPending = null, lsSig = '', lsAttSig = '';
+  var lsCountSel = $('lsCount');
+  var lsName = $('lsName'), lsH = $('lsH'), lsM = $('lsM'), lsS = $('lsS'), lsAttSel = $('lsAtt'), lsNoteEl = $('lsNote');
+  function lsK() { return tab === 'repeat' ? 'repeat' : 'timer'; }
+  function lsStoreKey(k) { return k === 'repeat' ? K.lsR : K.lsT; }
+  function readLs(k) {
+    try {
+      var a = JSON.parse(store.get(lsStoreKey(k)) || '[]');
+      if (!Array.isArray(a)) return [];
+      return a.slice(0, LS_MAX).map(function (x) {
+        var s = Math.round(Number(x && x.s)); if (!(s >= 1 && s <= MAX_SEC)) return null;
+        var it = { n: clip(x.n), s: s }; if (typeof x.a === 'string' && x.a) it.a = x.a.slice(0, 40);
+        var c = Math.floor(Number(x.c)); if (k === 'repeat') it.c = REP_COUNTS.indexOf(c) >= 0 ? c : REP_DEFAULT;      // 以前の「ずっと」は、4回に
+        if (typeof x.g === 'string' && x.g) it.g = x.g.slice(0, 40);
+        if (x.q === false) it.q = false;                                                                                  // すぐにスタートが、オフのもの（なければ、オン）
+        return it;
+      }).filter(Boolean);
+    } catch (e) { return []; }
+  }
+  function saveLs(k) { store.set(lsStoreKey(k), JSON.stringify(lsItems[k])); }
+  function readSel() {
+    try { var o = JSON.parse(store.get(K.sel) || '{}') || {}; return { timer: typeof o.timer === 'string' ? o.timer.slice(0, 40) : '', repeat: typeof o.repeat === 'string' ? o.repeat.slice(0, 40) : '' }; }
+    catch (e) { return { timer: '', repeat: '' }; }
+  }
+  function saveSel() { store.set(K.sel, JSON.stringify(selAtt)); }
+  function readLsq() { try { var o = JSON.parse(store.get(K.lsq) || '{}') || {}; return { timer: o.timer !== false, repeat: o.repeat !== false }; } catch (e) { return { timer: true, repeat: true }; } }
+  function saveLsq() { store.set(K.lsq, JSON.stringify(lsQ)); }
+  function lsDur(k, sec) { return label(sec) + (k === 'repeat' ? 'おき' : ''); }
+  function lsCntText(k, it) { return (k === 'repeat' && it.c > 0) ? '×' + it.c + '回' : ''; }      // 「×4回」
+  function lsLabel(k, it) { return it.n || (lsDur(k, it.s) + lsCntText(k, it)); }
+  function lsChipText(k, it) { return (it.n ? it.n + ' ' : '') + lsDur(k, it.s) + lsCntText(k, it); }
+  function lsDetail(k, it) { var f = it.a ? favById(it.a) : null; return lsChipText(k, it) + ((it.g && catById(it.g)) ? '、カテゴリー：' + catName(it.g) : '') + (f ? '、' + kindLabel(f) + '：' + favLabel(f) : '') + (it.q === false ? '、タップではセットだけ' : '、タップですぐスタート'); }
+  function lsCur(k) { return { n: clip(names[k] || '').trim(), s: Math.max(0, Math.round(st.total / 1000)), a: selAtt[k] || '', c: k === 'repeat' ? repCount : 0, q: lsQ[k] !== false, g: (catSel[k] && catById(catSel[k])) ? catSel[k] : '' }; }   // いまの入力（なまえ・時間・開くもの）
+  function lsSame(a, b) { return a.n === b.n && a.s === b.s && (a.a || '') === (b.a || '') && (a.c || 0) === (b.c || 0) && (a.q !== false) === (b.q !== false) && (a.g || '') === (b.g || ''); }
+  function lsFindSame(k) { var c = lsCur(k), items = lsItems[k]; for (var i = 0; i < items.length; i++) if (lsSame(items[i], c)) return i; return -1; }
+  function lsFindLabel(k, lbl) { var items = lsItems[k]; for (var i = 0; i < items.length; i++) if (lsLabel(k, items[i]) === lbl) return i; return -1; }
+  function lsIsBlank(k) { var c = lsCur(k); return !c.n && c.s === 300 && !c.a && (k === 'repeat' ? c.c === REP_DEFAULT : !c.c) && c.q && !c.g; }
+  function lsEditorOpen(k) { var u = lsUI[k]; return !isLocked() && (u.newOpen || u.editIdx >= 0); }
+  function lsSay(t) { lsNoteEl.textContent = t; lsNoteEl.hidden = !t; }
+  function lsHideConfirm() { lsPending = null; $('lsConfirm').hidden = true; }
+  function lsClearSel() { var k = lsK(); if (selAtt[k]) { selAtt[k] = ''; saveSel(); } }
+
+  /* 一覧のボタンの中身を、いまの入力に入れる（なまえ・時間・開くもの） */
+  function lsApply(k, it) {
+    names[k] = it.n; saveName(k); dialName.value = it.n; growName();
+    selAtt[k] = it.a && favById(it.a) ? it.a : ''; saveSel();
+    lsQ[k] = it.q !== false; saveLsq();
+    catSel[k] = (it.g && catById(it.g)) ? it.g : ''; saveCatSel();
+    if (k === 'repeat') setRepCount(it.c || 0);
+    accum = false; st.total = it.s * 1000; st.remain = st.total; writeCustom(it.s);
+  }
+  function lsTap(k, i) {
+    if (isLocked()) return;
+    var u = lsUI[k], it = lsItems[k][i]; if (!it) return;
+    u.newOpen = false; lsSay('');
+    if (u.editing) { lsStartEdit(k, i); return; }
+    if (st.status === 'done') acknowledge();
+    lsApply(k, it);
+    if (it.q !== false) startNew(st.total, { mode: tab });      // その項目の「すぐにスタート」がオンなら、すぐ始める
+    else refresh();
+  }
+  function lsStartEdit(k, i) {
+    var u = lsUI[k], it = lsItems[k][i]; if (!it) return;
+    u.editIdx = i; lsApply(k, it); u.base = { n: it.n, s: it.s, a: selAtt[k], c: it.c || 0, q: it.q !== false, g: catSel[k] };
+    lsHideConfirm(); lsSay(''); refresh();
+    try { $('lsEditor').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+  }
+  function lsBuildChips(k) {
+    var u = lsUI[k], items = lsItems[k], box = $('lsBox'), locked = isLocked();
+    box.textContent = ''; box.classList.toggle('editing', u.editing);
+    if (!items.length) box.appendChild(mk('p', 'tpl-empty', 'まだありません。「＋ 新しく作る」で、よく使うものを入れておけます。'));
+    items.forEach(function (it, i) {
+      var item = mk('div', 'tpl-item'), b = mk('button', 'tpl-btn'); b.type = 'button'; b.title = lsDetail(k, it);
+      if (it.g && catById(it.g)) { var cd2 = mk('i', 'cdot'); cd2.style.background = catColor(it.g); cd2.style.width = cd2.style.height = '10px'; cd2.style.marginRight = '6px'; cd2.style.verticalAlign = 'baseline'; b.appendChild(cd2); }
+      b.appendChild(document.createTextNode(lsChipText(k, it)));
+      if (i === u.flash) b.classList.add('flash');
+      if (u.editing && i === u.editIdx) b.classList.add('sel');
+      b.disabled = locked;
+      b.setAttribute('aria-label', lsLabel(k, it) + (u.editing ? 'を編集する' : 'を呼び出す'));
+      b.addEventListener('click', function () { lsTap(k, i); });
+      var d = mk('button', 'tpl-del'); d.type = 'button'; d.setAttribute('aria-label', lsLabel(k, it) + 'を消す'); d.innerHTML = '<span>×</span>'; d.disabled = locked;
+      d.addEventListener('click', function () {
+        if (isLocked()) return;
+        if (i === u.editIdx) { u.editIdx = -1; u.base = null; } else if (i < u.editIdx) u.editIdx--;
+        lsItems[k].splice(i, 1); saveLs(k); lsHideConfirm(); refresh(); lsSay('消しました');
+      });
+      item.appendChild(b); item.appendChild(d); box.appendChild(item);
+    });
+    u.flash = -1;
+  }
+  function lsFillAtt(k, cur) {
+    var sig = JSON.stringify(favs.map(function (f) { return [f.id, f.t, f.n]; }));
+    if (sig !== lsAttSig) {
+      lsAttSig = sig; lsAttSel.textContent = '';
+      var o0 = mk('option', null, 'なし'); o0.value = ''; lsAttSel.appendChild(o0);
+      favs.forEach(function (f) { var o = mk('option', null, kindLabel(f) + '：' + favLabel(f)); o.value = f.id; lsAttSel.appendChild(o); });
+    }
+    lsAttSel.value = cur && favById(cur) ? cur : '';
+    lsAttSel.disabled = !favs.length; $('lsAttHint').hidden = !!favs.length;
+  }
+  var lsLastK = '';
+  function lsRender() {
+    syncAcc();
+    var k = lsK(), u = lsUI[k], items = lsItems[k], locked = isLocked(), open = lsEditorOpen(k);
+    if (lsLastK !== k) {                                          // シンプル⇔くり返しで、知らせ・確認の枠を、持ちこさない（2つで、同じ部品を使っているため）
+      if (lsLastK) { lsSay(''); $('lsNewConfirm').hidden = true; lsHideConfirm(); }
+      lsLastK = k;
+    }
+    $('lsTitle').textContent = k === 'repeat' ? 'くり返し一覧' : 'シンプル一覧';
+    var sig = JSON.stringify([k, items, u.editing, u.editIdx, locked, favs.map(function (f) { return f.id + f.n; })]);
+    if (sig !== lsSig) { lsSig = sig; lsBuildChips(k); }
+    $('lsEdit').hidden = !items.length && !u.editing; $('lsEdit').textContent = u.editing ? '完了' : '編集';
+    $('lsNew').disabled = locked; $('lsEdit').disabled = locked;
+    var hint = (u.editing && u.editIdx < 0) ? '直したいものをタップしてください（×で消せます）' : '';
+    $('lsHint').textContent = hint; $('lsHint').hidden = !hint;
+    $('lsSummary').hidden = open;                                           // 要約は、3つのタブとも、一覧をとじていても出す（入力欄をひらいている間だけ隠す）
+    $('lsEditor').hidden = !open;
+    // 入力欄をひらいている間は、同じ内容を入れる下の欄（時間・回数）は、かくす（入力画面が2つになって、まぎらわしいため）
+    // くり返しは、インターバルと同じ形：間隔と回数は、入力欄の中だけで入れる（ふだんは、一覧・要約・すぐにスタートだけ）。シンプルは、セットのボタンと「自由に設定」もある
+    var isRepK = (k === 'repeat');
+    $('freeBlock').hidden = open || isRepK; $('catBlock').hidden = open || isRepK; $('quickRow').hidden = open || isRepK;      // くり返しは、「すぐにスタート」も入力欄の中（一覧の項目ごと）
+    $('repCountRow').hidden = true;
+    // シンプルのカテゴリー欄（セットのボタン・自由設定のタイマーに付ける）
+    fillCatSelect($('catMain'), catSel.timer, $('catMainDot'));
+    $('catMainHint').hidden = !!cats.length; $('catMain').disabled = !cats.length;
+    var cm = $('catAccMeta'); cm.textContent = '';
+    if (catSel.timer && catById(catSel.timer)) { var md = mk('i', 'mdot'); md.style.background = catColor(catSel.timer); cm.appendChild(md); cm.appendChild(document.createTextNode(catName(catSel.timer))); }
+    var c = lsCur(k), f = c.a ? favById(c.a) : null;
+    if (!open) {
+      $('lsSumCap').textContent = k === 'repeat' ? 'いまのくり返し' : 'いまのタイマー';
+      $('lsSumText').textContent = (c.n || 'なまえなし') + ' ・ ' + (c.s >= 1 ? lsDur(k, c.s) : '時間なし') + (k === 'repeat' ? ' ・ ' + c.c + '回' : '');
+      $('lsSumMeta').textContent = 'カテゴリー：' + catName(c.g) + ' ・ 開くもの：' + (f ? kindLabel(f) + '：' + favLabel(f) : 'なし') + ' ・ すぐにスタート：' + (c.q ? 'オン' : 'オフ');
+      $('lsReopen').disabled = locked;
+      return;
+    }
+    var edit = u.editIdx >= 0, act = document.activeElement;
+    $('lsEditTitle').textContent = edit ? '「' + lsLabel(k, items[u.editIdx]) + '」を編集中' : u.newTitle;
+    if (act !== lsName && lsName.value !== (names[k] || '')) lsName.value = names[k] || '';
+    [[lsH, Math.floor(c.s / 3600)], [lsM, Math.floor((c.s % 3600) / 60)], [lsS, c.s % 60]].forEach(function (p) { if (act !== p[0] && p[0].value !== String(p[1])) p[0].value = String(p[1]); });
+    $('lsCntRow').hidden = (k !== 'repeat');
+    if (k === 'repeat') lsCountSel.value = String(repCount);
+    lsFillAtt(k, c.a);
+    $('lsQuick').checked = !!c.q;
+    fillCatSelect($('lsCat'), c.g, $('lsCatDot'));
+    $('lsAdd').hidden = edit; $('lsPair').hidden = !edit;
+    $('lsAdd').disabled = lsFindSame(k) >= 0;
+    var unchanged = edit && !!u.base && lsSame(c, u.base);
+    $('lsSaveAs').disabled = unchanged; $('lsSaveOver').disabled = unchanged;
+    $('lsAdd').title = lsFindSame(k) >= 0 ? '同じものが、すでに保存されています' : '';
+    $('lsSaveAs').title = $('lsSaveOver').title = unchanged ? 'まだ変更がありません' : '';
+  }
+
+  /* 新しく作る・直す・とじる・編集 */
+  function lsDoNew(k) {
+    var u = lsUI[k];
+    if (st.status === 'done') acknowledge();
+    u.editing = false; u.editIdx = -1; u.base = null; u.newOpen = true; u.newTitle = k === 'repeat' ? '新しいくり返し' : '新しいタイマー';
+    names[k] = ''; saveName(k); dialName.value = ''; growName();
+    selAtt[k] = ''; saveSel(); lsQ[k] = true; saveLsq(); catSel[k] = ''; saveCatSel(); if (k === 'repeat') setRepCount(REP_DEFAULT);
+    accum = false; st.total = 300000; st.remain = st.total; writeCustom(300);
+    lsHideConfirm(); refresh();
+    lsSay('まっさらにしました。なまえと時間を入れて、「この内容を保存」を押してください');
+    try { lsName.focus(); } catch (e) {}
+    try { $('lsEditor').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+  }
+  $('lsNew').addEventListener('click', function () {
+    if (isLocked()) return;
+    var k = lsK();
+    if (lsFindSame(k) < 0 && !lsIsBlank(k)) {                    // 保存していない入力があるときだけ、聞く
+      $('lsNewConfirm').hidden = false;
+      try { $('lsNewConfirm').scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+    } else lsDoNew(k);
+  });
+  $('lsNewNo').addEventListener('click', function () { $('lsNewConfirm').hidden = true; });
+  $('lsNewYes').addEventListener('click', function () { if (isLocked()) return; $('lsNewConfirm').hidden = true; lsDoNew(lsK()); });
+  $('lsReopen').addEventListener('click', function () {
+    if (isLocked()) return;
+    var k = lsK(), u = lsUI[k];
+    u.newOpen = true; u.newTitle = k === 'repeat' ? 'いまのくり返し' : 'いまのタイマー';
+    refresh();
+    try { $('lsEditor').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
+  });
+  $('lsClose').addEventListener('click', function () {
+    var k = lsK(), u = lsUI[k];
+    if (u.editIdx >= 0) { u.editing = false; u.editIdx = -1; u.base = null; } else u.newOpen = false;
+    lsHideConfirm(); refresh();
+  });
+  $('lsEdit').addEventListener('click', function () {
+    if (isLocked()) return;
+    var k = lsK(), u = lsUI[k];
+    u.editing = !u.editing;
+    if (!u.editing) { u.editIdx = -1; u.base = null; lsHideConfirm(); }
+    lsSay(''); refresh();
+  });
+
+  /* 保存・別名で保存・上書き保存 */
+  function lsItemFromCur(k) { var c = lsCur(k), it = { n: c.n, s: c.s }; if (c.a) it.a = c.a; if (c.c > 0) it.c = c.c; if (!c.q) it.q = false; if (c.g) it.g = c.g; return it; }
+  function lsCommit(k, item, idx, msg) {
+    var u = lsUI[k], items = lsItems[k];
+    if (idx >= 0) { items[idx] = item; u.flash = idx; } else { items.push(item); u.flash = items.length - 1; }
+    u.editing = false; u.editIdx = -1; u.base = null; u.newOpen = false;
+    saveLs(k); lsHideConfirm(); lsSig = ''; refresh(); lsSay(msg);
+  }
+  function lsAsk(pending, text, noLabel) {
+    lsPending = pending; $('lsConfirmText').textContent = text; $('lsConfirmNo').textContent = noLabel; pending.focus = (noLabel === 'なまえを変える');
+    lsSay(''); $('lsConfirm').hidden = false;
+    try { lsName.blur(); } catch (e) {}
+    try { $('lsConfirm').scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+  }
+  function lsValid(k) { if (lsCur(k).s < 1) { lsSay('時間を入れてください'); return false; } return true; }
+  var LS_OVER = '（これまでの内容は、いまの内容に置きかわります）';
+  $('lsAdd').addEventListener('click', function () {              // 新しく保存
+    var k = lsK(); if (isLocked() || !lsValid(k)) return;
+    var it = lsItemFromCur(k), lbl = lsLabel(k, it), dup = lsFindLabel(k, lbl);
+    if (dup >= 0) { lsAsk({ idx: dup, item: it }, '「' + lbl + '」は、すでに保存されています。上書き保存しますか？' + LS_OVER, 'なまえを変える'); return; }
+    if (lsItems[k].length >= LS_MAX) { lsSay('保存できるのは' + LS_MAX + 'つまでです。「編集」で、いらないものを消してください'); return; }
+    lsCommit(k, it, -1, '保存しました。上の「' + (k === 'repeat' ? 'くり返し一覧' : 'シンプル一覧') + '」に追加されました');
+  });
+  $('lsSaveOver').addEventListener('click', function () {        // 編集中の「上書き保存」
+    var k = lsK(), u = lsUI[k]; if (isLocked() || u.editIdx < 0 || !lsValid(k)) return;
+    var it = lsItemFromCur(k), lbl = lsLabel(k, it), orig = lsLabel(k, lsItems[k][u.editIdx]), dup = lsFindLabel(k, lbl);
+    if (dup >= 0 && dup !== u.editIdx) { lsSay('「' + lbl + '」は、ほかのものに使われています。別のなまえにしてください'); return; }
+    lsAsk({ idx: u.editIdx, item: it }, (orig === lbl ? '「' + lbl + '」を' : '「' + orig + '」を、「' + lbl + '」として') + '上書き保存しますか？' + LS_OVER, 'もどる');
+  });
+  $('lsSaveAs').addEventListener('click', function () {          // 編集中の「別名で保存」
+    var k = lsK(), u = lsUI[k]; if (isLocked() || u.editIdx < 0 || !lsValid(k)) return;
+    var it = lsItemFromCur(k), lbl = lsLabel(k, it), orig = lsLabel(k, lsItems[k][u.editIdx]);
+    if (lbl === orig) {
+      var origIt = lsItems[k][u.editIdx];
+      lsSay('別名で保存するときは、' + (origIt.n ? 'なまえ' : 'なまえか時間') + 'を変えてください（「' + orig + '」は、そのまま残ります）');
+      try { lsName.focus(); } catch (e) {} return;
+    }
+    var dup = lsFindLabel(k, lbl);
+    if (dup >= 0) { lsAsk({ idx: dup, item: it }, '「' + lbl + '」は、すでに保存されています。上書き保存しますか？（これまでの内容は、いまの内容に置きかわります。編集していた「' + orig + '」は、そのまま残ります）', 'なまえを変える'); return; }
+    if (lsItems[k].length >= LS_MAX) { lsSay('保存できるのは' + LS_MAX + 'つまでです。「編集」で、いらないものを消してください'); return; }
+    lsCommit(k, it, -1, '別名で保存しました（「' + orig + '」は、そのまま残っています）');
+  });
+  $('lsConfirmYes').addEventListener('click', function () { if (!lsPending || isLocked()) return; var pd = lsPending, k = lsK(); lsCommit(k, pd.item, pd.idx, '上書き保存しました'); });
+  $('lsConfirmNo').addEventListener('click', function () { var f = !!(lsPending && lsPending.focus); lsHideConfirm(); if (f) { try { lsName.focus(); lsName.select(); } catch (e) {} } });
+
+  /* 入力欄の中の、なまえ・時間・開くもの（いまの入力と、つながっている） */
+  lsName.addEventListener('input', function (e) {
+    if (!e.isComposing) { var c = clip(lsName.value); if (c !== lsName.value) lsName.value = c; }
+    var k = lsK(); names[k] = clip(lsName.value); saveName(k); dialName.value = names[k]; growName();
+    lsHideConfirm(); render(); lsRender();
+  });
+  lsName.addEventListener('compositionend', function () { lsName.value = clip(lsName.value); var k = lsK(); names[k] = lsName.value; saveName(k); dialName.value = names[k]; growName(); render(); lsRender(); });
+  enterToClose(lsName);
+  [[lsH, 23], [lsM, 59], [lsS, 59]].forEach(function (p) {
+    var input = p[0], max = p[1];
+    input.addEventListener('focus', function () { setTimeout(function () { try { input.select(); } catch (e) {} }, 0); });
+    input.addEventListener('input', function () {
+      cleanField(input, max);
+      if (isLocked()) return;
+      if (st.status === 'done') acknowledge();
+      accum = false;
+      var sec = (parseInt(lsH.value, 10) || 0) * 3600 + (parseInt(lsM.value, 10) || 0) * 60 + (parseInt(lsS.value, 10) || 0);
+      st.total = sec * 1000; st.remain = st.total; writeCustom(sec);
+      lsHideConfirm(); render(); syncControls();
+    });
+    input.addEventListener('blur', function () { input.value = String(Number(input.value) || 0); });
+  });
+  $('lsQuick').addEventListener('change', function () { var k = lsK(); lsQ[k] = $('lsQuick').checked; saveLsq(); lsHideConfirm(); lsRender(); });
+  $('lsCat').addEventListener('change', function () { var k = lsK(); catSel[k] = $('lsCat').value; saveCatSel(); lsHideConfirm(); lsRender(); });
+  $('catMain').addEventListener('change', function () { catSel.timer = $('catMain').value; saveCatSel(); lsRender(); });
+  lsAttSel.addEventListener('change', function () { var k = lsK(); selAtt[k] = lsAttSel.value; saveSel(); lsHideConfirm(); lsRender(); });
+
+  /* ---------- くり返しの回数 ---------- */
+  function setRepCount(n) {                                   // 画面の2か所（くり返しのタブ・一覧の入力欄）を、そろえる
+    repCount = REP_COUNTS.indexOf(n) >= 0 ? n : REP_DEFAULT;
+    store.set(K.repCnt, String(repCount));
+    repCountSel.value = String(repCount); lsCountSel.value = String(repCount);
+  }
+  [repCountSel, lsCountSel].forEach(function (sel) {
+    REP_COUNTS.forEach(function (n) { var o = mk('option', null, n + '回'); o.value = String(n); sel.appendChild(o); });
+    sel.addEventListener('change', function () { if (isLocked()) { sel.value = String(repCount); return; } setRepCount(Number(sel.value) || 0); lsHideConfirm(); refresh(); });
+  });
 
   /* ---------- 自由入力 ---------- */
   function readCustom() {
@@ -2035,6 +2900,7 @@ async function shareAppLink() {
       if (st.status === 'done') acknowledge();
       if (st.status !== 'idle') return;
       accum = false;
+      if (!lsEditorOpen(lsK())) lsClearSel();
       st.total = readCustom() * 1000;
       st.remain = st.total;
       render(); syncControls();
@@ -2063,7 +2929,7 @@ async function shareAppLink() {
       nm.autocomplete = 'off';
       var mn = document.createElement('input');
       mn.type = 'text'; mn.className = 'st-min'; mn.maxLength = 3; mn.setAttribute('inputmode', 'numeric');
-      mn.value = s.s > 0 ? String(Math.round(s.s / 60)) : ''; mn.placeholder = '0';
+      mn.value = s.s > 0 ? String(Math.floor(s.s / 60)) : ''; mn.placeholder = '0';
       mn.setAttribute('data-i', i); mn.setAttribute('aria-label', (i + 1) + 'つ目の分');
       mn.autocomplete = 'off';
       var u = document.createElement('span'); u.className = 'unit'; u.textContent = '分';
@@ -2071,9 +2937,22 @@ async function shareAppLink() {
       del.type = 'button'; del.className = 'st-del'; del.setAttribute('data-i', i);
       del.setAttribute('aria-label', (i + 1) + 'つ目を消す');
       del.innerHTML = '<span>×</span>';
-      var mw = document.createElement('span'); mw.className = 'min-wrap'; mw.appendChild(mn); mw.appendChild(u);
+      var mw = document.createElement('span'); mw.className = 'time-pill';
+      var sc = document.createElement('input');                    // 秒（0〜59）
+      sc.type = 'text'; sc.className = 'st-sec'; sc.maxLength = 2; sc.setAttribute('inputmode', 'numeric');
+      sc.value = s.s > 0 ? String(s.s % 60) : ''; sc.placeholder = '0';
+      sc.setAttribute('data-i', i); sc.setAttribute('aria-label', (i + 1) + 'つ目の秒'); sc.autocomplete = 'off';
+      var u2 = document.createElement('span'); u2.className = 'unit'; u2.textContent = '秒';
+      mw.appendChild(mn); mw.appendChild(u); mw.appendChild(sc); mw.appendChild(u2);                // 「25 分 30 秒」をひとつの枠に
       row.appendChild(nm); row.appendChild(mw); row.appendChild(del);
       if (s.a && !favById(s.a)) delete s.a;                      // 消されたお気に入りは、はずす
+      if (s.g && !catById(s.g)) delete s.g;                      // 消されたカテゴリーは、はずす
+      var swc = mk('label', 'att-sel');                          // カテゴリー（ステップごと）
+      if (cats.length) {
+        swc.appendChild(mk('span', null, 'カテゴリー'));
+        var cp = mk('div', 'cat-pick'), cd = mk('i', 'cdot'), cs = mk('select', 'st-cat'); cs.setAttribute('data-i', i); cs.setAttribute('aria-label', (i + 1) + 'つ目のカテゴリー');
+        cp.appendChild(cd); cp.appendChild(cs); fillCatSelect(cs, s.g || '', cd); swc.appendChild(cp);
+      } else swc.appendChild(mk('span', null, 'カテゴリーを作ると、ここで付けられます'));
       var att = mk('div', 'step-att'), tag = mk('span', 'att-tag'), sw2 = mk('label', 'att-sel');
       if (favs.length) {
         sw2.appendChild(mk('span', null, 'このステップで開く'));
@@ -2082,7 +2961,8 @@ async function shareAppLink() {
         favs.forEach(function (f) { var o = mk('option', null, kindLabel(f) + '：' + favLabel(f)); o.value = f.id; sel.appendChild(o); });
         sel.value = s.a || ''; sw2.appendChild(sel);
       } else sw2.appendChild(mk('span', null, 'お気に入りを足すと、ここで付けられます'));
-      att.appendChild(tag); att.appendChild(sw2); row.appendChild(att);
+      tag.addEventListener('click', function () { setActiveStep(Array.prototype.indexOf.call(stepsEl.children, row)); });      // 目印をタップ → 選ぶ欄がひらく
+      att.appendChild(tag); att.appendChild(swc); att.appendChild(sw2); row.appendChild(att);
       updateAttRow(row, s);
       if (i === activeStep) row.classList.add('active');
       stepsEl.appendChild(row);
@@ -2095,11 +2975,16 @@ async function shareAppLink() {
     if (t.classList.contains('st-name')) {
       if (!e.isComposing) { var c = clip(t.value); if (c !== t.value) t.value = c; }   // 変換中は、確定してから切る
       plan.steps[i].n = clip(t.value);
-    } else if (t.classList.contains('st-min')) {
-      var v = t.value.replace(/\D/g, '').slice(0, 3);
-      if (v !== '' && Number(v) > MAX_STEP_MIN) v = String(MAX_STEP_MIN);
+    } else if (t.classList.contains('st-min') || t.classList.contains('st-sec')) {
+      var isMin = t.classList.contains('st-min');
+      var v = t.value.replace(/\D/g, '').slice(0, isMin ? 3 : 2);
+      if (isMin && v !== '' && Number(v) > MAX_STEP_MIN) v = String(MAX_STEP_MIN);
+      if (!isMin && v !== '' && Number(v) > 59) v = '59';
       t.value = v;
-      plan.steps[i].s = (Number(v) || 0) * 60;
+      var rowEl = t.closest('.step'), mEl = rowEl.querySelector('.st-min'), sEl = rowEl.querySelector('.st-sec');
+      var mm = Number(mEl.value) || 0, ss = Number(sEl.value) || 0;
+      if (mm * 60 + ss > MAX_STEP_MIN * 60) { ss = 0; sEl.value = '0'; }            // 1つのステップは、180分まで
+      plan.steps[i].s = mm * 60 + ss;                                                  // 秒で持つ
     }
     savePlan();
     lockEditor(isLocked());
@@ -2112,22 +2997,32 @@ async function shareAppLink() {
     savePlan(); if (st.status === 'idle' && tab === 'interval') render();
   });
   function updateAttRow(row, s) {
-    var f = s.a ? favById(s.a) : null, tg = row.querySelector('.att-tag');
-    row.classList.toggle('has-att', !!f);
-    if (tg) tg.textContent = f ? kindLabel(f) + '：' + favLabel(f) : '';
+    var f = s.a ? favById(s.a) : null, g = (s.g && catById(s.g)) ? s.g : '', tg = row.querySelector('.att-tag');
+    row.classList.toggle('has-att', !!(f || g || cats.length));                      // カテゴリーがあるときは、どのステップにも、カテゴリーの行を出す（付けられると、分かるように）
+    if (!tg) return;
+    tg.textContent = '';
+    if (cats.length || g) {
+      var d = mk('i', 'cdot'); d.style.background = catColor(g); d.style.width = d.style.height = '9px'; d.style.marginRight = '5px';
+      tg.appendChild(mk('span', 'att-k', 'カテゴリー　')); tg.appendChild(d); tg.appendChild(document.createTextNode(g ? catName(g) : '未分類'));
+    }
+    if (f) tg.appendChild(document.createTextNode(((cats.length || g) ? ' ・ ' : '') + kindLabel(f) + '：' + favLabel(f)));
   }
-  stepsEl.addEventListener('change', function (e) {                // お気に入りを選んだとき
+  stepsEl.addEventListener('change', function (e) {                // お気に入り・カテゴリーを選んだとき
     var t = e.target;
-    if (!t.classList || !t.classList.contains('st-att')) return;
+    if (!t.classList) return;
     var i = Number(t.getAttribute('data-i')); if (!plan.steps[i]) return;
-    if (t.value) plan.steps[i].a = t.value; else delete plan.steps[i].a;
+    if (t.classList.contains('st-att')) { if (t.value) plan.steps[i].a = t.value; else delete plan.steps[i].a; }
+    else if (t.classList.contains('st-cat')) {
+      if (t.value) plan.steps[i].g = t.value; else delete plan.steps[i].g;
+      var dd = t.parentNode.querySelector('.cdot'); if (dd) dd.style.background = catColor(t.value);
+    } else return;
     savePlan(); updateAttRow(t.closest('.step'), plan.steps[i]); lockEditor(isLocked());
   });
   stepsEl.addEventListener('focusin', function (e) {
     var t = e.target;
     var row = t.closest ? t.closest('.step') : null;
     if (row) setActiveStep(Array.prototype.indexOf.call(stepsEl.children, row));
-    if (t.classList && t.classList.contains('st-min')) setTimeout(function () { try { t.select(); } catch (er) {} }, 0);
+    if (t.classList && (t.classList.contains('st-min') || t.classList.contains('st-sec'))) setTimeout(function () { try { t.select(); } catch (er) {} }, 0);
   });
   stepsEl.addEventListener('click', function (e) {
     var b = e.target.closest ? e.target.closest('.st-del') : null;
@@ -2145,7 +3040,7 @@ async function shareAppLink() {
     savePlan(); renderSteps(); refresh();
     var nms = stepsEl.querySelectorAll('.st-name'); try { nms[nms.length - 1].focus(); } catch (er) {}   // 足したステップのなまえ欄へ
   });
-  /* よく使う組み合わせ（自分で保存・編集できる） */
+  /* 組み合わせ（自分で保存・編集できる） */
   var MAX_TPL = 8;
   var DEFAULT_TPLS = [
     { n: '', steps: [{ n: '勉強', s: 1500 }, { n: '運動', s: 600 }], rounds: null, manual: null },     // null のものは、呼び出しても、回数・進みかたを変えない
@@ -2158,7 +3053,7 @@ async function shareAppLink() {
     tplNoteEl.textContent = text; tplNoteEl.hidden = false;
     clearTimeout(tplNoteTimer); tplNoteTimer = setTimeout(function () { tplNoteEl.hidden = true; }, 4500);
   }
-  function cloneSteps(a) { return a.map(function (x) { var c = { n: x.n, s: x.s }; if (x.a) c.a = x.a; return c; }); }
+  function cloneSteps(a) { return a.map(function (x) { var c = { n: x.n, s: x.s }; if (x.a) c.a = x.a; if (x.g) c.g = x.g; return c; }); }
   function loadTpls() {
     var raw = store.get(K.tpl);
     if (raw === null) { tpls = DEFAULT_TPLS.map(function (t) { return { n: t.n, steps: cloneSteps(t.steps), rounds: t.rounds, manual: t.manual }; }); return; }
@@ -2167,7 +3062,7 @@ async function shareAppLink() {
       var a = JSON.parse(raw);
       if (Array.isArray(a)) a.slice(0, MAX_TPL).forEach(function (x) {
         var np = normPlan({ steps: x && x.steps, rounds: x && x.rounds });
-        if (!np || np.steps.some(function (s) { return s.s < 60; })) return;
+        if (!np || np.steps.some(function (s) { return s.s < 1; })) return;
         tpls.push({ n: clip(x.n), steps: np.steps, rounds: (x.rounds === null || x.rounds === undefined) ? null : np.rounds, manual: (x.manual === null || x.manual === undefined) ? null : !!x.manual });
       });
     } catch (e) {}
@@ -2175,16 +3070,16 @@ async function shareAppLink() {
   function saveTpls() { store.set(K.tpl, JSON.stringify(tpls)); }
   function tplLabel(t) {
     if (t.n) return t.n;
-    return t.steps.map(function (s, i) { return (s.n || 'ステップ' + (i + 1)) + Math.round(s.s / 60); }).join('＋');
+    return t.steps.map(function (s, i) { return (s.n || 'ステップ' + (i + 1)) + (s.s % 60 === 0 ? String(s.s / 60) : label(s.s)); }).join('＋');     // 「勉強25」「ストレッチ30秒」「休憩1分30秒」
   }
   function tplDetail(t) {
-    return t.steps.map(function (s, i) { return (s.n || 'ステップ' + (i + 1)) + Math.round(s.s / 60) + '分'; }).join('、') +
+    return t.steps.map(function (s, i) { return (s.n || 'ステップ' + (i + 1)) + label(s.s); }).join('、') +
       (t.rounds === null ? '' : t.rounds > 0 ? '、' + t.rounds + '回' : '、ずっとくり返す') + (t.manual ? '、タップで次へ' : '');
   }
   var tplEditIdx = -1;                         // 編集中のもの（-1＝新しく保存するとき）
   var tplEditBase = null;                      // 編集を始めたときの内容（直したかどうかを比べる用）
   var DEFAULT_ROUNDS = 3;
-  function tplSig(steps) { return JSON.stringify(steps.map(function (x) { return [(x.n || '').trim(), Math.round(x.s / 60), x.a || '']; })); }
+  function tplSig(steps) { return JSON.stringify(steps.map(function (x) { return [(x.n || '').trim(), x.s, x.a || '', x.g || '']; })); }
   function tplFindSame() {                     // いまの入力と同じ内容が、すでに保存されているか（あれば、その番号）
     if (typeof tpls === 'undefined' || !tpls) return -1;
     var cur = tplSig(plan.steps);
@@ -2199,7 +3094,7 @@ async function shareAppLink() {
     return tplSig(plan.steps) === tplEditBase.sig && plan.rounds === tplEditBase.rounds && !!plan.manual === tplEditBase.manual && clip(tplName.value.trim()) === tplEditBase.name;
   }
   function tplUpdateSameNote(same, unchanged) {   // 見える文章は出さない。押せない理由は、ボタンのtitle（カーソルを置いたとき・読み上げ）だけに入れる
-    var why = same >= 0 ? '同じ組み合わせが、すでに保存されています（「' + tplLabel(tpls[same]) + '」）' : '';
+    var why = same >= 0 ? '同じインターバルが、すでに保存されています（「' + tplLabel(tpls[same]) + '」）' : '';
     tplAddBtn.title = (tplEditIdx < 0 && !tplForm.hidden) ? '' : why;
     tplSaveBtn.title = tplEditIdx >= 0 ? (unchanged ? 'まだ変更がありません' : '') : why;
     tplSaveAsBtn.title = unchanged ? 'まだ変更がありません' : '';
@@ -2226,6 +3121,7 @@ async function shareAppLink() {
     tplName.value = t.n; tplCancelBtn.hidden = false; tplSaveAsBtn.hidden = false; tplSaveBtn.textContent = '上書き保存'; tplForm.hidden = false; tplForm.classList.add('edit');
     tplNoteEl.hidden = true;
     renderTpls(); refresh();
+    try { ivEditor.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (er) {}
   }
   function renderTpls() {
     tplBox.textContent = '';
@@ -2244,6 +3140,7 @@ async function shareAppLink() {
       b.setAttribute('aria-label', tplLabel(t) + (tplEditing ? 'を編集する' : 'を呼び出す') + '（' + tplDetail(t) + '）');
       b.addEventListener('click', function () {
         if (isLocked()) return;
+        ivNew = false;
         if (tplEditing) { startEditTpl(i); return; }
         if (st.status === 'done') acknowledge();
         plan.steps = cloneSteps(t.steps);
@@ -2263,9 +3160,10 @@ async function shareAppLink() {
     });
     tplFlash = -1;
     tplEditBtn.textContent = tplEditing ? '完了' : '編集';
-    tplHint.textContent = !tplEditing ? '' : tplEditIdx >= 0 ? '「' + tplLabel(tpls[tplEditIdx]) + '」を編集中。下で直して、「上書き保存」か「別名で保存」を選んでください' : '直したいものをタップしてください（×で消せます）';
+    tplHint.textContent = !tplEditing ? '' : tplEditIdx >= 0 ? '' : '直したいものをタップしてください（×で消せます）';
     tplEditBtn.hidden = !tpls.length && !tplEditing;           // 「＋ 新しく作る」は、いつも出す。「編集」は、保存したものがあるときだけ
     tplHint.hidden = !tplHint.textContent;
+    syncAcc();
     lockEditor(isLocked());
   }
   /* 新しく作る：入力欄を、まっさらにする（保存した組み合わせは、そのまま） */
@@ -2276,10 +3174,12 @@ async function shareAppLink() {
   function doNewTpl() {
     tplEditIdx = -1; tplEditing = false; tplEditBase = null; resetTplForm();
     plan.steps = BLANK_STEPS(); plan.rounds = DEFAULT_ROUNDS; plan.manual = false;
+    ivNew = true; ivNewTitle = '新しいインターバル';                // 入力欄をひらく
     roundsSel.value = String(plan.rounds); activeStep = 0;
     savePlan(); syncAdvUI(); renderSteps(); renderTpls(); refresh();
     tplSay('まっさらにしました。ステップを入れて、いちばん下の「この内容を保存」を押してください');
     var nms = stepsEl.querySelectorAll('.st-name'); try { nms[0].focus(); } catch (er) {}
+    try { ivEditor.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (er) {}
   }
   $('tplNew').addEventListener('click', function () {
     if (isLocked()) return;
@@ -2287,6 +3187,16 @@ async function shareAppLink() {
       $('tplNewConfirm').hidden = false;
       try { $('tplNewConfirm').scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
     } else doNewTpl();
+  });
+  $('ivReopen').addEventListener('click', function () {            // 「直す」：いまの組み合わせのまま、入力欄をひらく（ひとまず変えて使う・保存する、どちらもできる）
+    if (isLocked()) return;
+    ivNew = true; ivNewTitle = 'いまのインターバル';
+    lockEditor(isLocked());
+    try { ivEditor.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (er) {}
+  });
+  $('ivClose').addEventListener('click', function () {            // 入力欄をとじる（入力した中身は、いまの組み合わせとして残る）
+    if (tplEditIdx >= 0) { tplEditing = false; resetTplForm(); tplEditIdx = -1; renderTpls(); }
+    else { ivNew = false; lockEditor(isLocked()); }
   });
   $('tplNewNo').addEventListener('click', function () { $('tplNewConfirm').hidden = true; });
   $('tplNewYes').addEventListener('click', function () { if (isLocked()) return; $('tplNewConfirm').hidden = true; doNewTpl(); });
@@ -2311,7 +3221,7 @@ async function shareAppLink() {
   }
   function tplCommit(item, idx, msg) {          // idx が -1 なら、新しく追加。そうでなければ、その番号を上書き
     if (idx >= 0) { tpls[idx] = item; tplFlash = idx; } else { tpls.push(item); tplFlash = tpls.length - 1; }
-    tplEditIdx = -1; tplEditing = false; resetTplForm(); saveTpls(); renderTpls();
+    ivNew = false; tplEditIdx = -1; tplEditing = false; resetTplForm(); saveTpls(); renderTpls();
     tplSay(msg);
   }
   function askOverwrite(pending, text, noLabel) {            // 「上書き保存しますか？」を出す
@@ -2327,7 +3237,7 @@ async function shareAppLink() {
     if (isLocked()) return;
     var editing = tplEditIdx >= 0;
     for (var i = 0; i < plan.steps.length; i++) {
-      if (!(plan.steps[i].s >= 60)) { tplSay((i + 1) + 'つ目の分を入れてから、保存してください'); return; }
+      if (!(plan.steps[i].s >= 1)) { tplSay((i + 1) + 'つ目の時間（分・秒）を入れてから、保存してください'); return; }
     }
     var item = { n: clip(tplName.value.trim()), steps: cloneSteps(plan.steps), rounds: plan.rounds, manual: !!plan.manual };
     var lbl = tplLabel(item), dup = tplFindByLabel(lbl);
@@ -2343,7 +3253,7 @@ async function shareAppLink() {
       return;
     }
     if (tpls.length >= MAX_TPL) { tplSay('保存できるのは' + MAX_TPL + 'つまでです。上の「編集」で消してください'); return; }
-    tplCommit(item, -1, '保存しました。上の「よく使う組み合わせ」に追加されました');
+    tplCommit(item, -1, '保存しました。上の「インターバル一覧」に追加されました');
   }
   $('tplConfirmYes').addEventListener('click', function () {
     if (!tplPending || isLocked()) return;
@@ -2358,7 +3268,7 @@ async function shareAppLink() {
   function saveAsNew() {                          // 編集中に「別名で保存」→ もとのものは、そのまま残して、新しく足す
     if (isLocked() || tplEditIdx < 0) return;
     for (var i = 0; i < plan.steps.length; i++) {
-      if (!(plan.steps[i].s >= 60)) { tplSay((i + 1) + 'つ目の分を入れてから、保存してください'); return; }
+      if (!(plan.steps[i].s >= 1)) { tplSay((i + 1) + 'つ目の時間（分・秒）を入れてから、保存してください'); return; }
     }
     var item = { n: clip(tplName.value.trim()), steps: cloneSteps(plan.steps), rounds: plan.rounds, manual: !!plan.manual };
     var lbl = tplLabel(item), orig = tplLabel(tpls[tplEditIdx]);
@@ -2396,9 +3306,10 @@ async function shareAppLink() {
     var steps = [];
     for (var i = 0; i < plan.steps.length; i++) {
       var s = plan.steps[i];
-      if (!(s.s >= 60)) { say((i + 1) + 'つ目の分を入れてください'); return null; }
+      if (!(s.s >= 1)) { say((i + 1) + 'つ目の時間（分・秒）を入れてください'); return null; }
       var cs = { n: clip(s.n || ('ステップ' + (i + 1))), s: s.s };
       if (s.a) cs.a = s.a;
+      if (s.g) cs.g = s.g;
       steps.push(cs);
     }
     return { steps: steps, rounds: plan.rounds, manual: !!plan.manual };
@@ -2605,6 +3516,7 @@ async function shareAppLink() {
       pushLog(st.endAt, Math.round(st.total / 1000));          // 終わった1回ぶんを履歴に残す
       if (st.mode === 'timer') { finalDone(silent); flushLog(); return; }
       if (st.mode === 'repeat') {
+        if (st.cnt > 0 && st.round >= st.cnt) { finalDone(silent); flushLog(); return; }   // 決めた回数が終わったら、最後のチャイムで終わる
         st.round++;
       } else {
         st.idx++;
@@ -2663,7 +3575,7 @@ async function shareAppLink() {
   function toIdle() {
     if (st.mode === 'interval') st.total = idleMs;   // タイマーの時間をもとに戻す
     st.status = 'idle'; st.mode = 'timer'; st.plan = null; st.idx = 0; st.round = 1;
-    st.endAt = 0; st.remain = st.total; accum = false;
+    st.endAt = 0; st.remain = st.total; accum = false; st.a = ''; st.cnt = 0; st.g = '';
   }
   function startNew(ms, o) {
     o = o || {};
@@ -2673,6 +3585,10 @@ async function shareAppLink() {
     var mode = o.mode || 'timer';
     if (mode === 'interval') idleMs = st.total;
     st.mode = mode; st.plan = o.plan || null; st.idx = 0; st.round = 1;
+    st.a = (mode === 'timer' || mode === 'repeat') ? (selAtt[mode] || '') : '';       // シンプル・くり返しで開くお気に入り
+    st.cnt = (mode === 'repeat') ? repCount : 0;                              // くり返しの回数（0＝ずっと）
+    st.g = (mode === 'timer' || mode === 'repeat') ? (catSel[mode] || '') : '';   // カテゴリー（シンプル・くり返し）
+    if (lsUI[mode]) lsUI[mode].newOpen = false;
     st.status = 'running'; st.total = ms; st.remain = ms; st.endAt = Date.now() + ms;
     if (mode !== 'interval') {
       store.set(K.last, String(Math.round(ms / 1000)));
@@ -2684,6 +3600,7 @@ async function shareAppLink() {
     if (tab === 'interval') {
       var p = checkPlan();
       if (!p) return;
+      ivNew = false;
       startNew(p.steps[0].s * 1000, { mode: 'interval', plan: p });
     } else {
       startNew(st.total, { mode: tab });
@@ -2741,24 +3658,18 @@ async function shareAppLink() {
   $('presets').addEventListener('click', function (e) {
     var b = e.target.closest ? e.target.closest('.chip') : null;
     if (!b || b.disabled) return;
-    var ms = Number(b.getAttribute('data-sec')) * 1000;
+    var ms = Number(b.getAttribute('data-sec')) * 1000, lsOpen = lsEditorOpen(lsK());
     if (st.status === 'done') acknowledge();
     if (st.status === 'running' || st.status === 'paused') { addTime(ms); return; }   // 動いている間は、延ばす
     var nt = (accum ? st.total : 0) + ms;                                              // 1回目は、その時間にセット。続けて押すと足される
     if (nt > MAX_SEC * 1000) { say('最大は23時間59分です'); return; }
+    if (!lsOpen) lsClearSel();                                                         // 別の時間にしたら、一覧のお気に入りは、はずす
     st.total = nt; st.remain = nt;
     writeCustom(Math.round(nt / 1000));
-    if (settings.quick) { startNew(nt, { mode: tab }); return; }
+    if (settings.quick && !lsOpen) { startNew(nt, { mode: tab }); return; }            // 一覧の入力欄をひらいている間は、すぐには始めない
     accum = true;
     refresh();
     say('＋' + label(Math.round(ms / 1000)));
-  });
-  customBtn.addEventListener('click', function () {
-    if (customBtn.disabled) return;
-    var sec = readCustom();
-    if (sec < 1) { say('時間を入れてください'); return; }
-    if (st.status === 'done') acknowledge();
-    startNew(sec * 1000, { mode: tab });
   });
 
   /* ---------- 設定画面 ---------- */
@@ -2809,6 +3720,9 @@ async function shareAppLink() {
   names.watch = clip(store.get(K.nameSw));
   log = readLog();
   favs = readFavs();
+  cats = readCats(); catSel = readCatSel();
+  lsItems.timer = readLs('timer'); lsItems.repeat = readLs('repeat'); selAtt = readSel(); lsQ = readLsq(); accOpen = readAcc();
+  setRepCount(Number(store.get(K.repCnt)) || 0);
   loadState();
   swLoad();
   if (sw.status !== 'idle' && st.status === 'idle') tab = 'watch';   // ストップウォッチ中に閉じていたら、そのまま続きを出す
@@ -2819,6 +3733,7 @@ async function shareAppLink() {
   roundsSel.value = String(plan.rounds);
   syncAdvUI();
   renderFavs(); setFavOpen(store.get(K.favOpen) === '1');
+  renderCats(); setCatOpen(store.get(K.catOpen) === '1');
   loadTpls();
   renderSteps();
   renderTpls();
