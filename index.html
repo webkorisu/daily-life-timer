@@ -196,7 +196,7 @@
       header h2 { margin-bottom: 6px; }
       header .title-ja-sub { margin-bottom: 8px; }
       header .data-hint { margin-top: 6px; }
-      .wrap .card, .wrap .timer-card { padding-top: 14px; }
+      .wrap .card:not(.log-card), .wrap .timer-card { padding-top: 14px; }       /* 開閉のカード（.log-card）は、除く：上の余白が、4pxから14pxになって、見出しが下に寄っていた */
       .tabs { margin-bottom: 12px; }
   
       button.sec-acc { min-height: 40px; margin-bottom: 0; }
@@ -558,7 +558,9 @@
     /* 履歴（ひらく・とじる。下の注意事項とは違う見た目） */
     .log-card { padding: 4px 20px; transition: padding .3s ease; }
     .log-card.open { padding-bottom: 18px; }
-    .log-head { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 0; background: none; border: 0; cursor: pointer; color: var(--text); }
+    .log-head { display: flex; align-items: center; gap: 10px; width: 100%; height: auto; min-height: 0; margin: 0; padding: 12px 0; background: none; border: 0; border-radius: 0; cursor: pointer; color: var(--text);
+      -webkit-appearance: none; appearance: none; box-sizing: border-box; line-height: 1; text-align: left; font: inherit; }          /* iPhoneのSafariで、ボタンの標準の見た目が残って、中身が下に寄るのを防ぐ。高さは決めず、上下に同じ余白（12px）で、中身の高さに任せる（余った高さがないので、片方に寄らない） */
+    .log-head > * { align-self: center; }
     .log-title { flex: none; font-size: 12px; font-weight: 700; letter-spacing: .10em; color: var(--text-sub); }
     .log-line { flex: 1; min-width: 12px; height: 0; border-top: 2px dotted var(--line); }
     .log-meta { flex: none; font-size: 12px; letter-spacing: .04em; color: var(--text-sub); }
@@ -619,6 +621,38 @@
     .ls-pair { display: flex; gap: 8px; margin-top: 16px; }
     .ls-pair .btn { flex: 1; min-height: 46px; font-size: 14px; }
 
+    /* ===== なまえの候補（今まで使ったなまえ） ===== */
+    .name-suggest { position: absolute; left: 14px; right: 14px; z-index: 6; max-height: 168px; overflow-y: auto; padding: 10px 10px 12px; border-radius: 16px; background: var(--surface); border: 1.5px solid var(--border); box-shadow: 0 8px 24px rgba(70, 58, 50, .18); }
+    .name-suggest[hidden] { display: none; }
+    .ns-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 0 6px; }
+    .ns-cap { margin: 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--text-sub); }
+    .ns-tools { display: flex; align-items: center; gap: 6px; }
+    .ns-tool { min-height: 30px; padding: 3px 12px 5px; border-radius: 999px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text-sub); font-size: 12px; font-weight: 700; letter-spacing: .04em; cursor: pointer; white-space: nowrap; }
+    .ns-tool[hidden] { display: none; }
+    .ns-tool[aria-pressed="true"] { border-color: var(--accent); background: var(--primary-soft); color: var(--text); }
+    .ns-chip .ns-x { margin-left: 8px; color: var(--text-sub); font-size: 13px; }
+    .ns-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ns-chip { min-height: 38px; max-width: 100%; padding: 6px 14px 8px; border-radius: 999px; border: 1.5px solid var(--accent); background: var(--primary-soft); color: var(--text); font-size: 14px; letter-spacing: .04em; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ===== カロリーのめやす ===== */
+    .kcal-set { padding: 0 0 6px 12px; border-left: 2px dotted var(--border); margin: 0 0 8px; }
+    .kcal-set[hidden] { display: none; }
+    .kcal-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 13px; font-weight: 700; color: var(--text); }
+    .kcal-row input { width: 96px; height: 40px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text); font-size: 15px; padding: 0 10px 2px; text-align: right; outline: none; }
+    .kcal-row input:focus { border-color: var(--accent); }
+    .kcal-note { margin: 4px 0 0; font-size: 11px; line-height: 1.7; color: var(--text-sub); }
+    .cat-met { display: flex; flex-direction: column; gap: 8px; }
+    .cat-met[hidden], .cat-met-custom[hidden] { display: none; }
+    .cat-met .ls-att { margin-top: 0; }
+    .cat-met .cat-pick select { padding-left: 14px; }
+    .cat-met-custom { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--text-sub); }
+    .cat-met-custom input { flex: 1; min-width: 0; height: 44px; border-radius: 12px; border: 1.5px solid var(--border); background: var(--surface); color: var(--text); font-size: 15px; padding: 0 12px 2px; outline: none; }
+    .cat-met-note { margin: 0; font-size: 11px; line-height: 1.7; color: var(--text-sub); }
+    .cat-nm { min-width: 0; }
+    .cat-sub { margin-top: 2px; font-size: 11px; color: var(--text-sub); letter-spacing: .04em; }
+    .lrow .ln .lk { display: block; font-size: 11px; font-weight: 400; color: var(--text-sub); letter-spacing: .04em; }
+    .kcal-hint { margin: 6px 0 0; font-size: 11px; line-height: 1.7; color: var(--text-sub); }
+
     /* ===== カテゴリー ===== */
     .cdot { display: inline-block; flex: none; width: 14px; height: 14px; border-radius: 50%; background: #DDD5CC; }
     .cat-row { display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 2px dotted var(--line-soft); -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
@@ -630,7 +664,9 @@
     .cat-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 8px; }          /* 丸の大きさに合わせて、1行に並ぶ数が変わる */
     .swatch { width: 100%; max-width: 44px; justify-self: center; aspect-ratio: 1; min-height: 0; padding: 0; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
     .swatch.sel { border-color: var(--text); box-shadow: inset 0 0 0 2px var(--surface); }
-    .cat-card .log-meta:empty { display: none; }
+    .mg-seg { margin: 6px 0 10px; }
+    .mg-seg .mg-n { margin-left: 5px; font-size: 11px; font-weight: 500; opacity: .75; }
+    #catPanel[hidden], #favPanel[hidden] { display: none; }
     .cat-pick { position: relative; flex: 1 1 0; min-width: 0; display: flex; }
     .cat-pick .cdot { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; z-index: 1; }
     .att-sel .cat-pick select, .ls-att .cat-pick select { width: 100%; padding-left: 34px; }
@@ -912,6 +948,13 @@
     </div>
     <div class="attach-row" id="attachRow" hidden></div>
     <button type="button" class="link-act" id="swDiscard" hidden>記録せずにリセット</button>
+    <div class="name-suggest" id="nameSuggest" role="listbox" aria-label="最近のなまえ" hidden>
+      <div class="ns-head">
+        <span class="ns-cap">最近のなまえ</span>
+        <span class="ns-tools"><button type="button" class="ns-tool" id="nsClearAll" hidden>すべて消す</button><button type="button" class="ns-tool" id="nsEdit">整理</button></span>
+      </div>
+      <div class="ns-list" id="nsList"></div>
+    </div>
     <div class="msg" id="msg" role="status" aria-live="polite"></div>
   </section>
 
@@ -953,7 +996,8 @@
             <span class="iv-edit-title" id="lsEditTitle"></span>
             <button type="button" class="tpl-act" id="lsClose">とじる</button>
           </div>
-          <input type="text" class="ls-input" id="lsName" autocomplete="off" enterkeyhint="done" placeholder="なまえ（20文字まで・なくてもOK）" aria-label="なまえ">
+          <datalist id="nameList"></datalist>
+          <input type="text" class="ls-input" id="lsName" list="nameList" autocomplete="off" enterkeyhint="done" placeholder="なまえ（20文字まで・なくてもOK）" aria-label="なまえ">
           <div class="custom-row ls-time">
             <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="lsH" maxlength="2" value="0" aria-label="時間"><span>時間</span></label>
             <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="lsM" maxlength="2" value="5" aria-label="分"><span>分</span></label>
@@ -1007,7 +1051,7 @@
         <button type="button" class="sec-div sec-acc" id="catAccHead" aria-expanded="false" aria-controls="catAccBody"><span>カテゴリー</span><span class="acc-meta" id="catAccMeta"></span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
         <div id="catAccBody" hidden>
           <label class="ls-att" style="margin-top:0"><div class="cat-pick"><i class="cdot" id="catMainDot"></i><select id="catMain" aria-label="カテゴリー"></select></div></label>
-          <p class="ls-att-hint" id="catMainHint" hidden>カテゴリーが、まだありません。下の「カテゴリー」のカードで、作れます</p>
+          <p class="ls-att-hint" id="catMainHint" hidden>カテゴリーが、まだありません。下の「管理」の「カテゴリー」で、作れます</p>
         </div>
       </div>
       <div id="freeBlock">
@@ -1056,7 +1100,7 @@
         <span class="iv-edit-title" id="ivEditTitle">新しいインターバル</span>
         <button type="button" class="tpl-act" id="ivClose">とじる</button>
       </div>
-      <p class="iv-cat-hint" id="ivCatHint" hidden>カテゴリーを作ると、ステップごとに付けられます（下の「カテゴリー」のカードで作れます）</p>
+      <p class="iv-cat-hint" id="ivCatHint" hidden>カテゴリーを作ると、ステップごとに付けられます（下の「管理」の「カテゴリー」で作れます）</p>
       <div class="steps" id="steps"></div>
       <button type="button" class="add-step" id="addStep">＋ ステップを足す</button>
       <div class="rounds-row">
@@ -1091,64 +1135,62 @@
     </div>
   </section>
 
-  <!-- カテゴリー（なまえ＋色）。タイマーに付けて、履歴を、カテゴリーごとに色分けして集計する -->
-  <section class="card log-card cat-card" id="catCard" aria-label="カテゴリー">
-    <button type="button" class="log-head" id="catHead" aria-expanded="false" aria-controls="catBody">
-      <span class="log-title">カテゴリー</span>
+  <!-- 管理（カテゴリー・お気に入り）。「あらかじめ用意しておくもの」を、1つにまとめた。上のタブで切りかえる -->
+  <section class="card log-card manage-card" id="manageCard" aria-label="管理">
+    <button type="button" class="log-head" id="manageHead" aria-expanded="false" aria-controls="manageBody">
+      <span class="log-title">管理</span>
       <span class="log-line" aria-hidden="true"></span>
-      <span class="log-meta" id="catMeta"></span>
       <span class="log-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
     </button>
-    <div class="log-body" id="catBody">
+    <div class="log-body" id="manageBody">
       <div class="log-inner">
-        <p class="log-cap fav-lead">「勉強」「運動」「家事」のように、カテゴリーを作って、タイマーに付けておくと、履歴が、カテゴリーごとに色分けして、集計されます。<br>行を長押しすると、直したり、消したりできます。</p>
-        <div id="catList"></div>
-        <div class="fav-add"><button type="button" class="mini-btn" id="catAdd">＋ カテゴリーを作る</button></div>
-        <div class="fav-form" id="catForm" hidden>
-          <input type="text" id="catName" autocomplete="off" enterkeyhint="done" placeholder="なまえ（12文字まで）" aria-label="カテゴリーのなまえ">
-          <div class="cat-swatches" id="catSwatches" role="radiogroup" aria-label="色"></div>
-          <div class="fav-form-btns">
-            <button type="button" class="btn btn-sub" id="catCancel">やめる</button>
-            <button type="button" class="btn btn-main" id="catSave">保存</button>
-          </div>
+        <div class="log-seg mg-seg" role="group" aria-label="管理するもの">
+          <button type="button" id="mgTabCat" aria-pressed="true">カテゴリー<span class="mg-n" id="mgNCat"></span></button>
+          <button type="button" id="mgTabFav" aria-pressed="false">お気に入り<span class="mg-n" id="mgNFav"></span></button>
         </div>
-        <p class="tpl-note" id="catNote" role="status" aria-live="polite" hidden></p>
-        <p class="log-cap fav-foot">色は、12色から選べます。カテゴリーを消すと、付けていたタイマーは、「未分類」（灰色）になります。履歴の記録は、消えません。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- お気に入り（リンク・画像）。インターバルのステップに付けて、そのステップのときに、すぐ開く -->
-  <section class="card log-card fav-card" id="favCard" aria-label="お気に入り">
-    <button type="button" class="log-head" id="favHead" aria-expanded="false" aria-controls="favBody">
-      <span class="log-title">お気に入り</span>
-      <span class="log-line" aria-hidden="true"></span>
-      <span class="log-meta" id="favMeta"></span>
-      <span class="log-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    </button>
-    <div class="log-body" id="favBody">
-      <div class="log-inner">
-        <p class="log-cap fav-lead">YouTubeなどのリンクや、ストレッチの図などの写真を入れておくと、インターバルのステップに付けて、そのステップのときに、すぐ開けます。</p>
-        <div id="favList"></div>
-        <div class="fav-add">
-          <button type="button" class="mini-btn" id="favAddLink">＋ リンクを足す</button>
-          <button type="button" class="mini-btn" id="favAddImg">＋ 画像を足す</button>
-        </div>
-        <div class="fav-form" id="favForm" hidden>
-          <input type="text" id="favUrl" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="リンク（https://…）" aria-label="リンク">
-          <div class="fav-pick" id="favPick" hidden>
-            <label for="favFile" class="mini-btn pick-btn">写真を選ぶ</label>
-            <input type="file" id="favFile" accept="image/*" hidden>
-            <img id="favPreview" alt="選んだ写真" hidden>
+        <div id="catPanel">
+          <p class="log-cap fav-lead">「勉強」「運動」「家事」のように、カテゴリーを作って、タイマーに付けておくと、履歴が、カテゴリーごとに色分けして、集計されます。<br>行を長押しすると、直したり、消したりできます。</p>
+          <div id="catList"></div>
+          <div class="fav-add"><button type="button" class="mini-btn" id="catAdd">＋ カテゴリーを作る</button></div>
+          <div class="fav-form" id="catForm" hidden>
+            <input type="text" id="catName" autocomplete="off" enterkeyhint="done" placeholder="なまえ（12文字まで）" aria-label="カテゴリーのなまえ">
+            <div class="cat-swatches" id="catSwatches" role="radiogroup" aria-label="色"></div>
+            <div class="cat-met" id="catMetBox" hidden>
+              <label class="ls-att"><span>活動のめやす</span><div class="cat-pick"><select id="catMet" aria-label="活動のめやす（カロリー用）"></select></div></label>
+              <label class="cat-met-custom" id="catMetCustomRow" hidden><span>メッツ</span><input type="number" id="catMetCustom" inputmode="decimal" min="0.8" max="15" step="0.1" placeholder="例 2.5" aria-label="メッツ"></label>
+              <p class="cat-met-note">カロリーの計算に使います。わからない作業は、「なし」のままで大丈夫です。</p>
+            </div>
+            <div class="fav-form-btns">
+              <button type="button" class="btn btn-sub" id="catCancel">やめる</button>
+              <button type="button" class="btn btn-main" id="catSave">保存</button>
+            </div>
           </div>
-          <input type="text" id="favTitle" autocomplete="off" enterkeyhint="done" placeholder="なまえ（20文字まで・なくてもOK）" aria-label="なまえ">
-          <div class="fav-form-btns">
-            <button type="button" class="btn btn-sub" id="favCancel">やめる</button>
-            <button type="button" class="btn btn-main" id="favSave">保存</button>
-          </div>
+          <p class="tpl-note" id="catNote" role="status" aria-live="polite" hidden></p>
+          <p class="log-cap fav-foot">色は、12色から選べます。カテゴリーを消すと、付けていたタイマーは、「未分類」（灰色）になります。履歴の記録は、消えません。</p>
         </div>
-        <p class="tpl-note" id="favNote" role="status" aria-live="polite" hidden></p>
-        <p class="log-cap fav-foot">画像は、この端末の中だけに保存されます（ブラウザのデータを消すと、消えます）。リンクを開いている間は、アプリから離れるので、チャイムが鳴りにくいことがあります。</p>
+        <div id="favPanel" hidden>
+          <p class="log-cap fav-lead">YouTubeなどのリンクや、ストレッチの図などの写真を入れておくと、インターバルのステップに付けて、そのステップのときに、すぐ開けます。</p>
+          <div id="favList"></div>
+          <div class="fav-add">
+            <button type="button" class="mini-btn" id="favAddLink">＋ リンクを足す</button>
+            <button type="button" class="mini-btn" id="favAddImg">＋ 画像を足す</button>
+          </div>
+          <div class="fav-form" id="favForm" hidden>
+            <input type="text" id="favUrl" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" placeholder="リンク（https://…）" aria-label="リンク">
+            <div class="fav-pick" id="favPick" hidden>
+              <label for="favFile" class="mini-btn pick-btn">写真を選ぶ</label>
+              <input type="file" id="favFile" accept="image/*" hidden>
+              <img id="favPreview" alt="選んだ写真" hidden>
+            </div>
+            <input type="text" id="favTitle" autocomplete="off" enterkeyhint="done" placeholder="なまえ（20文字まで・なくてもOK）" aria-label="なまえ">
+            <div class="fav-form-btns">
+              <button type="button" class="btn btn-sub" id="favCancel">やめる</button>
+              <button type="button" class="btn btn-main" id="favSave">保存</button>
+            </div>
+          </div>
+          <p class="tpl-note" id="favNote" role="status" aria-live="polite" hidden></p>
+          <p class="log-cap fav-foot">画像は、この端末の中だけに保存されます（ブラウザのデータを消すと、消えます）。リンクを開いている間は、アプリから離れるので、チャイムが鳴りにくいことがあります。</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1196,6 +1238,18 @@
           <span class="sw-text">裏でも動かす<small>ほかのアプリに切り替えても、鳴りやすくなります。音楽が止まったり、ロック画面に再生中と出たりすることがあります</small></span>
           <input type="checkbox" class="sw" id="swBg" role="switch">
         </label>
+        <label class="sw-row">
+          <span class="sw-text">カロリーのめやすを出す<small>履歴に「約○kcal」を出します。体重と、カテゴリーの「活動のめやす」を入れると、計算されます。あくまで目安です（健康や治療の判断には使わないでください）</small></span>
+          <input type="checkbox" class="sw" id="swKcal" role="switch">
+        </label>
+        <div class="kcal-set" id="kcalSet" hidden>
+          <label class="kcal-row"><span>体重</span><input type="number" id="kcalW" inputmode="decimal" min="20" max="200" step="0.1" placeholder="例 55" aria-label="体重（kg）"><span>kg</span></label>
+          <label class="sw-row">
+            <span class="sw-text">活動で増えたぶんだけにする<small>じっとしていても使うぶん（1メッツ）を、ひきます。数字は、小さめになります</small></span>
+            <input type="checkbox" class="sw" id="swKcalNet" role="switch">
+          </label>
+          <p class="kcal-note">体重は、この端末の中だけに保存されます（外には送られません）。</p>
+        </div>
         <button type="button" class="mini-btn" id="testSoundBtn">音をためす</button>
       </div>
     </div>
@@ -1209,6 +1263,7 @@
         <p>このアプリは、日々の暮らしをちょっと便利にするために作られた個人制作のツールです。</p>
         <p>タイマーの時間・音・バイブは、お使いの端末やブラウザの状態によって、ずれたり鳴らなかったりすることがあります。火を使う調理や大切な予定など、安全や約束に関わる場面では、必ずほかの方法でもご確認ください。</p>
         <p>作者（YUCCHI）は、アプリの内容・結果によって生じたいかなる損害についても責任を負いかねます。あらかじめご了承ください。</p>
+        <p>カロリーのめやす（設定でオンにしたとき）は、国立健康・栄養研究所『改訂版 身体活動のメッツ（METs）表』などで公開されている、メッツの値をもとにした、おおよその目安です。「1.05 × メッツ × 時間 × 体重」で計算しています。同じ作業でも、人ややりかたで、数字は変わります。健康や治療の判断には使わないでください。計算は、この端末の中だけで行われ、外には送られません。</p>
         <p>このアプリのコード・デザインは、作者（YUCCHI）が制作したものです。コードやデザインをそのまま複製・再配布・販売することはご遠慮ください。</p>
       </div>
     </div>
@@ -1344,7 +1399,7 @@ async function shareAppLink() {
   'use strict';
 
   /* 保存キー（一度公開したら変えないこと） */
-  var K = { state: 'tm_state', last: 'tm_last', sound: 'tm_sound', vibe: 'tm_vibe', wake: 'tm_wake', bg: 'tm_bg', quick: 'tm_quick', mode: 'tm_mode', plan: 'tm_plan', name: 'tm_name', nameRep: 'tm_name_rep', log: 'tm_log', logOpen: 'tm_logopen', nameSw: 'tm_name_sw', sw: 'tm_sw', top: 'tm_top', logView: 'tm_logview', tpl: 'tm_tpl', fav: 'tm_fav', favOpen: 'tm_favopen', lsT: 'tm_lst_t', lsR: 'tm_lst_r', sel: 'tm_sel', repCnt: 'tm_repcnt', lsq: 'tm_lsq', acc: 'tm_acc', cat: 'tm_cat', catSel: 'tm_catsel', catOpen: 'tm_catopen' };
+  var K = { state: 'tm_state', last: 'tm_last', sound: 'tm_sound', vibe: 'tm_vibe', wake: 'tm_wake', bg: 'tm_bg', quick: 'tm_quick', mode: 'tm_mode', plan: 'tm_plan', name: 'tm_name', nameRep: 'tm_name_rep', log: 'tm_log', logOpen: 'tm_logopen', nameSw: 'tm_name_sw', sw: 'tm_sw', top: 'tm_top', logView: 'tm_logview', tpl: 'tm_tpl', fav: 'tm_fav', favOpen: 'tm_favopen', lsT: 'tm_lst_t', lsR: 'tm_lst_r', sel: 'tm_sel', repCnt: 'tm_repcnt', lsq: 'tm_lsq', nsHide: 'tm_nshide', kcal: 'tm_kcal', mgOpen: 'tm_mgopen', mgTab: 'tm_mgtab', acc: 'tm_acc', cat: 'tm_cat', catSel: 'tm_catsel', catOpen: 'tm_catopen' };
 
   var MAX_SEC = 24 * 3600 - 1;   // 23:59:59
   var DEFAULT_SEC = 300;         // はじめての人は5分
@@ -1770,6 +1825,7 @@ async function shareAppLink() {
     if (record && (el >= 1000 || n)) {
       log.push({ e: Date.now(), n: names.watch, s: Math.max(1, Math.round(el / 1000)), ms: el, m: 's', laps: sw.laps.slice(0, 100) });
       logDirty = true; flushLog(); saved = true;
+      clearDialName('watch');                                                                       // ストップウォッチも、記録したあとは、なまえの欄を空にする
     }
     sw = { status: 'idle', startAt: 0, base: 0, laps: [] };
     releaseWake(); swSave(); renderLaps(); refresh();
@@ -2098,6 +2154,7 @@ async function shareAppLink() {
     if (logView === 'day' || logView === 'title') {                // 1件ずつ直せるのは、日別・タイトル別（週別・月別は、まとめた数字なので出さない）
       logBox.appendChild(mk('p', 'log-cap log-lp-hint', logView === 'title' ? 'なまえを長押しすると、そのなまえの記録を、まとめて直したり、消したりできます（ひらいた中の1件ずつも、長押しで直せます）' : '行を長押しすると、なまえ・カテゴリーを直したり、消したりできます'));
     } else { logEditEntry = null; logActEntry = null; logActGroup = ''; logEditGroup = ''; }
+    if (kcal.on && !(kcal.w > 0) && cats.some(function (c) { return c.m > 0; })) logBox.appendChild(mk('p', 'kcal-hint', '体重を入れると、カロリーのめやすが出ます（下の「設定」で入れられます）'));
     function select(options, current, cap, onChange) {       // 「記録した○を選ぶ」のプルダウン
       var sel = mk('select', 'log-select'); sel.setAttribute('aria-label', cap);
       options.forEach(function (o) { var op = mk('option', null, o[1]); op.value = o[0]; sel.appendChild(op); });
@@ -2111,7 +2168,9 @@ async function shareAppLink() {
       gs.forEach(function (g) {
         var r = mk('div', 'lrow'), dot = mk('span', 'ldot'); dot.style.background = g.color;
         r.appendChild(dot);
-        r.appendChild(mk('span', 'ln' + (g.id ? '' : ' none'), g.name));
+        var lnm = mk('span', 'ln' + (g.id ? '' : ' none'), g.name), gk = kcalSum(g.items);
+        if (gk > 0) lnm.appendChild(mk('small', 'lk', kcalText(gk)));                          // カロリーのめやす（カテゴリーに、活動のめやすがあるとき）
+        r.appendChild(lnm);
         r.appendChild(mk('span', 'lp', pctText(g.total, tot)));
         r.appendChild(mk('span', 'lc2', g.count + '回'));
         r.appendChild(mk('span', 'lt', label(g.total)));
@@ -2124,7 +2183,7 @@ async function shareAppLink() {
       select(days.map(function (d) { return [d.key, dayLabel(d.date, now) + '　' + d.items.length + '件']; }), logDay, '記録した日を選ぶ', function (v) { logDay = v; });
       var day = days.filter(function (d) { return d.key === logDay; })[0];
       var head = mk('div', 'log-day');
-      head.appendChild(mk('span', null, dayLabel(day.date, now))); head.appendChild(mk('span', null, '合計 ' + label(day.total)));
+      head.appendChild(mk('span', null, dayLabel(day.date, now))); head.appendChild(mk('span', null, '合計 ' + label(day.total) + (kcalSum(day.items) > 0 ? ' ・ ' + kcalText(kcalSum(day.items)) : '')));
       var list = mk('div', 'log-list'); list.appendChild(head);
       list.appendChild(ratioBar(aggCats(day.items), day.total));                  // その日の、カテゴリーごとの割合の帯
       day.items.forEach(function (x) { entryRow(x, false, list); });
@@ -2140,7 +2199,7 @@ async function shareAppLink() {
       select(periods.map(function (p) { return [p.key, lab(p) + '　' + p.count + '件']; }), curKey, isW ? '記録した週を選ぶ' : '記録した月を選ぶ', function (v) { if (isW) logWeek = v; else logMonth = v; });
       var P = periods.filter(function (p) { return p.key === curKey; })[0];
       var hd = mk('div', 'log-head2');
-      hd.appendChild(mk('span', null, lab(P))); hd.appendChild(mk('span', null, '合計 ' + label(P.total) + '・' + P.count + '件'));
+      hd.appendChild(mk('span', null, lab(P))); hd.appendChild(mk('span', null, '合計 ' + label(P.total) + '・' + P.count + '件' + (kcalSum(P.items) > 0 ? ' ・ ' + kcalText(kcalSum(P.items)) : '')));
       logBox.appendChild(hd);
 
       /* カテゴリー別の内訳 */
@@ -2163,6 +2222,7 @@ async function shareAppLink() {
         var left = mk('span', 'ttl-l');
         left.appendChild(mk('span', 'ttl-n' + (g.none ? ' none' : ''), g.name));
         var ld = new Date(g.items[0].e); left.appendChild(mk('span', 'ttl-s', g.count + '回 ・ ' + pctText(g.total, totAll) + ' ・ 最近 ' + (ld.getMonth() + 1) + '/' + ld.getDate()));
+        var tk = kcalSum(g.items); if (tk > 0) left.appendChild(mk('span', 'ttl-s ttl-k', kcalText(tk)));         // カロリーのめやす（そのなまえの、全部の記録の合計）
         hd2.appendChild(left); hd2.appendChild(mk('span', 'ttl-t', label(g.total)));
         var ch = mk('span', 'ttl-c', '›'); ch.setAttribute('aria-hidden', 'true'); hd2.appendChild(ch);
         var body = mk('div', 'ttl-body'); body.hidden = !open;
@@ -2239,8 +2299,82 @@ async function shareAppLink() {
   enterToClose(dialName);
   window.addEventListener('resize', function () { if (!dialName.hidden) growName(); });
 
+  /* ---------- なまえの候補（今まで使ったなまえ）：欄を触ると、すぐ下に出る ---------- */
+  var nsBox = $('nameSuggest'), nsList = $('nsList'), nsOn = false, nsHideTimer = 0, nsEditing = false;
+  var nsHide = {};                                       // 候補から外したなまえ { なまえ: 外した時刻 }（保存：tm_nshide）。履歴の記録は、消えない
+  try { var oh = JSON.parse(store.get(K.nsHide) || '{}') || {}; Object.keys(oh).slice(0, 300).forEach(function (k) { if (typeof oh[k] === 'number') nsHide[k] = oh[k]; }); } catch (e) {}
+  function saveNsHide() { store.set(K.nsHide, JSON.stringify(nsHide)); }
+  function allNames() {                                  // 履歴（新しい順）→ 一覧に保存したもの、の順。同じなまえは、1つ。{ name, last：いちばん新しく使った時刻 }
+    var seen = {}, out = [];
+    log.slice().sort(function (a, b) { return b.e - a.e; }).forEach(function (x) { var n = (x.n || '').trim(); if (n && !seen['k:' + n]) { seen['k:' + n] = 1; out.push({ name: n, last: x.e }); } });
+    ['timer', 'repeat'].forEach(function (k) { lsItems[k].forEach(function (it) { var n = (it.n || '').trim(); if (n && !seen['k:' + n]) { seen['k:' + n] = 1; out.push({ name: n, last: 0 }); } }); });
+    return out;
+  }
+  function recentNames() {                               // 外したなまえは出さない。ただし、外したあとに、また使った（記録が残った）なまえは、また出る
+    return allNames().filter(function (o) { var t = nsHide[o.name]; return t === undefined || o.last > t; }).map(function (o) { return o.name; });
+  }
+  function nsTap(el, fn) {                               // 指がふれた瞬間に決める（欄のフォーカスが外れて、板が消える前に）／キーボードは click
+    var done = false;
+    el.addEventListener('pointerdown', function (ev) { ev.preventDefault(); done = true; fn(); });
+    el.addEventListener('click', function () { if (done) { done = false; return; } fn(); });
+  }
+  function pickName(n) {                                 // 候補をタップ → なまえが入る
+    var k = nameKey(); names[k] = clip(n); saveName(k);
+    dialName.value = names[k]; growName(); render(); lsRender();
+    nsOn = false; nsEditing = false; nsBox.hidden = true; try { dialName.blur(); } catch (e) {}
+  }
+  function hideName(n) { nsHide[n] = Date.now(); saveNsHide(); renderSuggest(); }
+  function renderSuggest() {
+    var cur = dialName.value.trim(), q = cur.toLowerCase();
+    var items = recentNames().filter(function (n) { return nsEditing || (n !== cur && (!q || n.toLowerCase().indexOf(q) >= 0)); }).slice(0, 10);
+    nsList.textContent = '';
+    items.forEach(function (n) {
+      var b = mk('button', 'ns-chip', n); b.type = 'button'; b.setAttribute('role', 'option');
+      if (nsEditing) { b.appendChild(mk('span', 'ns-x', '×')); b.setAttribute('aria-label', n + 'を候補から外す'); }
+      nsTap(b, function () { if (nsEditing) hideName(n); else pickName(n); });
+      nsList.appendChild(b);
+    });
+    var eb = $('nsEdit'); eb.textContent = nsEditing ? '完了' : '整理'; eb.setAttribute('aria-pressed', nsEditing ? 'true' : 'false'); $('nsClearAll').hidden = !nsEditing;
+    if (!nsOn || (!items.length && !nsEditing)) { nsBox.hidden = true; return; }
+    if (!items.length && nsEditing) { nsEditing = false; renderSuggest(); return; }                       // 全部外したら、整理を終える（板も閉じる）
+    var cr = nsBox.parentNode.getBoundingClientRect(), nr = dialName.getBoundingClientRect();
+    nsBox.style.top = Math.round(nr.bottom - cr.top + 8) + 'px';
+    nsBox.hidden = false;
+  }
+  nsTap($('nsEdit'), function () { nsEditing = !nsEditing; renderSuggest(); });
+  nsTap($('nsClearAll'), function () {                    // 一括：いまの候補を、すべて外す（確認のモーダル）
+    askConfirm('なまえの候補を、すべて消しますか？', '履歴や一覧の記録は、消えません\n（また使ったなまえは、また候補に出ます）', '消す', function () {
+      var now = Date.now(); allNames().forEach(function (o) { nsHide[o.name] = now; }); saveNsHide();
+      nsEditing = false; nsOn = false; nsBox.hidden = true;
+    });
+  });
+  dialName.addEventListener('focus', function () { clearTimeout(nsHideTimer); nsOn = !isLocked(); nsEditing = false; renderSuggest(); });
+  dialName.addEventListener('input', function () { if (nsOn) renderSuggest(); });
+  dialName.addEventListener('blur', function () { nsHideTimer = setTimeout(function () { nsOn = false; nsEditing = false; nsBox.hidden = true; }, 200); });
+  $('lsName').addEventListener('focus', function () {   // 一覧の入力欄の「なまえ」は、ブラウザの標準の候補（datalist）
+    var dl = $('nameList'); dl.textContent = '';
+    recentNames().slice(0, 30).forEach(function (n) { var o = mk('option'); o.value = n; dl.appendChild(o); });
+  });
+
   /* ---------- カテゴリー（なまえ＋12色から選んだ色） ---------- */
   var CAT_MAX = 20, CAT_NAME_MAX = 12;
+  /* カロリーのめやす：メッツ（国立健康・栄養研究所『改訂版 身体活動のメッツ（METs）表』などの公開資料をもとにした目安）。順番・idは変えない（カテゴリーに、idを保存しているため） */
+  var MET_PRESETS = [['laundry', '洗濯物を干す・たたむ', 2.0], ['dish', '皿洗い', 1.8], ['cook', '料理・食事のしたく', 2.0], ['tidy', 'ごみ掃除・植物の水やり', 2.5], ['vac', '掃除機かけ', 3.3], ['bath', 'お風呂掃除', 3.5],
+    ['window', '窓掃除', 3.2], ['garden', '庭の草むしり', 3.5], ['walk', '散歩・買い物（歩く）', 3.0], ['stairs', '階段を上る', 4.5], ['stretch', 'ストレッチ', 2.5], ['light', '軽い筋トレ・体操', 3.5],
+    ['radio', 'ラジオ体操第1', 4.0], ['muscle', '筋トレ（スクワットなど）', 5.0], ['play', '子どもやペットと遊ぶ', 5.0], ['jog', 'ジョギング', 6.0]];
+  var kcal = { on: false, w: 0, net: false };       // 設定：カロリーのめやす（はじめはオフ）／体重(kg)／活動で増えたぶんだけ
+  function readKcal() {
+    try { var o = JSON.parse(store.get(K.kcal) || '{}') || {}, w = Number(o.w); return { on: o.on === true, w: (w >= 20 && w <= 200) ? Math.round(w * 10) / 10 : 0, net: o.net === true }; } catch (e) { return { on: false, w: 0, net: false }; }
+  }
+  function saveKcal() { store.set(K.kcal, JSON.stringify(kcal)); }
+  function metLabel(c) { if (!c || !(c.m > 0)) return ''; var pr = null; MET_PRESETS.forEach(function (x) { if (x[0] === c.mk) pr = x; }); return (pr ? pr[1] + '（' : '') + c.m.toFixed(1) + 'メッツ' + (pr ? '）' : ''); }
+  function kcalOf(x) {                               // 1件のカロリー：1.05 × メッツ × 時間(h) × 体重(kg)（「増えたぶんだけ」のときは、メッツから1をひく）
+    if (!kcal.on || !(kcal.w > 0) || !x.g) return 0;
+    var c = catById(x.g); if (!c || !(c.m > 0)) return 0;
+    return 1.05 * (kcal.net ? Math.max(0, c.m - 1) : c.m) * (x.s / 3600) * kcal.w;
+  }
+  function kcalSum(items) { var t = 0; items.forEach(function (x) { t += kcalOf(x); }); return t; }
+  function kcalText(v) { return v > 0 ? '約' + Math.max(1, Math.round(v)) + 'kcal' : ''; }
   var cats = [];                                    // [{ id, n:なまえ, c:色の番号（0〜11） }]
   var catSel = { timer: '', repeat: '' };           // いま選んでいるカテゴリー（シンプル・くり返しのタイマー）
   function readCats() {
@@ -2248,7 +2382,9 @@ async function shareAppLink() {
       var a = JSON.parse(store.get(K.cat) || '[]');
       if (!Array.isArray(a)) return [];
       return a.slice(0, CAT_MAX).filter(function (x) { return x && typeof x.id === 'string' && x.n; }).map(function (x) {
-        var c = Math.floor(Number(x.c)); return { id: x.id.slice(0, 40), n: String(x.n).slice(0, CAT_NAME_MAX), c: (c >= 0 && c < RATIO_COLORS.length) ? c : 0 };
+        var c = Math.floor(Number(x.c)), m = Number(x.m), o = { id: x.id.slice(0, 40), n: String(x.n).slice(0, CAT_NAME_MAX), c: (c >= 0 && c < RATIO_COLORS.length) ? c : 0 };
+        if (m >= 0.8 && m <= 15) { o.m = Math.round(m * 10) / 10; o.mk = typeof x.mk === 'string' ? x.mk.slice(0, 12) : 'custom'; }
+        return o;
       });
     } catch (e) { return []; }
   }
@@ -2272,8 +2408,9 @@ async function shareAppLink() {
   }
 
   /* カテゴリーのカード */
-  var catCard = $('catCard'), catHead = $('catHead'), catMeta = $('catMeta'), catList = $('catList'), catForm = $('catForm'), catNameIn = $('catName'), catSwatches = $('catSwatches'), catNoteEl = $('catNote');
-  var catEditId = '', catPick = 0;
+  var catList = $('catList'), catForm = $('catForm'), catNameIn = $('catName'), catSwatches = $('catSwatches'), catNoteEl = $('catNote');
+  var catEditId = '', catPick = 0, catMetBox = $('catMetBox');
+  $('catMet').addEventListener('change', function () { $('catMetCustomRow').hidden = $('catMet').value !== 'custom'; if (!$('catMetCustomRow').hidden) { try { $('catMetCustom').focus(); } catch (e) {} } });
   function catSay(t) { catNoteEl.textContent = t; catNoteEl.hidden = !t; }
   function renderSwatches() {
     catSwatches.textContent = '';
@@ -2287,11 +2424,13 @@ async function shareAppLink() {
   function openCatActs(id) { catActId = id; renderCats(); }
   function renderCats() {
     catList.textContent = '';
-    catMeta.textContent = cats.length ? cats.length + '件' : '';
+    $('mgNCat').textContent = cats.length ? cats.length : '';
     if (!cats.length) catList.appendChild(mk('p', 'log-empty', 'まだありません。下のボタンから、作れます。'));
     cats.forEach(function (c) {
       var row = mk('div', 'cat-row'), dot = mk('span', 'cdot'); dot.style.background = RATIO_COLORS[c.c];
-      row.appendChild(dot); row.appendChild(mk('div', 'cat-name', c.n));
+      var nbox = mk('div', 'cat-nm'); nbox.appendChild(mk('div', 'cat-name', c.n));
+      if (kcal.on && c.m > 0) nbox.appendChild(mk('div', 'cat-sub', '活動のめやす：' + metLabel(c)));
+      row.appendChild(dot); row.appendChild(nbox);
       row.tabIndex = 0; attachLongPress(row, function () { openCatActs(c.id); }, true);                 // 長押し（PCは、右クリック／Enter）で、「直す」「消す」が出る
       if (catActId === c.id) {
         row.classList.add('act-open');
@@ -2319,6 +2458,12 @@ async function shareAppLink() {
     if (c) catPick = c.c;
     else { var cnt = RATIO_COLORS.map(function () { return 0; }); cats.forEach(function (x) { cnt[x.c]++; }); catPick = 0; for (var i = 1; i < cnt.length; i++) if (cnt[i] < cnt[catPick]) catPick = i; }   // はじめの色：まだ使っていない色
     renderSwatches(); catForm.hidden = false; catSay('');
+    catMetBox.hidden = !kcal.on;                                                         // 「活動のめやす」は、設定でカロリーをオンにしたときだけ
+    var ms = $('catMet'); ms.textContent = '';
+    [['', 'なし（カロリーは出さない）']].concat(MET_PRESETS.map(function (x) { return [x[0], x[1] + '（' + x[2] + 'メッツ）']; })).concat([['custom', '自分で数字を入れる…']]).forEach(function (o) { var op = mk('option', null, o[1]); op.value = o[0]; ms.appendChild(op); });
+    ms.value = c && c.m > 0 ? (c.mk && Array.prototype.some.call(ms.options, function (o) { return o.value === c.mk; }) ? c.mk : 'custom') : '';
+    $('catMetCustom').value = (c && c.m > 0 && ms.value === 'custom') ? String(c.m) : '';
+    $('catMetCustomRow').hidden = ms.value !== 'custom';
     try { catNameIn.focus(); } catch (e) {}
   }
   function hideCatForm() { catForm.hidden = true; catEditId = ''; }
@@ -2329,8 +2474,12 @@ async function shareAppLink() {
     if (!n) { catSay('なまえを入れてください'); return; }
     var dup = cats.some(function (c) { return c.n === n && c.id !== catEditId; });
     if (dup) { catSay('「' + n + '」は、すでにあります。別のなまえにしてください'); return; }
-    if (catEditId) { var c = catById(catEditId); if (c) { c.n = n; c.c = catPick; } catSay('直しました'); }
-    else { if (cats.length >= CAT_MAX) { catSay('作れるのは' + CAT_MAX + 'こまでです'); return; } cats.push({ id: newCatId(), n: n, c: catPick }); catSay('「' + n + '」を作りました'); }
+    var metKey = catMetBox.hidden ? null : $('catMet').value, metVal = 0;                // 活動のめやす（メッツ）
+    if (metKey === 'custom') { metVal = Math.round(parseFloat($('catMetCustom').value) * 10) / 10; if (!(metVal >= 0.8 && metVal <= 15)) { catSay('メッツは、0.8〜15の数字で入れてください'); return; } }
+    else if (metKey) { MET_PRESETS.forEach(function (x) { if (x[0] === metKey) metVal = x[2]; }); }
+    function applyMet(c) { if (metKey === null) return; if (metVal > 0) { c.m = metVal; c.mk = metKey; } else { delete c.m; delete c.mk; } }       // 設定がオフのときは、いまの値を、そのまま残す
+    if (catEditId) { var c = catById(catEditId); if (c) { c.n = n; c.c = catPick; applyMet(c); } catSay('直しました'); }
+    else { if (cats.length >= CAT_MAX) { catSay('作れるのは' + CAT_MAX + 'こまでです'); return; } var nc = { id: newCatId(), n: n, c: catPick }; applyMet(nc); cats.push(nc); catSay('「' + n + '」を作りました'); }
     saveCats(); hideCatForm(); catChanged();
   });
   enterToClose(catNameIn);
@@ -2349,13 +2498,23 @@ async function shareAppLink() {
   function catChanged() {                                    // カテゴリーが変わったあとの、画面の更新
     renderCats(); renderSteps(); renderTpls(); lsSig = ''; lsRender(); if (typeof renderLog === 'function') renderLog();
   }
-  function setCatOpen(on) { catCard.classList.toggle('open', on); catHead.setAttribute('aria-expanded', on ? 'true' : 'false'); }
-  catHead.addEventListener('click', function () { var on = !catCard.classList.contains('open'); setCatOpen(on); store.set(K.catOpen, on ? '1' : '0'); });
+  /* 管理（カテゴリー・お気に入り）の開閉と、タブ */
+  var manageCard = $('manageCard'), manageHead = $('manageHead'), mgTab = 'cat';
+  function setManageOpen(on) { manageCard.classList.toggle('open', on); manageHead.setAttribute('aria-expanded', on ? 'true' : 'false'); }
+  function setMgTab(t) {
+    mgTab = t === 'fav' ? 'fav' : 'cat';
+    $('catPanel').hidden = mgTab !== 'cat'; $('favPanel').hidden = mgTab !== 'fav';
+    $('mgTabCat').setAttribute('aria-pressed', mgTab === 'cat' ? 'true' : 'false'); $('mgTabFav').setAttribute('aria-pressed', mgTab === 'fav' ? 'true' : 'false');
+    store.set(K.mgTab, mgTab);
+  }
+  manageHead.addEventListener('click', function () { var on = !manageCard.classList.contains('open'); setManageOpen(on); store.set(K.mgOpen, on ? '1' : '0'); });
+  $('mgTabCat').addEventListener('click', function () { setMgTab('cat'); });
+  $('mgTabFav').addEventListener('click', function () { setMgTab('fav'); });
 
   /* ---------- お気に入り（リンク・画像） ---------- */
   var MAX_FAV = 20, MAX_FAV_IMG = 12;
   var favs = [];                                   // [{ id, t:'l'（リンク）|'i'（画像）, n:なまえ, u:リンク }]。画像のデータは、IndexedDB（端末の中）に入れる
-  var favCard = $('favCard'), favHead = $('favHead'), favMeta = $('favMeta'), favList = $('favList');
+  var favList = $('favList');
   var favForm = $('favForm'), favUrl = $('favUrl'), favPick = $('favPick'), favFile = $('favFile'), favPreview = $('favPreview'), favTitle = $('favTitle'), favNoteEl = $('favNote');
   var favMode = 'l', favBlob = null, favPreviewURL = '', thumbURLs = [], viewerURL = '';
   function readFavs() {
@@ -2438,7 +2597,7 @@ async function shareAppLink() {
   function renderFavs() {
     thumbURLs.forEach(function (u) { URL.revokeObjectURL(u); }); thumbURLs = [];
     favList.textContent = '';
-    favMeta.textContent = favs.length ? favs.length + '件' : '';
+    $('mgNFav').textContent = favs.length ? favs.length : '';
     if (!favs.length) favList.appendChild(mk('p', 'log-empty', 'まだありません。下のボタンから、足せます。'));
     favs.forEach(function (f) {
       var row = mk('div', 'fav-row'), th = mk('div', 'fav-th');
@@ -2545,8 +2704,7 @@ async function shareAppLink() {
     }
   });
   enterToClose(favUrl); enterToClose(favTitle);
-  function setFavOpen(on) { favCard.classList.toggle('open', on); favHead.setAttribute('aria-expanded', on ? 'true' : 'false'); }
-  favHead.addEventListener('click', function () { var on = !favCard.classList.contains('open'); setFavOpen(on); store.set(K.favOpen, on ? '1' : '0'); });
+
 
   /* ダイヤルのカード：いまのステップに付けたお気に入りを、開くボタンで出す（休憩になったら出る。「タップで次へ」の待機中は、次のステップ） */
   var shownAttach = '';
@@ -3631,7 +3789,12 @@ async function shareAppLink() {
     stopEnv(); toIdle();
     saveState(); refresh();
   }
+  function clearDialName(k) {                          // なまえの欄を、空にする（保存も）
+    names[k] = ''; saveName(k); shownNameKey = '';
+    dialName.value = ''; growName();
+  }
   function acknowledge() {
+    if (st.status === 'done' && (st.mode === 'timer' || st.mode === 'repeat')) clearDialName(st.mode);   // 終わって、記録が残ったあと（「とめる」などで受けとったとき）、なまえの欄を空にする
     stopEnv(); toIdle();
     saveState(); refresh();
   }
@@ -3694,6 +3857,14 @@ async function shareAppLink() {
     settings.wake = swWake.checked; store.set(K.wake, settings.wake ? '1' : '0');
     if (st.status === 'running') { if (settings.wake) requestWake(); else releaseWake(); }
   });
+  var swKcal = $('swKcal'), kcalW = $('kcalW'), swKcalNet = $('swKcalNet');
+  kcal = readKcal();                                  // 画面を作る前に、保存した設定を読む（読みこみの順番で、空に見えるのを防ぐ）
+  swKcal.checked = kcal.on; swKcalNet.checked = kcal.net; kcalW.value = kcal.w > 0 ? String(kcal.w) : ''; $('kcalSet').hidden = !kcal.on;
+  function kcalChanged() { saveKcal(); renderCats(); renderLog(); }
+  swKcal.addEventListener('change', function () { kcal.on = swKcal.checked; $('kcalSet').hidden = !kcal.on; kcalChanged(); });
+  kcalW.addEventListener('input', function () { var w = parseFloat(kcalW.value); kcal.w = (w >= 20 && w <= 200) ? Math.round(w * 10) / 10 : 0; kcalChanged(); });
+  kcalW.addEventListener('change', function () { kcalW.value = kcal.w > 0 ? String(kcal.w) : ''; });
+  swKcalNet.addEventListener('change', function () { kcal.net = swKcalNet.checked; kcalChanged(); });
   swBg.addEventListener('change', function () {
     settings.bg = swBg.checked; store.set(K.bg, settings.bg ? '1' : '0');
     if (st.status === 'running') { if (settings.bg && settings.sound) keepAlive(); else stopSound(); }
@@ -3720,7 +3891,7 @@ async function shareAppLink() {
   names.watch = clip(store.get(K.nameSw));
   log = readLog();
   favs = readFavs();
-  cats = readCats(); catSel = readCatSel();
+  cats = readCats(); catSel = readCatSel(); kcal = readKcal();
   lsItems.timer = readLs('timer'); lsItems.repeat = readLs('repeat'); selAtt = readSel(); lsQ = readLsq(); accOpen = readAcc();
   setRepCount(Number(store.get(K.repCnt)) || 0);
   loadState();
@@ -3732,8 +3903,12 @@ async function shareAppLink() {
   writeCustom(Math.round((st.mode === 'interval' ? idleMs : st.total) / 1000));
   roundsSel.value = String(plan.rounds);
   syncAdvUI();
-  renderFavs(); setFavOpen(store.get(K.favOpen) === '1');
-  renderCats(); setCatOpen(store.get(K.catOpen) === '1');
+  renderFavs(); renderCats();
+  (function () {                                       // 管理の開閉・タブを、前回のとおりに（以前の「カテゴリー」「お気に入り」の開閉の保存も、引きつぐ）
+    var oldCat = store.get(K.catOpen) === '1', oldFav = store.get(K.favOpen) === '1', mo = store.get(K.mgOpen);
+    setManageOpen(mo === null ? (oldCat || oldFav) : mo === '1');
+    setMgTab(store.get(K.mgTab) || (oldFav && !oldCat ? 'fav' : 'cat'));
+  })();
   loadTpls();
   renderSteps();
   renderTpls();
