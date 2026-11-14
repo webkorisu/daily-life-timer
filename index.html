@@ -190,6 +190,7 @@
     /* ===== ダイヤル ===== */
     .dial { position: relative; width: min(240px, 68vw); aspect-ratio: 1; margin: 0 auto; }
     /* 画面が低い端末（高さ900px以下）：ダイヤルを少し小さく、上の余白を詰めて、「セット」のボタンなどを、スクロールなしで押せるようにする */
+    .wrap .top-tabs { margin-bottom: 4px; }                  /* タブとカードの間：.wrap の gap 12px ＋ 4px ＝ 16px（狭すぎたため） */
     @media (max-height: 900px) {
       .dial { width: min(224px, 64vw); }
       header { padding-top: 10px; padding-bottom: 8px; }
@@ -202,13 +203,18 @@
       button.sec-acc { min-height: 40px; margin-bottom: 0; }
       .sec-div { margin-bottom: 10px; }
     }
-    @media (max-height: 780px) {                              /* さらに低い端末：ダイヤルをもう少し小さく、ヘッダーを詰める */
-      .dial { width: min(208px, 58vw); }
-      header { padding-top: 8px; padding-bottom: 4px; }
-      header h1 { margin-bottom: 2px; }
-      header h2 { margin-bottom: 2px; }
-      header .title-ja-sub { margin-bottom: 4px; }
+    @media (max-height: 780px) {                              /* さらに低い端末（スマホ）：ヘッダーの余白は、詰めすぎない。そのぶん、ダイヤル・ボタンまわり・カードの余白を、少しずつ削って、セットのボタンが、スクロールなしで見える範囲を保つ */
+      .dial { width: min(192px, 54vw); }
+      .wrap .top-tabs { margin-bottom: 6px; }                /* タブとカードの間：10px＋6px＝16px（ダイヤルを、198→192pxに小さくして、差し引きを合わせた） */
+      .dial .dial-name { width: 78.5%; }                     /* ダイヤルが小さいぶん、なまえの欄の割合を、少し広げる：20文字を、2行に収めるには、幅が約150px要る（76%だと、192pxのダイヤルで146pxになり、3行に折れる） */
+      header { padding-top: 12px; padding-bottom: 12px; }
+      header h1 { margin-bottom: 4px; }
+      header h2 { margin-bottom: 4px; }
+      header .title-ja-sub { margin-bottom: 9px; }
       header .data-hint { display: none; }                   /* 同じ内容が、下の「データについて」にある */
+      .wrap .controls { margin-top: 12px; }                  /* 「.controls」だけだと、ファイルの後ろにある同じ指定（16px）に、上書きされる → 指定を強くする */
+      .wrap { gap: 10px; }
+      .wrap .card:not(.log-card), .wrap .timer-card { padding-top: 12px; }
     }
     .dial svg { width: 100%; height: 100%; display: block; overflow: visible; }
     .ring-track { fill: none; stroke: var(--track); stroke-width: 5; }
@@ -231,6 +237,7 @@
     .time .dg { display: inline-block; width: .58em; text-align: center; }
     .time .dot { display: inline-block; width: .3em; text-align: center; }
     .time .dg.cs { font-size: .6em; }
+    .time.is-watch { font-size: clamp(24px, 8.2vw, 34px); }                /* ストップウォッチ（00:00.00）は、桁が多いので、タイマーより小さく：輪の幅の6割ほどに（9割近くになって、窮屈だった） */
     .time .colon { display: inline-block; width: .3em; text-align: center; position: relative; top: -.05em; }
     .dial-sub { font-size: 13px; color: var(--text-sub); letter-spacing: .06em; line-height: 1.5; min-height: 22px; text-align: center; padding: 0 14px; white-space: pre-line; max-width: 88%; overflow-wrap: anywhere; }
 
@@ -345,7 +352,7 @@
     .tab[aria-selected="true"]:disabled { opacity: 1; }
 
     /* ===== インターバル ===== */
-    .tpl { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin: 0 0 10px; }
+    .tpl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 0 0 10px; }
     .tpl-item { position: relative; min-width: 0; }
     .tpl-btn {
       width: 100%; min-height: 44px; border-radius: 14px; border: 1.5px solid transparent;
@@ -434,6 +441,9 @@
     .adv-row { display: flex; justify-content: center; margin-top: 12px; }
     .tpl-note { margin: 8px 0 0; font-size: 12px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
     .tpl-note[hidden] { display: none; }
+    .tpl-btn.cur { background: var(--primary-soft); border-color: var(--accent); }
+    .tpl-btn.cur::before { content: '✓ '; color: var(--accent); }
+    .tpl-item.pressing .tpl-btn { background: var(--mist); }
     .tpl-btn.flash { animation: tplFlash 1.4s ease-out; }
     @keyframes tplFlash { 0% { background: var(--primary-soft); border-color: var(--accent); } 100% { background: var(--blush); border-color: transparent; } }
     .rounds-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
@@ -582,6 +592,10 @@
     .iv-sum-cap { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--text-sub); }
     .iv-summary .tpl-act { min-height: 36px; padding: 5px 14px 7px; }
     .iv-sum-steps { font-size: 15px; font-weight: 700; line-height: 1.7; color: var(--text); overflow-wrap: anywhere; }
+    #lsSummary, #ivSummary { padding: 8px 12px 9px; }
+    #lsSummary .iv-sum-meta, #ivSummary .iv-sum-meta { display: none; }
+    #lsSummary .iv-sum-steps, #ivSummary .iv-sum-steps { font-size: 13px; line-height: 1.5; }
+    #lsSummary .iv-summary .tpl-act, #lsSummary .tpl-act, #ivSummary .tpl-act { min-height: 30px; padding: 3px 12px 5px; font-size: 12px; }
     .iv-sum-meta { margin-top: 2px; font-size: 12px; line-height: 1.7; letter-spacing: .04em; color: var(--text-sub); }
     .iv-edit-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 0 0 12px; }
     .iv-edit-title { min-width: 0; font-size: 13px; font-weight: 700; letter-spacing: .04em; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -598,7 +612,8 @@
     #presetBlock { margin-top: -8px; }                                                              /* 上のタブとの間を、少し詰める */
     #presetBody { padding-bottom: 2px; }
     #freeBody, #catAccBody { padding-bottom: 4px; }
-    #freeBlock + #repCountRow + #lsBlock, #presetBlock + #freeBlock + #repCountRow + #lsBlock { margin-top: 4px; margin-bottom: 0; }
+    .sub-lab { display: flex; align-items: center; gap: 10px; margin: 14px 0 6px; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--text-sub); }
+    #presetBlock + #repCountRow + #lsBlock, #freeBlock + #repCountRow + #lsBlock, #presetBlock + #freeBlock + #repCountRow + #lsBlock { margin-top: 4px; margin-bottom: 0; }
     #lsNote { margin: 0 0 14px; }
     #lsNewConfirm { margin: -4px 0 14px; }
     #lsConfirm { margin: 12px 0 0; }
@@ -1045,22 +1060,22 @@
       <div class="quick-row" id="quickRow">
         <label class="quick"><span>すぐにスタート</span><input type="checkbox" class="sw sw-s" id="swQuick" role="switch"></label>
       </div>
-        </div>
-      </div>
-      <div id="catBlock">
-        <button type="button" class="sec-div sec-acc" id="catAccHead" aria-expanded="false" aria-controls="catAccBody"><span>カテゴリー</span><span class="acc-meta" id="catAccMeta"></span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-        <div id="catAccBody" hidden>
-          <label class="ls-att" style="margin-top:0"><div class="cat-pick"><i class="cdot" id="catMainDot"></i><select id="catMain" aria-label="カテゴリー"></select></div></label>
-          <p class="ls-att-hint" id="catMainHint" hidden>カテゴリーが、まだありません。下の「管理」の「カテゴリー」で、作れます</p>
-        </div>
-      </div>
       <div id="freeBlock">
-        <button type="button" class="sec-div sec-acc" id="freeHead" aria-expanded="false" aria-controls="freeBody"><span id="freeTitle">自由に設定</span><span class="acc-chev" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-        <div id="freeBody" hidden>
+        <div class="sub-lab"><span id="freeTitle">自由に設定</span></div>
+        <div id="freeBody">
       <div class="custom-row" id="customRow">
         <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cH" maxlength="2" value="0" aria-label="時間"><span>時間</span></label>
         <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cM" maxlength="2" value="5" aria-label="分"><span>分</span></label>
         <label class="field"><input type="text" inputmode="numeric" autocomplete="off" id="cS" maxlength="2" value="0" aria-label="秒"><span>秒</span></label>
+      </div>
+        </div>
+      </div>
+      <div id="catBlock">
+        <div class="sub-lab"><span>カテゴリー</span><span id="catAccMeta" hidden></span></div>
+        <div id="catAccBody">
+          <label class="ls-att" style="margin-top:0"><div class="cat-pick"><i class="cdot" id="catMainDot"></i><select id="catMain" aria-label="カテゴリー"></select></div></label>
+          <p class="ls-att-hint" id="catMainHint" hidden>カテゴリーが、まだありません。下の「管理」の「カテゴリー」で、作れます</p>
+        </div>
       </div>
         </div>
       </div>
@@ -1090,7 +1105,7 @@
         </div>
       </div>
       <div class="iv-summary" id="ivSummary" hidden>
-        <div class="iv-sum-head"><span class="iv-sum-cap">いまのインターバル</span><button type="button" class="tpl-act" id="ivReopen">直す</button></div>
+        <div class="iv-sum-head"><span class="iv-sum-cap">いまのインターバル（まだ保存していません）</span><button type="button" class="tpl-act" id="ivReopen">直す</button></div>
         <div class="iv-sum-steps" id="ivSumSteps"></div>
         <div class="iv-sum-meta" id="ivSumMeta"></div>
       </div>
@@ -1305,7 +1320,7 @@
       </button>
       <!-- ===== シェア機能 ここまで（共有マーク） ===== -->
     </div>
-    <div class="last-updated">最終更新：2026.11.08</div>
+    <div class="last-updated">最終更新：2026.11.14</div>
   </div>
 
 </main>
@@ -1576,6 +1591,7 @@ async function shareAppLink() {
       else html += '<span class="dg' + (frac ? ' cs' : '') + '">' + ch + '</span>';
     }
     timeEl.innerHTML = html;
+    timeEl.classList.toggle('is-watch', frac);                  // 小数（.00）があるのは、ストップウォッチ
     timeEl.setAttribute('aria-label', str);
   }
 
@@ -1595,7 +1611,7 @@ async function shareAppLink() {
     if (s === 'done') return (st.mode === 'interval' || (st.mode === 'repeat' && st.cnt > 0)) ? 'すべて終わりました' : '時間になりました';
     if (tab === 'interval') {
       if (planFirstMs() < 1000) return '分を入れてください';
-      return stepName(plan, 0) + 'から始まります\n' + (plan.rounds > 0 ? plan.rounds + 'セット' : 'ずっとくり返し');
+      return stepName(plan, 0) + 'を始めます\n' + (plan.rounds > 0 ? plan.rounds + 'セット' : 'ずっとくり返し');
     }
     if (st.total < 1000) return '時間を入れてください';
     var lb = label(Math.round(st.total / 1000));
@@ -1687,7 +1703,9 @@ async function shareAppLink() {
   }
   function syncIvEditor() {                          // 入力欄は、「編集で組み合わせをタップしたとき」と「新しく作る」のときだけひらく
     var open = !isLocked() && (ivNew || tplEditIdx >= 0);
-    ivEditor.hidden = !open; ivSummary.hidden = open;
+    var ivSame = tplFindSame();
+    if (tplBox) Array.prototype.forEach.call(tplBox.querySelectorAll('.tpl-btn'), function (el, n) { el.classList.toggle('cur', n === ivSame); });
+    ivEditor.hidden = !open; ivSummary.hidden = true;
     $('ivCatHint').hidden = !open || cats.length > 0;
     if (open) ivEditTitle.textContent = tplEditIdx >= 0 ? '「' + tplLabel(tpls[tplEditIdx]) + '」を編集中' : ivNewTitle;
     else renderIvSummary();
@@ -1850,8 +1868,8 @@ async function shareAppLink() {
     var isRep = (tab === 'repeat');                              // くり返しは、定型のボタンなし。自由な間隔だけ入れる
     $('presetBlock').hidden = isRep;
     // 並び：くり返し＝一覧（入力は、入力欄の中だけ）。シンプル＝セット／すぐにスタート／自由に設定／一覧
-    var ord = isRep ? ['lsBlock', 'presetBlock', 'freeBlock', 'catBlock', 'repCountRow']
-                    : ['presetBlock', 'freeBlock', 'catBlock', 'repCountRow', 'lsBlock'];   // シンプルは、セットのボタンが先（すぐ押せるように）。一覧は、いちばん下
+    var ord = isRep ? ['lsBlock', 'presetBlock', 'repCountRow']
+                    : ['presetBlock', 'repCountRow', 'lsBlock'];   // シンプルは、セットのボタンが先（すぐ押せるように）。一覧は、いちばん下
     if (blockTimer.getAttribute('data-order') !== ord.join()) { ord.forEach(function (id) { blockTimer.appendChild($(id)); }); blockTimer.setAttribute('data-order', ord.join()); }
   }
   function setTab(m) {
@@ -2359,9 +2377,11 @@ async function shareAppLink() {
   /* ---------- カテゴリー（なまえ＋12色から選んだ色） ---------- */
   var CAT_MAX = 20, CAT_NAME_MAX = 12;
   /* カロリーのめやす：メッツ（国立健康・栄養研究所『改訂版 身体活動のメッツ（METs）表』などの公開資料をもとにした目安）。順番・idは変えない（カテゴリーに、idを保存しているため） */
-  var MET_PRESETS = [['laundry', '洗濯物を干す・たたむ', 2.0], ['dish', '皿洗い', 1.8], ['cook', '料理・食事のしたく', 2.0], ['tidy', 'ごみ掃除・植物の水やり', 2.5], ['vac', '掃除機かけ', 3.3], ['bath', 'お風呂掃除', 3.5],
-    ['window', '窓掃除', 3.2], ['garden', '庭の草むしり', 3.5], ['walk', '散歩・買い物（歩く）', 3.0], ['stairs', '階段を上る', 4.5], ['stretch', 'ストレッチ', 2.5], ['light', '軽い筋トレ・体操', 3.5],
-    ['radio', 'ラジオ体操第1', 4.0], ['muscle', '筋トレ（スクワットなど）', 5.0], ['play', '子どもやペットと遊ぶ', 5.0], ['jog', 'ジョギング', 6.0]];
+  var MET_PRESETS = [                                // [id, 表示名, メッツ]。出典：厚生労働省『健康づくりのための身体活動基準2013』参考資料「生活活動のメッツ表」「運動のメッツ表」（国立健康・栄養研究所『改訂版 身体活動のメッツ（METs）表』）。idは変えない（カテゴリーに、idを保存しているため）。順番は、変えてよい
+    ['laundry', '洗濯（干す・たたむ）', 2.0], ['dish', '皿洗い', 1.8], ['cook', '料理・食事のしたく', 2.0], ['tidy', '植物の水やり・子どもの世話', 2.5], ['vac', '掃除機・床掃き', 3.3], ['bath', 'お風呂掃除・モップがけ', 3.5], ['garden', '庭の草むしり', 3.5],
+    ['walk', 'ふつうに歩く（買い物・犬の散歩）', 3.0], ['walk2', '散歩（ほどほどの速さ）', 3.5], ['stairs', '階段を上る（ゆっくり）', 4.0], ['ebike', '電動アシスト自転車', 3.0], ['bikeeasy', '自転車（ゆっくり・楽に）', 3.5], ['bike', '自転車（ふつう・通勤）', 4.0], ['play', '子どもと遊ぶ（歩く・走る、ふつう）', 3.5], ['playhard', '子どもと遊ぶ（活発に）', 5.8],
+    ['stretch', 'ストレッチ', 2.3], ['yoga', 'ヨガ', 2.5], ['pilates', 'ピラティス・太極拳', 3.0], ['light', '軽い筋トレ・体操', 3.5], ['radio', 'ラジオ体操第1', 4.0], ['pyoga', 'パワーヨガ', 4.0], ['muscle', '筋トレ（スクワットなど）', 5.0],
+    ['jog', 'ゆっくりジョギング', 6.0], ['run', 'ジョギング', 7.0], ['aero', 'エアロビクス', 7.3]];
   var kcal = { on: false, w: 0, net: false };       // 設定：カロリーのめやす（はじめはオフ）／体重(kg)／活動で増えたぶんだけ
   function readKcal() {
     try { var o = JSON.parse(store.get(K.kcal) || '{}') || {}, w = Number(o.w); return { on: o.on === true, w: (w >= 20 && w <= 200) ? Math.round(w * 10) / 10 : 0, net: o.net === true }; } catch (e) { return { on: false, w: 0, net: false }; }
@@ -2384,6 +2404,7 @@ async function shareAppLink() {
       return a.slice(0, CAT_MAX).filter(function (x) { return x && typeof x.id === 'string' && x.n; }).map(function (x) {
         var c = Math.floor(Number(x.c)), m = Number(x.m), o = { id: x.id.slice(0, 40), n: String(x.n).slice(0, CAT_NAME_MAX), c: (c >= 0 && c < RATIO_COLORS.length) ? c : 0 };
         if (m >= 0.8 && m <= 15) { o.m = Math.round(m * 10) / 10; o.mk = typeof x.mk === 'string' ? x.mk.slice(0, 12) : 'custom'; }
+        MET_PRESETS.forEach(function (pr) { if (pr[0] === o.mk) o.m = pr[2]; });          // 表から選んだカテゴリーは、いつも、表の最新の値（表の数字を直したとき、保存ずみのカテゴリーにも反映される）
         return o;
       });
     } catch (e) { return []; }
@@ -2460,7 +2481,7 @@ async function shareAppLink() {
     renderSwatches(); catForm.hidden = false; catSay('');
     catMetBox.hidden = !kcal.on;                                                         // 「活動のめやす」は、設定でカロリーをオンにしたときだけ
     var ms = $('catMet'); ms.textContent = '';
-    [['', 'なし（カロリーは出さない）']].concat(MET_PRESETS.map(function (x) { return [x[0], x[1] + '（' + x[2] + 'メッツ）']; })).concat([['custom', '自分で数字を入れる…']]).forEach(function (o) { var op = mk('option', null, o[1]); op.value = o[0]; ms.appendChild(op); });
+    [['', 'なし（カロリーは出さない）']].concat(MET_PRESETS.map(function (x) { return [x[0], x[1] + '（' + x[2].toFixed(1) + 'メッツ）']; })).concat([['custom', '自分で数字を入れる…']]).forEach(function (o) { var op = mk('option', null, o[1]); op.value = o[0]; ms.appendChild(op); });
     ms.value = c && c.m > 0 ? (c.mk && Array.prototype.some.call(ms.options, function (o) { return o.value === c.mk; }) ? c.mk : 'custom') : '';
     $('catMetCustom').value = (c && c.m > 0 && ms.value === 'custom') ? String(c.m) : '';
     $('catMetCustomRow').hidden = ms.value !== 'custom';
@@ -2744,15 +2765,13 @@ async function shareAppLink() {
       $(a[0]).setAttribute('aria-expanded', on ? 'true' : 'false'); $(a[1]).hidden = !on;
       $(a[3]).textContent = a[4] ? a[4] + '件' : '';
     });
-    [['presetHead', 'presetBody', 'preset'], ['freeHead', 'freeBody', 'free'], ['catAccHead', 'catAccBody', 'cat']].forEach(function (a) {      // 「セット」「自由に設定」も、見出しで開閉（よく使うほうだけ開いておく）
+    [['presetHead', 'presetBody', 'preset']].forEach(function (a) {      // 「セット」「自由に設定」も、見出しで開閉（よく使うほうだけ開いておく）
       $(a[0]).setAttribute('aria-expanded', accOpen[a[2]] ? 'true' : 'false'); $(a[1]).hidden = !accOpen[a[2]];
     });
   }
   $('lsHead').addEventListener('click', function () { var kk = lsK(); accOpen[kk] = !accOpen[kk]; saveAcc(); lsRender(); });
   $('tplHead').addEventListener('click', function () { accOpen.interval = !accOpen.interval; saveAcc(); syncAcc(); });
   $('presetHead').addEventListener('click', function () { accOpen.preset = !accOpen.preset; saveAcc(); syncAcc(); });
-  $('freeHead').addEventListener('click', function () { accOpen.free = !accOpen.free; saveAcc(); syncAcc(); });
-  $('catAccHead').addEventListener('click', function () { accOpen.cat = !accOpen.cat; saveAcc(); syncAcc(); });
   var lsQ = { timer: true, repeat: true };                  // 一覧の「すぐにスタート」（いまの入力の分。保存した項目ごとに持つ）
   var selAtt = { timer: '', repeat: '' };                     // いま選んでいる「開くもの」（お気に入りの番号）
   var lsPending = null, lsSig = '', lsAttSig = '';
@@ -2834,7 +2853,8 @@ async function shareAppLink() {
       if (u.editing && i === u.editIdx) b.classList.add('sel');
       b.disabled = locked;
       b.setAttribute('aria-label', lsLabel(k, it) + (u.editing ? 'を編集する' : 'を呼び出す'));
-      b.addEventListener('click', function () { lsTap(k, i); });
+      b.addEventListener('click', function () { if (lpActive || Date.now() < lpBlockUntil) return; lsTap(k, i); });
+      attachLongPress(item, function () { if (!isLocked()) lsStartEdit(k, i); }, false);   // 長押し（PCは右クリック）で、直す画面
       var d = mk('button', 'tpl-del'); d.type = 'button'; d.setAttribute('aria-label', lsLabel(k, it) + 'を消す'); d.innerHTML = '<span>×</span>'; d.disabled = locked;
       d.addEventListener('click', function () {
         if (isLocked()) return;
@@ -2870,7 +2890,9 @@ async function shareAppLink() {
     $('lsNew').disabled = locked; $('lsEdit').disabled = locked;
     var hint = (u.editing && u.editIdx < 0) ? '直したいものをタップしてください（×で消せます）' : '';
     $('lsHint').textContent = hint; $('lsHint').hidden = !hint;
-    $('lsSummary').hidden = open;                                           // 要約は、3つのタブとも、一覧をとじていても出す（入力欄をひらいている間だけ隠す）
+    var curIdx = lsFindSame(k);                                              // いま選んでいるものを、一覧の中で色をかえて見せる
+    Array.prototype.forEach.call($('lsBox').querySelectorAll('.tpl-btn'), function (el, n) { el.classList.toggle('cur', n === curIdx); });
+    $('lsSummary').hidden = true;                            // 保存ずみと同じときは、一覧の色でわかるので、要約は出さない
     $('lsEditor').hidden = !open;
     // 入力欄をひらいている間は、同じ内容を入れる下の欄（時間・回数）は、かくす（入力画面が2つになって、まぎらわしいため）
     // くり返しは、インターバルと同じ形：間隔と回数は、入力欄の中だけで入れる（ふだんは、一覧・要約・すぐにスタートだけ）。シンプルは、セットのボタンと「自由に設定」もある
@@ -2884,7 +2906,7 @@ async function shareAppLink() {
     if (catSel.timer && catById(catSel.timer)) { var md = mk('i', 'mdot'); md.style.background = catColor(catSel.timer); cm.appendChild(md); cm.appendChild(document.createTextNode(catName(catSel.timer))); }
     var c = lsCur(k), f = c.a ? favById(c.a) : null;
     if (!open) {
-      $('lsSumCap').textContent = k === 'repeat' ? 'いまのくり返し' : 'いまのタイマー';
+      $('lsSumCap').textContent = (k === 'repeat' ? 'いまのくり返し' : 'いまのタイマー') + '（まだ保存していません）';
       $('lsSumText').textContent = (c.n || 'なまえなし') + ' ・ ' + (c.s >= 1 ? lsDur(k, c.s) : '時間なし') + (k === 'repeat' ? ' ・ ' + c.c + '回' : '');
       $('lsSumMeta').textContent = 'カテゴリー：' + catName(c.g) + ' ・ 開くもの：' + (f ? kindLabel(f) + '：' + favLabel(f) : 'なし') + ' ・ すぐにスタート：' + (c.q ? 'オン' : 'オフ');
       $('lsReopen').disabled = locked;
@@ -2923,9 +2945,10 @@ async function shareAppLink() {
   $('lsNew').addEventListener('click', function () {
     if (isLocked()) return;
     var k = lsK();
-    if (lsFindSame(k) < 0 && !lsIsBlank(k)) {                    // 保存していない入力があるときだけ、聞く
-      $('lsNewConfirm').hidden = false;
-      try { $('lsNewConfirm').scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+    if (lsFindSame(k) < 0 && !lsIsBlank(k)) {                    // 保存していない入力があるときは、まっさらにせず、いまの内容のまま入力欄をひらく（保存できる）
+      var u = lsUI[k]; u.editing = false; u.editIdx = -1; u.base = null; u.newOpen = true; u.newTitle = k === 'repeat' ? 'いまのくり返しを保存' : 'いまのタイマーを保存';
+      lsHideConfirm(); lsSay(''); refresh();
+      try { $('lsEditor').scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
     } else lsDoNew(k);
   });
   $('lsNewNo').addEventListener('click', function () { $('lsNewConfirm').hidden = true; });
@@ -3297,7 +3320,7 @@ async function shareAppLink() {
       if (tplEditing && i === tplEditIdx) b.classList.add('sel');
       b.setAttribute('aria-label', tplLabel(t) + (tplEditing ? 'を編集する' : 'を呼び出す') + '（' + tplDetail(t) + '）');
       b.addEventListener('click', function () {
-        if (isLocked()) return;
+        if (isLocked() || lpActive || Date.now() < lpBlockUntil) return;
         ivNew = false;
         if (tplEditing) { startEditTpl(i); return; }
         if (st.status === 'done') acknowledge();
@@ -3314,6 +3337,7 @@ async function shareAppLink() {
         else if (i < tplEditIdx) tplEditIdx--;
         tpls.splice(i, 1); saveTpls(); renderTpls(); tplSay('消しました');
       });
+      attachLongPress(item, function () { if (isLocked()) return; ivNew = false; tplEditing = false; startEditTpl(i); }, false);
       item.appendChild(b); item.appendChild(d); tplBox.appendChild(item);
     });
     tplFlash = -1;
@@ -3342,8 +3366,9 @@ async function shareAppLink() {
   $('tplNew').addEventListener('click', function () {
     if (isLocked()) return;
     if (tplFindSame() < 0 && !isBlankPlan()) {                  // 保存していない入力があるときだけ、聞く
-      $('tplNewConfirm').hidden = false;
-      try { $('tplNewConfirm').scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+      ivNew = true; ivNewTitle = 'いまのインターバルを保存'; tplEditing = false;   // まっさらにせず、いまの内容のまま入力欄をひらく（保存できる）
+      lockEditor(isLocked());
+      try { ivEditor.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {}
     } else doNewTpl();
   });
   $('ivReopen').addEventListener('click', function () {            // 「直す」：いまの組み合わせのまま、入力欄をひらく（ひとまず変えて使う・保存する、どちらもできる）
